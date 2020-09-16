@@ -3,13 +3,17 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'connect-to-desktop',
+    loadChildren: () => import('./connect-to-desktop/connect-to-desktop.module').then( m => m.ConnectToDesktopPageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'connect-to-desktop',
     pathMatch: 'full'
+  },
+  {
+    path: 'connect-to-desktop',
+    loadChildren: () => import('./connect-to-desktop/connect-to-desktop.module').then( m => m.ConnectToDesktopPageModule)
   },
 ];
 
