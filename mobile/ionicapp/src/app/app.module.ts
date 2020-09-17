@@ -9,7 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    BarcodeScanner,
+    CameraPreview,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
