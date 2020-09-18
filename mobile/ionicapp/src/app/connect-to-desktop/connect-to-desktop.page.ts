@@ -11,24 +11,14 @@ export class ConnectToDesktopPage {
 
   cameraSize = 0;
   cameraMargin = 0;
-  pictureData: any = "";
-  counter: any = "";
-  @ViewChild('canvas') canvas: ElementRef;
-  //canvasElement: any;
-  //canvasContext: any;
-
-  lol: any;
+  qrData: any = "";
+  counter = 0;
 
   constructor(private cameraPreview: CameraPreview) { }
 
   ngAfterViewInit() {
     this.setupCamera();
-
-    //this.canvasElement = this.canvas.nativeElement;
-    //this.canvasContext = this.canvasElement.getContext('2d');
   }
-
-
 
   setupCamera() {
     this.cameraSize = Math.floor(window.screen.width * 0.8);
@@ -44,7 +34,6 @@ export class ConnectToDesktopPage {
       tapPhoto: false,
     };
 
-    // start camera
     this.cameraPreview.startCamera(cameraPreviewOpts).then(
       (res) => {
         console.log(res)
@@ -52,59 +41,43 @@ export class ConnectToDesktopPage {
       (err) => {
         console.log(err)
       });
-
   }
 
-  async takeSnapshot() {
-    let size = 1280;
-    let data = "";
+  async scan() {
+    let scanSize = 2048;
+    let scanQuality = 100;
+    let base64data = "";
 
     const pictureOpts: CameraPreviewPictureOptions = {
-      width: size,
-      height: size,
-      quality: 85
+      width: scanSize,
+      height: scanSize,
+      quality: scanQuality
     }
 
-    // take a snap shot
-    this.cameraPreview.takeSnapshot(pictureOpts).then((imageData) => {
-      data = 'data:image/jpeg;base64,' + imageData;
-      //this.counter = data;
+    this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
+      base64data = 'data:image/jpeg;base64,' + snapshotData;
 
-      //canvas
-      /*this.canvasElement.width = size;
-      this.canvasElement.height = size;
-  
+      let imageData;
+      let canvas = document.createElement('canvas');
+      let context = canvas.getContext('2d');
       let img = new Image();
-      img.src = data;
-      img.onload = this.canvasContext.drawImage(img, 0, 0);  
-      
-      let newdata = this.canvasContext.getImageData(0, 0, size, size);
-      this.counter = newdata;*/
-      var canvas = document.createElement('canvas');
-      let img = new Image();
-      img.src = data;
-      var myData;
 
-      img.onload = function(){
-
-        var context = canvas.getContext('2d');
+      img.src = base64data;
+      img.onload = () => {
 
         canvas.width = img.width;
         canvas.height = img.height;
-        
         context.drawImage(img, 0, 0);
-        myData = context.getImageData(0, 0, img.width, img.height);
+
+        imageData = context.getImageData(0, 0, img.width, img.height);
+
+        this.qrData = jsQr(imageData.data, imageData.width, imageData.height).data;
+        this.counter++;
       }
-      this.counter = "lol" + myData;
-
-      //this.counter = newdata.data;
-
-      //this.counter = jsQr(newdata.data, newdata.width, newdata.height);
-
 
     }, (err) => {
       console.log(err);
-      data = 'AAAAAAAAAAAAAAAAAHHHHHH ES GEHT NEEEEEEED';
+      this.qrData = 'Snapshot failed.';
     });
 
   }
