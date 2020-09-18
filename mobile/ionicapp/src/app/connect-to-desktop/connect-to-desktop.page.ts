@@ -71,7 +71,7 @@ export class ConnectToDesktopPage {
 
         imageData = context.getImageData(0, 0, img.width, img.height);
 
-        this.qrData = jsQr(imageData.data, imageData.width, imageData.height).data;
+        this.qrData = jsQr(imageData.data, imageData.width, imageData.height, {inversionAttempts: "dontInvert"}).data;
         this.counter++;
       }
 
