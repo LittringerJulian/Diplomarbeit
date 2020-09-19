@@ -3,11 +3,11 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, Camer
 import jsQr from 'jsQr';
 
 @Component({
-  selector: 'app-connect-to-desktop',
-  templateUrl: './connect-to-desktop.page.html',
-  styleUrls: ['./connect-to-desktop.page.scss'],
+  selector: 'app-qrscanner',
+  templateUrl: './qrscanner.component.html',
+  styleUrls: ['./qrscanner.component.scss'],
 })
-export class ConnectToDesktopPage {
+export class QrscannerComponent {
 
   cameraSize = 0;
   cameraMargin = 0;
