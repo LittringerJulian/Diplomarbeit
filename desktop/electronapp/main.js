@@ -2,6 +2,8 @@ const { app, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
 const { ipcMain } = require("electron");
+const ip = require('node-local-ipv4')();
+
 
 let mainWindow;
 
@@ -41,5 +43,5 @@ app.on("activate", function () {
 });
 
 ipcMain.on("requestLocalIp", (e, arg) => {
-  e.reply("sendLocalIp", "192.168.0.fickdiangular");
+  e.reply("sendLocalIp", ip);
 });
