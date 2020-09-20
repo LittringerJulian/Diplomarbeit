@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { QrscannerComponent } from './qrscanner/qrscanner.component';
+import { QrScannerComponent } from './qrscanner/qr-scanner.component';
+import {IonicModule} from "@ionic/angular";
 
 
 @NgModule({
   declarations: [
-    QrscannerComponent
+    QrScannerComponent
   ],
-  imports: [
-    CommonModule
-  ],
+    imports: [
+        CommonModule,
+        IonicModule
+    ],
   exports: [
-    QrscannerComponent
+    QrScannerComponent
   ]
 })
 export class ComponentsModule { }
