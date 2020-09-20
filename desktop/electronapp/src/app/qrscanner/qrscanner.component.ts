@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { QRCodeModule } from 'angularx-qrcode';
 
 declare var electron: any;
