@@ -7,10 +7,11 @@ import {Observable} from "rxjs";
 })
 export class SocketIOService {
 
-    socket: any;
+    socket: SocketIOClient.Socket;
     socketUrl: string;
 
     constructor() {
+
     }
 
     connect(socketUrl) {
@@ -20,7 +21,7 @@ export class SocketIOService {
             this.socket = io(socketUrl);
             console.log("socket: " + this.socket);
         } catch (e) {
-            console.log("geht irgendwie ned so gaunz");
+            console.log("connection failed");
         }
     }
 
