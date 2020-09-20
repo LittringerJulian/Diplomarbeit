@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, Injectable, Input, OnInit} from '@angular/core';
-import {QRCodeModule} from 'angularx-qrcode';
+import {ChangeDetectorRef, Component, Injectable, OnInit} from '@angular/core';
+import {QRCodeElementType, QRCodeErrorCorrectionLevel} from 'angularx-qrcode';
 
 declare var electron: any;
 
@@ -11,19 +11,17 @@ declare var electron: any;
 @Injectable()
 export class QrscannerComponent implements OnInit {
 
-  public qrcode: string = null;
-  @Input() qrCodeIsSet = false;
+  public qrcode: string = "";
+  public qrCodeIsSet = false;
 
-  public
-  elementType: "img" | "url" | "canvas" | "svg";
-  public level: "L" | "M" | "Q" | "H";
+  public elementType: QRCodeElementType;
+  public level: QRCodeErrorCorrectionLevel;
   public scale: number;
   public width: number;
-  public ip: string = null;
 
   constructor(public cd: ChangeDetectorRef) {
-    this.elementType = "canvas";
-    this.level = "L";
+    this.elementType = QRCodeElementType.img;
+    this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
     this.width = 512;
   }
@@ -32,9 +30,7 @@ export class QrscannerComponent implements OnInit {
     this.cd.markForCheck();
     electron.ipcRenderer.send("requestLocalIp", "req");
     electron.ipcRenderer.on("sendLocalIp", (e, arg) => {
-      console.log(arg);
-      this.qrcode = arg + "";
-      console.log(this.qrcode);
+      this.qrcode = arg;
       this.qrCodeIsSet = true;
       this.cd.detectChanges();
       this.cd.detach();
