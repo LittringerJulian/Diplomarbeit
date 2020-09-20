@@ -1,5 +1,6 @@
-<div *ngIf="qrcodeset">
-    <h1>test</h1>
-    <qrcode  [qrdata]="qrcode" [level]="level" [width]="width" [errorCorrectionLevel]="level"  [elementType]="elementType" ></qrcode>
+<div *ngIf="this.qrCodeIsSet">
+  <h1>test</h1>
+  {{qrcode}}
+  <qrcode [qrdata]="qrcode" [level]="level" [width]="width" [errorCorrectionLevel]="level"
+          [elementType]="elementType"></qrcode>
 </div>
-

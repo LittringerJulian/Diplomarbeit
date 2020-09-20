@@ -1,5 +1,5 @@
 {
-  "name": "connect-app",
+  "name": "electronapp",
   "version": "0.0.0",
   "main": "main.js",
   "scripts": {
