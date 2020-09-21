@@ -9,7 +9,6 @@ import {SocketIOService} from "../../services/socket-io.service";
     styleUrls: ['./qr-scanner.component.scss'],
 })
 export class QrScannerComponent {
-
     cameraSize = 0;
     cameraMargin = 0;
     qrData: any = "";
