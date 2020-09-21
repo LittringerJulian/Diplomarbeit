@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Injectable, OnInit} from '@angular/core';
-import {QRCodeElementType, QRCodeErrorCorrectionLevel} from 'angularx-qrcode';
+import {QRCodeErrorCorrectionLevel,QRCodeElementType} from 'angularx-qrcode';
 
 declare var electron: any;
 
