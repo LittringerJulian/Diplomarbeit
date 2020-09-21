@@ -23,11 +23,8 @@ export class QrScannerComponent {
     }
 
     setupSocket() {
-        this.socket.connect("http://" + this.qrData + ":3000");
-        this.socketData += " to http://" + this.qrData + ":3000";
-        this.socket.listen('test event').subscribe((data) => {
-            this.socketData = data;
-        });
+        this.socket.connect(this.qrData);
+        this.socketData += this.qrData;
     }
 
     setupCamera() {

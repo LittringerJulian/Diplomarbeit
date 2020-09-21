@@ -4,23 +4,41 @@ const path = require("path");
 const {ipcMain} = require("electron");
 const ip = require('node-local-ipv4')();
 
-
-// socket connection
+/*
+ //socket connection
 const express = require('express')();
 const server = require('http').createServer(express);
-const io = require('socket.io').listen(server, {
-  handlePreflightRequest: (req, res) => {
-    const headers = {
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-      "Access-Control-Allow-Credentials": true
-    };
-    res.writeHead(200, headers);
-    res.end();
-  }
-});
+const io = require('socket.io').listen(server);
+ //socket handler
+io.sockets.on('connection', (socket) => {
+  console.log("connected");
+  socket.emit('test event', 'data');
+})
+server.listen(80, '0.0.0.0', () => {
+  console.log('server listening on ' + ip + ':' + 80);
+})*/
 
-const port = 3000;
+
+const WebSocket = require('ws');
+const port = process.env.PORT || 80;
+const wss = new WebSocket.Server({port: 80, host: '0.0.0.0'});
+
+wss.on('connection', function connection(ws, req) {
+  console.log("new connection: " + req.socket.remoteAddress);
+  ws.on('message', function incoming(data) {
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(data);
+      }
+    });
+  });
+});
+wss.on('close', function close() {
+
+});
+/*express.get('/', (req, res) => {
+  res.send("hallo")
+});*/
 
 let mainWindow;
 
@@ -64,12 +82,3 @@ ipcMain.on("requestLocalIp", (e, arg) => {
   e.reply("sendLocalIp", ip);
 });
 
-// socket handler
-io.sockets.on('connection', (socket) => {
-  console.log("connected");
-  socket.emit('test event', 'data');
-})
-
-server.listen(port, ip, () => {
-  console.log('server listening on ' + ip + ':' + port)
-})

@@ -9,6 +9,8 @@ export class SocketIOService {
 
     socket: SocketIOClient.Socket;
     socketUrl: string;
+    websocket: any;
+
 
     constructor() {
 
@@ -16,24 +18,7 @@ export class SocketIOService {
 
     connect(socketUrl) {
         this.socketUrl = socketUrl;
-        try {
-            console.log(this.socketUrl);
-            this.socket = io(socketUrl);
-            console.log("socket: " + this.socket);
-        } catch (e) {
-            console.log("connection failed");
-        }
-    }
-
-    listen(eventName: string) {
-        return new Observable((subscriber => {
-            this.socket.on(eventName, (data) => {
-                subscriber.next(data);
-            })
-        }))
-    }
-
-    emit(eventName: string, data: any) {
-        this.socket.emit(eventName, data);
+        this.websocket = new WebSocket("ws://" + socketUrl + ":80")
+        this.websocket.onopen = console.log("websocket opened")
     }
 }
