@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'connect-app';
+  email:String;
+  password:String;
+
+  login(){
+    console.log("deos nothing")
+  }
 }

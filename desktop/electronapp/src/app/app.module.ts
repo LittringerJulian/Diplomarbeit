@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import { QRCodeModule } from 'angularx-qrcode';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    QRCodeModule
+    QRCodeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
