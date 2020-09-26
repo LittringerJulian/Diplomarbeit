@@ -1,4 +1,7 @@
+import { HttpService } from './http.service';
 import { Component } from '@angular/core';
+import { User } from './user';
+
 
 @Component({
   selector: 'app-root',
@@ -9,8 +12,14 @@ export class AppComponent {
   title = 'connect-app';
   email:String;
   password:String;
+  newUser : User = new User();
+
+
+  constructor(private httpService : HttpService){}
+
 
   login(){
-    console.log("deos nothing")
+    console.log(this.newUser);
+   this.httpService.login(this.newUser).subscribe();
   }
 }
