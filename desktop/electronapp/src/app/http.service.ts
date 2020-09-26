@@ -16,6 +16,6 @@ export class HttpService {
 
    //login 
    login(user:User) {
-    return this.http.get<User[]>('http://localhost:3000/login',user);
+    return this.http.get<User[]>('http://localhost:3000/login');
   }
 }
