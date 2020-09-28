@@ -13,6 +13,7 @@ export class AppComponent {
   email:String;
   password:String;
   newUser : User = new User();
+  test:any;
 
 
   constructor(private httpService : HttpService){}
@@ -20,6 +21,7 @@ export class AppComponent {
 
   login(){
     console.log(this.newUser);
-   this.httpService.login(this.newUser).subscribe();
+   this.httpService.login(this.newUser).subscribe(data=>this.test);
+   console.log(this.test);
   }
 }

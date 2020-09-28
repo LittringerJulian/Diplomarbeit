@@ -12,7 +12,7 @@ module.exports = app => {
     app.delete("/delete/:id", statistics.deletebyid);
     app.get("/updateTestUser", statistics.update);
     app.get("/init", statistics.init);
-    app.get("/login",jsonParser,statistics.login);
+    app.post("/login",jsonParser,statistics.login);
 
 
 
