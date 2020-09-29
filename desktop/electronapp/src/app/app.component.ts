@@ -22,6 +22,5 @@ export class AppComponent {
   login(){
     console.log(this.newUser);
    this.httpService.login(this.newUser).subscribe(data=>this.test);
-   console.log(this.test);
   }
 }
