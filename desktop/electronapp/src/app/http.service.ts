@@ -16,6 +16,7 @@ export class HttpService {
 
    //login 
    login(user:User) {
-    return this.http.post<any>('http://localhost:3000/login',user);
+     console.log(user);
+    return this.http.post('http://localhost:3000/login',user);
   }
 }

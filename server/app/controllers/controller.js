@@ -111,13 +111,22 @@ exports.login = (req, res) => {
     const db = mongoUtil.getDB();
 
     var newUser = new User();
+    console.log("email:"+req.body.email)
+    console.log("password:"+req.body.password)
 
     db.collection("User")
       .find({ email: req.body.email, password: req.body.password })
       .toArray(function (err, result) {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         if (result.length > 0) {
+
+          var json = {
+            "id":result[0].id,
+            "firstname":result[0].firstname,
+            "email":result[0].email,
+            "found":"success",
+          }
           newUser.found = "success";
           newUser.id = result[0].id;
           newUser.firstname = result[0].firstname;
