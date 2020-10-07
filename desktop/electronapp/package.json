@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@types/socket.io-client": "^1.4.33",
+    "angular2-jwt": "^0.2.3",
     "angularx-qrcode": "^10.0.10",
     "cors": "^2.8.5",
     "custom-electron-titlebar": "^3.2.4",

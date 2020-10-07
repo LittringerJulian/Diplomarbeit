@@ -15,9 +15,9 @@ export class LoginComponent {
   email:String;
   password:String;
   newUser : User = new User();
-  returnuser:User= new User();
   test=null;
   totalAngularPackages:any;
+  loginText:String="";
 
 
   constructor(private httpService : HttpService,private router: Router ){}
@@ -27,12 +27,31 @@ export class LoginComponent {
    
   this.httpService.login(this.newUser).subscribe(data=>{
     if(data!=null){
-    this.test=data;
-    console.log(this.test)
-    this.router.navigate(['/qrcode']);
+      this.test=data;
 
+      if(this.test!=null && this.test.found=="success"){
+
+    console.log(this.test)
+    console.log(this.test.found)
+    localStorage.setItem('token', "tokenreturn")
+
+    this.router.navigate(['/qrcode']);
+  }
+  else{
+    this.newUser.email = "";
+    this.newUser.password="";
+    this.loginText="wrong credentials!"
+    console.log(this.newUser.email)
+  }
    }
   });
 }
+
+  ngOnInit(): void {
+  console.log(localStorage.getItem('token'));
+
+  localStorage.setItem('token', 'null')
+ }
+
 }
 
