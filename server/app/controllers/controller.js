@@ -1,5 +1,11 @@
 let mongoUtil = require("../mongo.util");
 var User = require("../../user.js");
+const jwt = require("jsonwebtoken");
+const { JWTError } = require("json-web-token");
+const dotenv = require("dotenv");
+dotenv.config();
+process.env.TOKEN_SECRET;
+
 
 exports.findAll = (req, res) => {
   mongoUtil.connectToServer(function (err, client) {
@@ -184,4 +190,25 @@ exports.update = (req, res) => {
       res.send("User updated");
     });
   });
+};
+
+exports.authenticateJWT = (req, res) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401) 
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    console.log(err)
+    if (err) return res.sendStatus(403)
+    //eq.user = user
+    res.send("allowed");
+  })
+
+};
+
+exports.generateJWT = (req, res) => {
+  console.log(req.body.id)
+  console.log(jwt.sign(req.body.id, process.env.TOKEN_SECRET));
+  var token = jwt.sign(req.body.id, process.env.TOKEN_SECRET);
+  res.send(token);
 };

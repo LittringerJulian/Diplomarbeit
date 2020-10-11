@@ -4,7 +4,7 @@ var io = require("socket.io")(http);
 var bodyParser = require('body-parser')
 require("./app/routes/routes.js")(app);
 var User = require("./user.js");
-
+var crypto = require('crypto');
 var jsonParser = bodyParser.json()
 
 let mongoUtil = require("./app/mongo.util");
@@ -24,9 +24,11 @@ mongoUtil.connectToServer(function(err,client){
 
 
 
+
 http.listen(3000,function(){
 console.log("listening on port: 3000");
-
+//var hash= crypto.randomBytes(64).toString('hex');
+//console.log(hash);
 })
 
 

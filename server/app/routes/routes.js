@@ -13,6 +13,8 @@ module.exports = app => {
     app.get("/updateTestUser", statistics.update);
     app.get("/init", statistics.init);
     app.post("/login",jsonParser,statistics.login);
+    app.get("/authenticate", statistics.authenticateJWT);
+    app.post("/jwt",jsonParser,statistics.generateJWT);
 
 
 
