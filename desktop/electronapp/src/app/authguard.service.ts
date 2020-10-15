@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-//import { JwtHelper } from 'angular2-jwt'
+import { JwtHelper } from 'angular2-jwt'
 
 @Injectable({
   providedIn:'root'
@@ -9,7 +9,7 @@ import { CanActivate, Router } from '@angular/router';
   constructor(public router: Router) { }
   canActivate(): boolean {
     if (!this.isAuthenticated()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['qrcode']);
       return false;
     }
     return true;
@@ -18,7 +18,7 @@ import { CanActivate, Router } from '@angular/router';
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if ( token && token != 'null')
-    //return !new JwtHelper().isTokenExpired(token);
+    return !new JwtHelper().isTokenExpired(token);
     return false;
     }
 }

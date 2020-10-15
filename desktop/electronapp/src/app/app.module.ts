@@ -16,8 +16,8 @@ import { AuthGuardService } from './authguard.service';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'qrcode', component: QrscannerComponent,/*
-canActivate: [AuthGuardService]*/ },
+  { path: 'qrcode', component: QrscannerComponent,
+canActivate: [AuthGuardService] },
   { path: '**'
   , redirectTo: 'login' }
   ]

@@ -18,6 +18,8 @@ export class LoginComponent {
   test=null;
   totalAngularPackages:any;
   loginText:String="";
+  authUser:User=new User()
+  token=null;
 
 
   constructor(private httpService : HttpService,private router: Router ){}
@@ -31,9 +33,20 @@ export class LoginComponent {
 
       if(this.test!=null && this.test.found=="success"){
 
-    console.log(this.test)
     console.log(this.test.found)
-    localStorage.setItem('token', "tokenreturn")
+    this.authUser.id=this.test.id;
+
+
+    this.httpService.jwt2(this.test.id).subscribe(data=>{
+      
+      this.token=data
+      console.log(data)
+
+      if(data!=null){
+        localStorage.setItem('token', this.token)
+      }
+
+    })
 
     this.router.navigate(['/qrcode']);
   }
@@ -50,7 +63,6 @@ export class LoginComponent {
   ngOnInit(): void {
   console.log(localStorage.getItem('token'));
 
-  localStorage.setItem('token', 'null')
  }
 
 }

@@ -16,6 +16,7 @@ module.exports = app => {
     app.get("/authenticate", statistics.authenticateJWT);
     app.post("/jwt",jsonParser,statistics.generateJWT);
 
+    app.get("/jwt2/:id",jsonParser,statistics.generateJWT2);
 
 
 

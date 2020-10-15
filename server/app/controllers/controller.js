@@ -207,8 +207,19 @@ exports.authenticateJWT = (req, res) => {
 };
 
 exports.generateJWT = (req, res) => {
+ 
+
   console.log(req.body.id)
   console.log(jwt.sign(req.body.id, process.env.TOKEN_SECRET));
   var token = jwt.sign(req.body.id, process.env.TOKEN_SECRET);
+  res.send(token);
+};
+
+exports.generateJWT2 = (req, res) => {
+ 
+
+  console.log(req.params.id)
+  console.log(jwt.sign(req.params.id, process.env.TOKEN_SECRET));
+  var token = jwt.sign(req.params.id, process.env.TOKEN_SECRET);
   res.send(token);
 };
