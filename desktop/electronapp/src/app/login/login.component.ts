@@ -39,8 +39,14 @@ export class LoginComponent {
 
           this.httpService.jwt2(this.test.id).subscribe(data => {
 
+            if (data != null) {
+              console.log(this.token)
+              localStorage.setItem('token', this.token)
+            }
+
             this.token = data
             console.log(data)
+
 
             if (data != null) {
               localStorage.setItem('token', this.token)
@@ -64,9 +70,10 @@ export class LoginComponent {
     });
   }
 
-  ngOnInit(): void {
-    console.log(localStorage.getItem('token'));
-    if (localStorage.getItem('token') != "null") {
+
+    ngOnInit(): void {
+      console.log(localStorage.getItem('token'));
+      if(localStorage.getItem('token') != "null") {
       this.router.navigate(['/qrcode']);
       console.log("not null")
     }
@@ -77,4 +84,5 @@ export class LoginComponent {
   }
 
 }
+
 

@@ -9,7 +9,7 @@ import { JwtHelper } from 'angular2-jwt'
   constructor(public router: Router) { }
   canActivate(): boolean {
     if (!this.isAuthenticated()) {
-      this.router.navigate(['qrcode']);
+      this.router.navigate(['/qrcode']);
       return false;
     }
     return true;
