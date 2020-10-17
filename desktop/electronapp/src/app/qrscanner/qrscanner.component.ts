@@ -42,7 +42,6 @@ export class QrscannerComponent implements OnInit {
 
   logout() {
     localStorage.setItem('token', null)
-    this.router.navigate(['/login']);
-   
+    this.router.navigate(['/login']);   
   }
 }
