@@ -2,3 +2,4 @@
 <div *ngIf="this.qrCodeIsSet">
   <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType"></qrcode>
 </div>
+<button (click)="logout()">logout</button>

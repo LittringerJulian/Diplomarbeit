@@ -1,5 +1,7 @@
-import {ChangeDetectorRef, Component, Injectable, OnInit} from '@angular/core';
-import {QRCodeErrorCorrectionLevel,QRCodeElementType} from 'angularx-qrcode';
+import { ChangeDetectorRef, Component, Injectable, OnInit } from '@angular/core';
+import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
+import { Router } from '@angular/router';
+
 
 declare var electron: any;
 
@@ -19,7 +21,7 @@ export class QrscannerComponent implements OnInit {
   public scale: number;
   public width: number;
 
-  constructor(public cd: ChangeDetectorRef) {
+  constructor(public cd: ChangeDetectorRef,private router: Router) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
@@ -27,6 +29,7 @@ export class QrscannerComponent implements OnInit {
   }
 
   ngOnInit() {
+   
     this.cd.markForCheck();
     electron.ipcRenderer.send("requestLocalIp", "req");
     electron.ipcRenderer.on("sendLocalIp", (e, arg) => {
@@ -35,5 +38,11 @@ export class QrscannerComponent implements OnInit {
       this.cd.detectChanges();
       this.cd.detach();
     })
+  }
+
+  logout() {
+    localStorage.setItem('token', null)
+    this.router.navigate(['/login']);
+   
   }
 }

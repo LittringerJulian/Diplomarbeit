@@ -12,58 +12,69 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email:String;
-  password:String;
-  newUser : User = new User();
-  test=null;
-  totalAngularPackages:any;
-  loginText:String="";
-  authUser:User=new User()
-  token=null;
+  email: String;
+  password: String;
+  newUser: User = new User();
+  test = null;
+  totalAngularPackages: any;
+  loginText: String = "";
+  authUser: User = new User()
+  token;
 
 
-  constructor(private httpService : HttpService,private router: Router ){}
+  constructor(private httpService: HttpService, private router: Router) { }
 
 
-  login(){
-   
-  this.httpService.login(this.newUser).subscribe(data=>{
-    if(data!=null){
-      this.test=data;
+  login() {
 
-      if(this.test!=null && this.test.found=="success"){
+    this.httpService.login(this.newUser).subscribe(data => {
+      if (data != null) {
+        this.test = data;
 
-    console.log(this.test.found)
-    this.authUser.id=this.test.id;
+        if (this.test != null && this.test.found == "success") {
+
+          console.log(this.test.found)
+          this.authUser.id = this.test.id;
 
 
-    this.httpService.jwt2(this.test.id).subscribe(data=>{
-      
-      this.token=data
-      console.log(data)
+          this.httpService.jwt2(this.test.id).subscribe(data => {
 
-      if(data!=null){
-        localStorage.setItem('token', this.token)
+            this.token = data
+            console.log(data)
+
+            if (data != null) {
+              localStorage.setItem('token', this.token)
+              console.log("token set")
+              console.log("Token:" + localStorage.getItem('token'));
+
+              this.router.navigate(['/qrcode']);
+            }
+
+          })
+
+          // this.router.navigate(['/qrcode']);
+        }
+        else {
+          this.newUser.email = "";
+          this.newUser.password = "";
+          this.loginText = "wrong credentials!"
+          console.log(this.newUser.email)
+        }
       }
-
-    })
-
-    this.router.navigate(['/qrcode']);
+    });
   }
-  else{
-    this.newUser.email = "";
-    this.newUser.password="";
-    this.loginText="wrong credentials!"
-    console.log(this.newUser.email)
-  }
-   }
-  });
-}
 
   ngOnInit(): void {
-  console.log(localStorage.getItem('token'));
+    console.log(localStorage.getItem('token'));
+    if (localStorage.getItem('token') != "null") {
+      this.router.navigate(['/qrcode']);
+      console.log("not null")
+    }
+    if (localStorage.getItem('token') == "null") {
+      console.log("null")
+    }
 
- }
+  }
 
 }
 
