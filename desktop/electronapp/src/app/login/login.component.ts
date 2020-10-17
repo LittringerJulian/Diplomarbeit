@@ -43,12 +43,13 @@ export class LoginComponent {
       console.log(data)
 
       if(data!=null){
+        console.log(this.token)
         localStorage.setItem('token', this.token)
       }
 
     })
 
-    this.router.navigate(['/qrcode']);
+    //this.router.navigate(['/qrcode']);
   }
   else{
     this.newUser.email = "";
