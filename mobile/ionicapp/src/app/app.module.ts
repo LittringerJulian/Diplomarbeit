@@ -10,7 +10,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
 import {CameraPreview} from '@ionic-native/camera-preview/ngx';
-import {SocketIOService} from "./services/socket-io.service";
+import { WebsocketService } from './services/websocket.service';
 
 
 @NgModule({
@@ -21,7 +21,7 @@ import {SocketIOService} from "./services/socket-io.service";
         StatusBar,
         SplashScreen,
         CameraPreview,
-        SocketIOService,
+        WebsocketService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

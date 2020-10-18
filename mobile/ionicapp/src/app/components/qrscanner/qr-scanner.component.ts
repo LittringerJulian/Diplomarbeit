@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions} from '@ionic-native/camera-preview/ngx';
+import { Component } from '@angular/core';
+import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions } from '@ionic-native/camera-preview/ngx';
 import jsQr from 'jsQr';
-import {SocketIOService} from "../../services/socket-io.service";
+import { WebsocketService } from "../../services/websocket.service";
 
 @Component({
     selector: 'app-qr-scanner',
@@ -9,34 +9,30 @@ import {SocketIOService} from "../../services/socket-io.service";
     styleUrls: ['./qr-scanner.component.scss'],
 })
 export class QrScannerComponent {
-    cameraSize = 0;
-    cameraMargin = 0;
     qrData: any = "";
-    socketData: any = "";
     counter = 0;
 
-    constructor(private cameraPreview: CameraPreview, private socket: SocketIOService) {
+    constructor(private cameraPreview: CameraPreview, private socket: WebsocketService) {
     }
 
     ngAfterViewInit() {
-        this.setupCamera();
+        this.initCamera();
     }
 
-    setupSocket() {
+    initSocket() {
         this.socket.connect(this.qrData);
-        this.socketData += this.qrData;
     }
 
-    setupCamera() {
-        this.cameraSize = Math.floor(window.screen.width * 0.8);
-        this.cameraMargin = Math.floor(window.screen.width * 0.1);
+    initCamera() {
+        let cameraSize = Math.floor(window.screen.width * 0.8);
+        let cameraMargin = Math.floor(window.screen.width * 0.1);
 
         const cameraPreviewOpts: CameraPreviewOptions = {
             camera: 'back',
-            width: this.cameraSize,
-            height: this.cameraSize,
-            x: this.cameraMargin,
-            y: this.cameraMargin * 5,
+            width: cameraSize,
+            height: cameraSize,
+            x: cameraMargin,
+            y: cameraMargin * 5,
             toBack: true,
             tapPhoto: false,
         };
@@ -48,12 +44,20 @@ export class QrScannerComponent {
             (err) => {
                 console.log(err)
             });
+        
+        
+        
+        
+        
     }
 
     async scan() {
-        let scanSize = 2048;
+        let scanSize = 1024;
         let scanQuality = 100;
         let base64data = "";
+
+        // loop condition
+        let scanAgain = true;
 
         const pictureOpts: CameraPreviewPictureOptions = {
             width: scanSize,
@@ -61,37 +65,55 @@ export class QrScannerComponent {
             quality: scanQuality
         }
 
-        this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
-            base64data = 'data:image/jpeg;base64,' + snapshotData;
+        while (scanAgain) {
 
-            let imageData;
-            let canvas = document.createElement('canvas');
-            let context = canvas.getContext('2d');
-            let img = new Image();
+            // takes a quick snapshot of the current camera preview
+            // ouput: base64 image
+            //
+            // the same image is loaded into an image object
+            // which then is put on a canvas
+            // the canvas finally return an imageData object
+            // which is the correct format to use in the jsQr library
+            this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
+                base64data = 'data:image/jpeg;base64,' + snapshotData;
 
-            img.src = base64data;
-            img.onload = () => {
+                let imageData;
+                let canvas = document.createElement('canvas');
+                let context = canvas.getContext('2d');
+                let img = new Image();
 
-                canvas.width = img.width;
-                canvas.height = img.height;
-                context.drawImage(img, 0, 0);
+                img.src = base64data;
+                img.onload = () => {
 
-                imageData = context.getImageData(0, 0, img.width, img.height);
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img, 0, 0);
 
-                this.qrData = jsQr(imageData.data, imageData.width, imageData.height, {inversionAttempts: "dontInvert"}).data;
-                this.counter++;
+                    imageData = context.getImageData(0, 0, img.width, img.height);
 
-                if (this.qrData != "" && this.qrData != null) {
-                    this.socketData = "connecting";
-                    this.setupSocket();
+                    this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" }).data;
+
+                    // checks scan frequency
+                    this.counter++;
+
+                    // connecting to socket
+                    // scan is repeated until success or termination by user
+                    if (this.qrData != "" && this.qrData != null) {
+                        if (this.initSocket() == null) {
+                            scanAgain = false;
+                        };
+                    }
+                    else {
+                        // repeat scan
+                    }
                 }
-            }
 
-        }, (err) => {
-            console.log(err);
-            this.qrData = 'Snapshot failed.';
-        });
+            }, (err) => {
+                console.log(err);
+                console.log("Scan failed.");
+            });
 
+        }
     }
 
 }
