@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { webSocket, WebSocketSubject } from 'rxjs/websocket'
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,11 @@ export class WebsocketService {
         console.log("err: " + err)
       })
 
-
-
     } catch (e) {
       return "Connection failed!";
     }
   }
+
 
   //todo
   // .on()

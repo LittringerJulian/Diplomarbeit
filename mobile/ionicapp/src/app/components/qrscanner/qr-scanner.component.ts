@@ -93,7 +93,7 @@ export class QrScannerComponent {
                     // scan is repeated until success or termination by user
                     if (this.qrData != "" && this.qrData != null) {
                         this.qrData = this.qrData.data
-                        console.log(this.qrData)
+                        console.log(this.qrData + " init socket")
                         this.initSocket();
                        
                     }
