@@ -19,8 +19,17 @@ export class QrScannerComponent {
         this.initCamera();
     }
 
+<<<<<<< HEAD
     initSocket() {
         this.socket.connect(this.qrData);
+=======
+    setupSocket() {
+        this.socket.connect("http://" + this.qrData + ":3000");
+        this.socketData += " to http://" + this.qrData + ":3000";
+        this.socket.listen('test event').subscribe((data) => {
+            this.socketData = data;
+        });
+>>>>>>> parent of 6daa188... es san ned olle websockets scheiße
     }
 
     initCamera() {
