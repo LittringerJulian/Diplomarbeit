@@ -44,11 +44,6 @@ export class QrScannerComponent {
             (err) => {
                 console.log(err)
             });
-        
-        
-        
-        
-        
     }
 
     async scan() {
@@ -64,8 +59,6 @@ export class QrScannerComponent {
             height: scanSize,
             quality: scanQuality
         }
-
-        while (scanAgain) {
 
             // takes a quick snapshot of the current camera preview
             // ouput: base64 image
@@ -91,7 +84,7 @@ export class QrScannerComponent {
 
                     imageData = context.getImageData(0, 0, img.width, img.height);
 
-                    this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" }).data;
+                    this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
                     // checks scan frequency
                     this.counter++;
@@ -99,9 +92,10 @@ export class QrScannerComponent {
                     // connecting to socket
                     // scan is repeated until success or termination by user
                     if (this.qrData != "" && this.qrData != null) {
-                        if (this.initSocket() == null) {
-                            scanAgain = false;
-                        };
+                        this.qrData = this.qrData.data
+                        console.log(this.qrData)
+                        this.initSocket();
+                       
                     }
                     else {
                         // repeat scan
@@ -116,4 +110,3 @@ export class QrScannerComponent {
         }
     }
 
-}
