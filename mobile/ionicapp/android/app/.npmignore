@@ -1,2 +1,4 @@
 /build/*
 !/build/.npmkeep
+!/src/main/res/xml/*.npmkeep
+!/src/main/AndroidManifest.xml.npmkeep
