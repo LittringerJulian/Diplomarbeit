@@ -12,12 +12,14 @@ import { HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './authguard.service';
+import { NavigationComponent } from './navigation/navigation.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'qrcode', component: QrscannerComponent,
 canActivate: [AuthGuardService] },
+{ path: 'navigation', component: NavigationComponent },
   { path: '**'
   , redirectTo: 'login' }
   ]
@@ -27,7 +29,8 @@ canActivate: [AuthGuardService] },
   declarations: [
     AppComponent,
     QrscannerComponent,
-    LoginComponent
+    LoginComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,

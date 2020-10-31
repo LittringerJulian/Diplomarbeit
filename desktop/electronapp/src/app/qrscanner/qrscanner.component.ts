@@ -21,6 +21,8 @@ export class QrscannerComponent implements OnInit {
   public scale: number;
   public width: number;
 
+
+
   constructor(public cd: ChangeDetectorRef,private router: Router) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
@@ -43,5 +45,17 @@ export class QrscannerComponent implements OnInit {
   logout() {
     localStorage.setItem('token', null)
     this.router.navigate(['/login']);   
+  }
+
+
+
+  scanned(){
+    
+  }
+
+  confirmDevice(){
+    if(true){
+      this.router.navigate(['/navigation']);   
+    }
   }
 }
