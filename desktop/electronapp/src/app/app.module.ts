@@ -13,7 +13,11 @@ import { LoginComponent } from './login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './authguard.service';
 import { NavigationComponent } from './navigation/navigation.component';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import {MatButtonModule} from '@angular/material/button';
+
+
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -34,12 +38,15 @@ canActivate: [AuthGuardService] },
     NavigationComponent,
     DialogBodyComponent
   ],
+  entryComponents:[ DialogBodyComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     QRCodeModule,
     FormsModule,
     HttpClientModule,
+    MatDialogModule,
+    MatButtonModule,
     AppRoutingModule ,
     RouterModule.forRoot(
       appRoutes,

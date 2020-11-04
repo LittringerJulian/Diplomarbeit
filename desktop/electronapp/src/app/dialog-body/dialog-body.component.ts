@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
+import { QrscannerComponent } from '../qrscanner/qrscanner.component';
+
 
 @Component({
   selector: 'app-dialog-body',
@@ -7,9 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogBodyComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<QrscannerComponent>) { }
 
   ngOnInit() {
   }
-
+  
 }

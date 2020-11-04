@@ -54,13 +54,10 @@ ipcMain.on("requestLocalIp", (e, arg) => {
 });
 
 ipcMain.on("requestDeviceAccess", (e, arg) => {
-  console.log("vorher")
-  express.get("/", () => {
-    console.log("hee");
+  express.get("/", () =>{
     e.reply("sendDeviceAccess");
-    
-  })
-});
+  });
+})
 
 server.listen(port, "0.0.0.0", () => {
   console.log('server listening on 0.0.0.0 :' + port)
