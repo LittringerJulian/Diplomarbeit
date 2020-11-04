@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, Injectable, OnInit } from '@angular/core'
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
+import {MatDialog} from '@angular/material/dialog';
+import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+
 
 declare var electron: any;
 
@@ -15,6 +18,8 @@ export class QrscannerComponent implements OnInit {
 
   public qrcode: string = "";
   public qrCodeIsSet = false;
+  public scanset = false;
+
 
   public elementType: QRCodeElementType;
   public level: QRCodeErrorCorrectionLevel;
@@ -23,7 +28,7 @@ export class QrscannerComponent implements OnInit {
 
 
 
-  constructor(public cd: ChangeDetectorRef,private router: Router) {
+  constructor(public cd: ChangeDetectorRef,private router: Router,public dialog: MatDialog) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
@@ -40,7 +45,25 @@ export class QrscannerComponent implements OnInit {
       this.cd.detectChanges();
       this.cd.detach();
     })
+
+    this.cd.markForCheck();
+
+    electron.ipcRenderer.send("requestDeviceAccess", "req");
+    electron.ipcRenderer.on("sendDeviceAccess", (e, arg) => {
+      this.scanset=true;
+      this.openDialog();
+      console.log("scanned")
+      this.cd.detectChanges();
+      this.cd.detach();
+    })
+    
   }
+
+  openDialog() {
+    this.dialog.open(DialogBodyComponent);
+  }
+  
+
 
   logout() {
     localStorage.setItem('token', null)

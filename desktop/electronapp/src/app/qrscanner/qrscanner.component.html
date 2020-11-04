@@ -3,3 +3,7 @@
   <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType"></qrcode>
 </div>
 <button (click)="logout()">logout</button>
+
+
+
+<div *ngIf="this.scanset">scanned</div>

@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './authguard.service';
 import { NavigationComponent } from './navigation/navigation.component';
+import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -30,7 +31,8 @@ canActivate: [AuthGuardService] },
     AppComponent,
     QrscannerComponent,
     LoginComponent,
-    NavigationComponent
+    NavigationComponent,
+    DialogBodyComponent
   ],
   imports: [
     BrowserModule,

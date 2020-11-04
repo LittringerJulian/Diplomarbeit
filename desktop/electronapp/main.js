@@ -1,26 +1,17 @@
-const {app, BrowserWindow} = require("electron");
+const { app, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
-const {ipcMain} = require("electron");
+const { ipcMain } = require("electron");
 const ip = require('node-local-ipv4')();
 
 
 // socket connection
 const express = require('express')();
 const server = require('http').createServer(express);
-const io = require('socket.io').listen(server, {
-  handlePreflightRequest: (req, res) => {
-    const headers = {
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-      "Access-Control-Allow-Credentials": true
-    };
-    res.writeHead(200, headers);
-    res.end();
-  }
-});
 
-const port = 3000;
+
+
+const port = 1411;
 
 let mainWindow;
 
@@ -57,19 +48,25 @@ app.on("window-all-closed", function () {
 
 app.on("activate", function () {
   if (mainWindow === null) createWindow();
-  ;
-
 })
 ipcMain.on("requestLocalIp", (e, arg) => {
   e.reply("sendLocalIp", ip);
 });
 
-// socket handler
-io.sockets.on('connection', (socket) => {
-  console.log("connected");
-  socket.emit('test event', 'data');
+ipcMain.on("requestDeviceAccess", (e, arg) => {
+  console.log("vorher")
+  express.get("/", () => {
+    console.log("hee");
+    e.reply("sendDeviceAccess");
+    
+  })
+});
+
+server.listen(port, "0.0.0.0", () => {
+  console.log('server listening on 0.0.0.0 :' + port)
 })
 
-server.listen(port, ip, () => {
-  console.log('server listening on ' + ip + ':' + port)
-})
+
+
+
+
