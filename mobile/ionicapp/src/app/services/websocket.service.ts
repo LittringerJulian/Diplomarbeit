@@ -17,7 +17,7 @@ export class WebsocketService {
   connect(socketUri) {
     try {
       this.socketUri = "ws://" + socketUri + ":80";
-      this.websocket = webSocket(socketUri);
+      this.websocket = webSocket(this.socketUri);
 
       this.websocket.subscribe((msg) => {
         console.log("msg: " + msg)

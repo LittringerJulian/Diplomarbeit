@@ -1,31 +1,45 @@
-const {app, BrowserWindow} = require("electron");
+const { app, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
-const {ipcMain} = require("electron");
-const ip = require('node-local-ipv4')();
+const { ipcMain } = require("electron");
+const ip = require("node-local-ipv4")();
+const cors = require("cors");
 
-/*
- //socket connection
+const allowedOrigins = [
+  "capacitor://localhost",
+  "ionic://localhost",
+  "http://localhost",
+  "http://localhost:8080",
+  "http://localhost:8100",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Origin not allowed by CORS"));
+    }
+  },
+};
+
 const express = require('express')();
 const server = require('http').createServer(express);
-const io = require('socket.io').listen(server);
- //socket handler
-io.sockets.on('connection', (socket) => {
-  console.log("connected");
-  socket.emit('test event', 'data');
-})
-server.listen(80, '0.0.0.0', () => {
-  console.log('server listening on ' + ip + ':' + 80);
-})*/
+const port = 1411;
+server.listen(port, "0.0.0.0");
+express.options("*", cors(corsOptions));
+express.get("/", cors(corsOptions), (req, res) => {
+  console.log("request");
+  res.send("es geht JAAAAAA");
+});
 
+const WebSocket = require("ws");
+const wsport = process.env.PORT || 80;
+const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
-const WebSocket = require('ws');
-const port = process.env.PORT || 80;
-const wss = new WebSocket.Server({port: 80, host: '0.0.0.0'});
-
-wss.on('connection', function connection(ws, req) {
+wss.on("connection", function connection(ws, req) {
   console.log("new connection: " + req.socket.remoteAddress);
-  ws.on('message', function incoming(data) {
+  ws.on("message", function incoming(data) {
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         client.send(data);
@@ -33,9 +47,7 @@ wss.on('connection', function connection(ws, req) {
     });
   });
 });
-wss.on('close', function close() {
-
-});
+wss.on("close", function close() {});
 /*express.get('/', (req, res) => {
   res.send("hallo")
 });*/
@@ -75,10 +87,12 @@ app.on("window-all-closed", function () {
 
 app.on("activate", function () {
   if (mainWindow === null) createWindow();
-  ;
-
-})
+});
 ipcMain.on("requestLocalIp", (e, arg) => {
   e.reply("sendLocalIp", ip);
 });
-
+ipcMain.on("requestDeviceAccess", (e, arg) => {
+  express.get("/", () =>{
+    e.reply("sendDeviceAccess");
+  });
+})

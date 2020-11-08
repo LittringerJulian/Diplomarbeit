@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions } from '@ionic-native/camera-preview/ngx';
 import jsQr from 'jsQr';
+import { HttpService } from 'src/app/services/http.service';
 import { WebsocketService } from "../../services/websocket.service";
 
 @Component({
@@ -12,11 +13,20 @@ export class QrScannerComponent {
     qrData: any = "";
     counter = 0;
 
-    constructor(private cameraPreview: CameraPreview, private socket: WebsocketService) {
+    constructor(private cameraPreview: CameraPreview, private socket: WebsocketService, private http: HttpService) {
     }
 
     ngAfterViewInit() {
         this.initCamera();
+    }
+
+    requestSocketConnection() {
+
+        this.http.hello(this.qrData).subscribe()
+
+        if (false) {
+            this.initSocket();
+        }
     }
 
     initSocket() {
@@ -44,6 +54,7 @@ export class QrScannerComponent {
             (err) => {
                 console.log(err)
             });
+
     }
 
     async scan() {
@@ -60,53 +71,54 @@ export class QrScannerComponent {
             quality: scanQuality
         }
 
-            // takes a quick snapshot of the current camera preview
-            // ouput: base64 image
-            //
-            // the same image is loaded into an image object
-            // which then is put on a canvas
-            // the canvas finally return an imageData object
-            // which is the correct format to use in the jsQr library
-            this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
-                base64data = 'data:image/jpeg;base64,' + snapshotData;
+        // takes a quick snapshot of the current camera preview
+        // ouput: base64 image
+        //
+        // the same image is loaded into an image object
+        // which then is put on a canvas
+        // the canvas finally return an imageData object
+        // which is the correct format to use in the jsQr library
+        this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
+            base64data = 'data:image/jpeg;base64,' + snapshotData;
 
-                let imageData;
-                let canvas = document.createElement('canvas');
-                let context = canvas.getContext('2d');
-                let img = new Image();
+            let imageData;
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            let img = new Image();
 
-                img.src = base64data;
-                img.onload = () => {
+            img.src = base64data;
+            img.onload = () => {
 
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    context.drawImage(img, 0, 0);
+                canvas.width = img.width;
+                canvas.height = img.height;
+                context.drawImage(img, 0, 0);
 
-                    imageData = context.getImageData(0, 0, img.width, img.height);
+                imageData = context.getImageData(0, 0, img.width, img.height);
 
-                    this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
+                this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
-                    // checks scan frequency
-                    this.counter++;
+                // checks scan frequency
+                this.counter++;
 
-                    // connecting to socket
-                    // scan is repeated until success or termination by user
-                    if (this.qrData != "" && this.qrData != null) {
-                        this.qrData = this.qrData.data
-                        console.log(this.qrData + " init socket")
-                        this.initSocket();
-                       
-                    }
-                    else {
-                        // repeat scan
-                    }
+                // connecting to socket
+                // scan is repeated until success or termination by user
+                if (this.qrData != "" && this.qrData != null) {
+                    this.qrData = this.qrData.data
+                    
+                    console.log(this.qrData + " init socket")
+                    this.cameraPreview.stopCamera()
+                    this.requestSocketConnection()
                 }
+                else {
+                    // repeat scan
+                }
+            }
 
-            }, (err) => {
-                console.log(err);
-                console.log("Scan failed.");
-            });
+        }, (err) => {
+            console.log(err);
+            console.log("Scan failed.");
+        });
 
-        }
     }
+}
 
