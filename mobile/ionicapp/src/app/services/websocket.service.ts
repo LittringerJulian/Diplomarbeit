@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { webSocket } from 'rxjs/websocket'
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
 
-  websocket;
+  websocket: any;
   socketUri: string;
 
   constructor() {
@@ -16,7 +17,7 @@ export class WebsocketService {
   connect(socketUri) {
     try {
       this.socketUri = "ws://" + socketUri + ":80";
-      this.websocket = webSocket(socketUri);
+      this.websocket = webSocket(this.socketUri);
 
       this.websocket.subscribe((msg) => {
         console.log("msg: " + msg)
@@ -25,12 +26,11 @@ export class WebsocketService {
         console.log("err: " + err)
       })
 
-
-
     } catch (e) {
       return "Connection failed!";
     }
   }
+
 
   //todo
   // .on()
