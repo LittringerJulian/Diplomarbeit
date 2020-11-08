@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from "@angular/material/dialog";
+import { Router } from '@angular/router';
 import { QrscannerComponent } from '../qrscanner/qrscanner.component';
 
 
@@ -12,12 +13,16 @@ export class DialogBodyComponent implements OnInit {
 
   public allowed;
 
-  constructor(public dialogRef: MatDialogRef<QrscannerComponent>) { }
+  constructor(public dialogRef: MatDialogRef<QrscannerComponent>,private router: Router) { }
 
   ngOnInit() {
   }
   
   allow(allowed){
     this.allowed=allowed;
-  }
+    if(allowed==true){
+      this.router.navigate(['/navigation']);  
+
+    }
+}
 }

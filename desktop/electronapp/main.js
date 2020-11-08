@@ -28,10 +28,10 @@ const server = require('http').createServer(express);
 const port = 1411;
 server.listen(port, "0.0.0.0");
 express.options("*", cors(corsOptions));
-express.get("/", cors(corsOptions), (req, res) => {
+/*express.get("/", cors(corsOptions), (req, res) => {
   console.log("request");
   res.send("es geht JAAAAAA");
-});
+});*/
 
 const WebSocket = require("ws");
 const wsport = process.env.PORT || 80;
@@ -92,7 +92,8 @@ ipcMain.on("requestLocalIp", (e, arg) => {
   e.reply("sendLocalIp", ip);
 });
 ipcMain.on("requestDeviceAccess", (e, arg) => {
-  express.get("/", () =>{
+  express.get("/",cors(corsOptions), (req, res)  =>{
     e.reply("sendDeviceAccess");
+    res.send("requested access")
   });
 })
