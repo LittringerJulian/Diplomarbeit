@@ -10,9 +10,14 @@ import { QrscannerComponent } from '../qrscanner/qrscanner.component';
 })
 export class DialogBodyComponent implements OnInit {
 
+  public allowed;
+
   constructor(public dialogRef: MatDialogRef<QrscannerComponent>) { }
 
   ngOnInit() {
   }
   
+  allow(allowed){
+    this.allowed=allowed;
+  }
 }
