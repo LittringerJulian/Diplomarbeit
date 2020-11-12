@@ -39,6 +39,9 @@ const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
 wss.on("connection", function connection(ws, req) {
     console.log("new connection: " + req.socket.remoteAddress);
+    mainWindow.webContents.send("sendDeviceAccess");
+    ws.access=false;
+    ws.kick=false;
 
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
@@ -47,9 +50,9 @@ wss.on("connection", function connection(ws, req) {
         //******************** */
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
-                client.newvariable = true;
-                console.log("variable=" + client.newvariable);
-                client.send(data);
+              console.log(client.access);
+  
+              client.send(data);
             }
         }); //******************** */
     });
@@ -120,11 +123,8 @@ ipcMain.on("requestPermission", (e, arg) => {
     permission = arg;
     e.reply("sendPermission");
 })
-
-
-ipcMain.on("requestDeviceAccess", (e, arg) => {
-    express.get("/", cors(corsOptions), (req, res) => {
-        e.reply("sendDeviceAccess");
-        res.send("requested access")
-    });
-})
+/*express.get("/", cors(corsOptions), (req, res) => {
+  
+  res.send("requested access")
+});
+*/

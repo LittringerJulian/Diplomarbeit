@@ -48,7 +48,7 @@ export class QrscannerComponent implements OnInit {
 
     
 
-    electron.ipcRenderer.send("requestDeviceAccess", "req");
+
     electron.ipcRenderer.on("sendDeviceAccess", (e, arg) => {
       this.openDialog();
       
