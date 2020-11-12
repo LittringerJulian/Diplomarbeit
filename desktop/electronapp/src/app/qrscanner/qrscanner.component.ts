@@ -46,13 +46,12 @@ export class QrscannerComponent implements OnInit {
       this.cd.detach();
     })
 
-    this.cd.markForCheck();
+    
 
     electron.ipcRenderer.send("requestDeviceAccess", "req");
     electron.ipcRenderer.on("sendDeviceAccess", (e, arg) => {
       this.openDialog();
-      this.cd.detectChanges();
-      this.cd.detach();
+      
     })
     
   }

@@ -16,6 +16,18 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import {MatButtonModule} from '@angular/material/button';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {  ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
@@ -44,10 +56,23 @@ canActivate: [AuthGuardService] },
     BrowserAnimationsModule,
     QRCodeModule,
     FormsModule,
+    MatButtonModule,
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
     AppRoutingModule ,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: true}

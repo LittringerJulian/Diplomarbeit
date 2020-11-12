@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
-const { ipcMain } = require("electron");
+const { ipcMain,ipcRenderer } = require("electron");
 const ip = require("node-local-ipv4")();
 const cors = require("cors");
 
@@ -12,6 +12,8 @@ const allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:8100",
 ];
+
+let permission = false;
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -58,6 +60,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    titleBarStyle:"hidden",
     resizable: true,
     autoHideMenuBar: true,
     frame: false,
@@ -91,9 +94,17 @@ app.on("activate", function () {
 ipcMain.on("requestLocalIp", (e, arg) => {
   e.reply("sendLocalIp", ip);
 });
+
+ipcMain.on("requestPermission", (e, arg) => {
+  permission=arg;
+    e.reply("sendPermission");
+})
+
+
 ipcMain.on("requestDeviceAccess", (e, arg) => {
   express.get("/",cors(corsOptions), (req, res)  =>{
     e.reply("sendDeviceAccess");
     res.send("requested access")
   });
 })
+

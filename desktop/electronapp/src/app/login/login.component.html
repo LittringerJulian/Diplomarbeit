@@ -1,4 +1,25 @@
-<input  [(ngModel)]="newUser.email"  placeholder="email" value="">
+<!--input  [(ngModel)]="newUser.email"  placeholder="email" value="">
 <input  [(ngModel)]="newUser.password"  placeholder="password" value="">
 <button  (click)="login()">Login</button>
-<div>{{loginText}}</div>
+<div>{{loginText}}</div> -->
+<div>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <h2>Log In</h2>
+      <mat-error *ngIf="loginInvalid">
+        Wrong credentials!
+      </mat-error>
+      <mat-form-field class="full-width-input">
+        <input matInput placeholder="Email" formControlName="email" required >
+        <mat-error>
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input matInput type="password" placeholder="Password" formControlName="password" required >
+        <mat-error>
+          Please enter a valid password
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Login</button>
+    </form>
+</div>

@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { User } from '../user';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 
 
@@ -12,7 +14,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  form: FormGroup;
   email: String;
+  private formSubmitAttempt: boolean;
+  public loginInvalid: boolean;
+
+
   password: String;
   newUser: User = new User();
   test = null;
@@ -22,66 +29,86 @@ export class LoginComponent {
   token;
 
 
-  constructor(private httpService: HttpService, private router: Router) { }
+  constructor(private fb: FormBuilder,private httpService: HttpService, private router: Router) { }
 
 
-  login() {
-
-    this.httpService.login(this.newUser).subscribe(data => {
-      if (data != null) {
-        this.test = data;
-
-        if (this.test != null && this.test.found == "success") {
-
-          console.log(this.test.found)
-          this.authUser.id = this.test.id;
-
-
-          this.httpService.jwt2(this.test.id).subscribe(data => {
-
-            if (data != null) {
-              console.log(this.token)
-              localStorage.setItem('token', this.token)
-            }
-
-            this.token = data
-            console.log(data)
-
-
-            if (data != null) {
-              localStorage.setItem('token', this.token)
-              console.log("token set")
-              console.log("Token:" + localStorage.getItem('token'));
-
-              this.router.navigate(['/qrcode']);
-            }
-
-          })
-
-          // this.router.navigate(['/qrcode']);
-        }
-        else {
-          this.newUser.email = "";
-          this.newUser.password = "";
-          this.loginText = "wrong credentials!"
-          console.log(this.newUser.email)
-        }
-      }
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', Validators.email],
+      password: ['', Validators.required]
     });
+
+    if(localStorage.getItem('token') != "null") {
+    this.router.navigate(['/qrcode']);
+    console.log("not null")
+  }
+  if (localStorage.getItem('token') == "null") {
+    console.log("null")
+  }
+
+}
+
+login2(){
+this.newUser.email=this.form.get('email').value;
+this.newUser.password=this.form.get('password').value;
+
+
+  this.httpService.login(this.newUser).subscribe(data => {
+    if (data != null) {
+      this.test = data;
+
+      if (this.test != null && this.test.found == "success") {
+
+        console.log(this.test.found)
+        this.authUser.id = this.test.id;
+
+
+        this.httpService.jwt2(this.test.id).subscribe(data => {
+
+         
+
+          this.token = data
+          console.log(data)
+
+
+          if (data != null) {
+            localStorage.setItem('token', this.token)
+            console.log("token set")
+            console.log("Token:" + localStorage.getItem('token'));
+
+            this.router.navigate(['/qrcode']);
+          }
+
+        })
+
+        // this.router.navigate(['/qrcode']);
+      }
+      else {
+        //this.newUser.email = "";
+        //this.newUser.password = "";
+        this.loginInvalid = true;
+      }
+    }
+  });
+}
+
+  async login() {
+
+    
+    this.loginInvalid = false;
+    this.formSubmitAttempt = false;
+    if (this.form.valid) {  
+        await this.login2()
+    } else {
+      this.formSubmitAttempt = true;
+    }
+  
+
+    
   }
 
 
-    ngOnInit(): void {
-      console.log(localStorage.getItem('token'));
-      if(localStorage.getItem('token') != "null") {
-      this.router.navigate(['/qrcode']);
-      console.log("not null")
-    }
-    if (localStorage.getItem('token') == "null") {
-      console.log("null")
-    }
-
-  }
+    
 
 }
 
