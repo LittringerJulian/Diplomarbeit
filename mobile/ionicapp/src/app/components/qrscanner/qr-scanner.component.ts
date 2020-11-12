@@ -30,7 +30,7 @@ export class QrScannerComponent {
     }
 
     initSocket() {
-        this.socket.connect(this.qrData);
+        return this.socket.connect(this.qrData);
     }
 
     initCamera() {
@@ -39,10 +39,14 @@ export class QrScannerComponent {
 
         const cameraPreviewOpts: CameraPreviewOptions = {
             camera: 'back',
-            width: cameraSize,
-            height: cameraSize,
-            x: cameraMargin,
-            y: cameraMargin * 5,
+            //width: cameraSize,
+            //height: cameraSize,
+            //x: cameraMargin,
+            //y: cameraMargin * 5,
+            width: window.screen.width,
+            height: Math.floor(window.screen.height * 0.8),
+            x: 0,
+            y: 0,
             toBack: true,
             tapPhoto: false,
         };
@@ -75,8 +79,8 @@ export class QrScannerComponent {
         // ouput: base64 image
         //
         // the same image is loaded into an image object
-        // which then is put on a canvas
-        // the canvas finally return an imageData object
+        // which then is put onto a canvas
+        // the canvas finally returns an imageData object,
         // which is the correct format to use in the jsQr library
         this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
             base64data = 'data:image/jpeg;base64,' + snapshotData;
@@ -104,10 +108,12 @@ export class QrScannerComponent {
                 // scan is repeated until success or termination by user
                 if (this.qrData != "" && this.qrData != null) {
                     this.qrData = this.qrData.data
-                    
+
                     console.log(this.qrData + " init socket")
-                    this.cameraPreview.stopCamera()
-                    this.requestSocketConnection()
+                    //this.requestSocketConnection()
+                    if (this.initSocket()) {
+                        this.cameraPreview.stopCamera()
+                    }
                 }
                 else {
                     // repeat scan
