@@ -22,9 +22,10 @@ export class DialogBodyComponent implements OnInit {
   }
   
   allow(allowed){
-    this.allowed=allowed;
-    electron.ipcRenderer.send("requestPermission", allowed);
-  
+    //this.allowed=allowed;
+    //electron.ipcRenderer.send("requestPermission", allowed);
+    this.dialogRef.close(allowed);
+
     if(allowed==true){
       this.router.navigate(['/navigation']);  
 

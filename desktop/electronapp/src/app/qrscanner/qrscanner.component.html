@@ -1,5 +1,24 @@
-<h1></h1>
-<div *ngIf="this.qrCodeIsSet">
+<!--<div id="nav">
+  <button mat-button class="menu-button" (click)="snav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+</div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #snav autoFocus="false" mode="over" class="sidenav">
+    <a mat-button>Page 1</a>
+  </mat-sidenav>
+
+</mat-sidenav-container> 
+<mat-drawer-container class="example-container" >
+  <mat-drawer #drawer [mode]="over">I'm a drawer</mat-drawer>
+  <mat-drawer-content>
+
+    <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
+  </mat-drawer-content>
+</mat-drawer-container>-->
+
+
+<div id="content" *ngIf="this.qrCodeIsSet">
   <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType"></qrcode>
 </div>
 <button (click)="logout()">logout</button>

@@ -16,6 +16,7 @@ declare var electron: any;
 @Injectable()
 export class QrscannerComponent implements OnInit {
 
+
   public qrcode: string = "";
   public qrCodeIsSet = false;
   public scanset = false;
@@ -49,16 +50,22 @@ export class QrscannerComponent implements OnInit {
     
 
 
-    electron.ipcRenderer.on("sendDeviceAccess", (e, arg) => {
-      this.openDialog();
+    electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
+      console.log(ws);
+      let ref = this.dialog.open(DialogBodyComponent,ws);
+      ref.afterClosed().subscribe(result =>{
+        console.log(result);
+        electron.ipcRenderer.send("WebSocketAccess", ws,result);
+
+      })
+
+      
       
     })
     
   }
 
-  openDialog() {
-    this.dialog.open(DialogBodyComponent);
-  }
+ 
   
 
 

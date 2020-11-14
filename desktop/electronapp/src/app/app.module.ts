@@ -28,6 +28,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material';
+
+
+
 
 
 
@@ -67,6 +71,7 @@ canActivate: [AuthGuardService] },
     MatInputModule,
     MatCardModule,
     MatMenuModule,
+    MatSidenavModule,
     MatIconModule,
     AppRoutingModule ,
     MatDividerModule,

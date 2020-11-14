@@ -4,6 +4,8 @@ const path = require("path");
 const { ipcMain, ipcRenderer } = require("electron");
 const ip = require("node-local-ipv4")();
 const cors = require("cors");
+const { v4: uuidv4 } = require('uuid');
+
 
 const allowedOrigins = [
     "capacitor://localhost",
@@ -33,15 +35,21 @@ server.listen(port, "0.0.0.0", () => {
 });
 express.options("*", cors(corsOptions));
 const WebSocket = require("ws");
+const { windowsStore } = require("process");
+const { filter } = require("rxjs-compat/operator/filter");
 const wsport = process.env.PORT || 80;
 const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
 
 wss.on("connection", function connection(ws, req) {
     console.log("new connection: " + req.socket.remoteAddress);
-    mainWindow.webContents.send("sendDeviceAccess");
-    ws.access=false;
-    ws.kick=false;
+
+    ws.id=uuidv4();
+    ws.access = false;
+    ws.kick = false;
+    mainWindow.webContents.send("sendDeviceAccess", ws);
+
+
 
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
@@ -50,15 +58,33 @@ wss.on("connection", function connection(ws, req) {
         //******************** */
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
-              console.log(client.access);
-  
-              client.send(data);
+                console.log(client.access);
+                client.send(data);
             }
         }); //******************** */
     });
 });
 
-function noop() {}
+ipcMain.on("WebSocketAccess", (e, ws2, bool) => {
+    wss.clients.forEach(function each(ws) {
+
+        if(ws.id==ws2.id){
+            console.log("inner1");
+        if (bool) {
+            ws.access = true;
+        }
+        else {
+            console.log("inner2");
+
+            ws.kick = true;
+            
+        }
+    }
+    })
+});
+
+
+function noop() { }
 
 function heartbeat() {
     console.log("heartbeat");
@@ -67,8 +93,8 @@ function heartbeat() {
 const interval = setInterval(function ping() {
     wss.clients.forEach(function each(ws) {
         console.log("in loop");
-        if (ws.isAlive == false) return ws.terminate();
-
+        console.log("in heartbeat:" + ws.kick)
+        if (ws.isAlive == false || ws.kick == true) return ws.terminate();
         ws.isAlive = false;
         ws.ping(noop);
     });
@@ -101,18 +127,18 @@ function createWindow() {
     );
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
-    mainWindow.on("closed", function() {
+    mainWindow.on("closed", function () {
         mainWindow = null;
     });
 }
 
 app.on("ready", createWindow);
 
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
     if (process.platform !== "darwin") app.quit();
 });
 
-app.on("activate", function() {
+app.on("activate", function () {
     if (mainWindow === null) createWindow();
 });
 ipcMain.on("requestLocalIp", (e, arg) => {
@@ -124,7 +150,7 @@ ipcMain.on("requestPermission", (e, arg) => {
     e.reply("sendPermission");
 })
 /*express.get("/", cors(corsOptions), (req, res) => {
-  
+
   res.send("requested access")
 });
 */
