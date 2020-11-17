@@ -107,7 +107,9 @@ this.newUser.password=this.form.get('password').value;
     
   }
 
-
+  goToRegister(){
+    this.router.navigate(['/register']);
+  }
     
 
 }

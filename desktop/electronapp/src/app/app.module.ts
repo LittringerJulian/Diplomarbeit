@@ -32,6 +32,7 @@ import { MatSidenavModule } from '@angular/material';
 import { GenerateSchemeComponent } from './generate-scheme/generate-scheme.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'scheme', component: GenerateSchemeComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'qrcode', component: QrscannerComponent,
 canActivate: [AuthGuardService] },
 { path: 'navigation', component: NavigationComponent },
@@ -59,7 +61,8 @@ canActivate: [AuthGuardService] },
     LoginComponent,
     NavigationComponent,
     DialogBodyComponent,
-    GenerateSchemeComponent
+    GenerateSchemeComponent,
+    RegisterComponent
   ],
   entryComponents:[ DialogBodyComponent],
   imports: [

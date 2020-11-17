@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
+import { User_id } from './user_withoutid';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,10 @@ export class HttpService {
  jwt2(id) {
   console.log(id);
  return this.http.get('http://localhost:3000/jwt2/'+id,{responseType: 'text'});
+}
+
+
+register(user:User_id){
+  return this.http.post('http://localhost:3000/insert',user,{responseType: 'text'});
 }
 }

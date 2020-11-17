@@ -1,5 +1,7 @@
 let mongoUtil = require("../mongo.util");
 var User = require("../../user.js");
+var User_id = require("../../user_id.js");
+
 const jwt = require("jsonwebtoken");
 const { JWTError } = require("json-web-token");
 const dotenv = require("dotenv");
@@ -81,8 +83,7 @@ exports.insert2 = (req, res) => {
   mongoUtil.connectToServer(function (err, client) {
     if (err) console.log(err);
 
-    var newUser = new User();
-    newUser.id = req.body.id;
+    var newUser = new User_id();
     newUser.firstname = req.body.firstname;
     newUser.lastname = req.body.lastname;
     newUser.email = req.body.email;
@@ -222,4 +223,22 @@ exports.generateJWT2 = (req, res) => {
   console.log(jwt.sign(req.params.id, process.env.TOKEN_SECRET));
   var token = jwt.sign(req.params.id, process.env.TOKEN_SECRET);
   res.send(token);
+};
+
+
+exports.getIdByMail = (req, res) => {
+  const db = mongoUtil.getDB();
+
+ 
+  db.collection("User")
+  .find({ email: req.body.email })
+  .toArray(function (err, result) {
+    if (result.length == 0) {
+      res.send("No User found")
+     
+    } else {
+      res.send(result[0]._id);
+    }
+  });
+  
 };
