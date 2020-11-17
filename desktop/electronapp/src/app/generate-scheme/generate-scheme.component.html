@@ -1,0 +1,27 @@
+<div class="example-container" >
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1 class="example-app-name">Create your own Scheme</h1>
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="example-sidenav-container">
+      <mat-sidenav #snav [mode]='over'>
+       
+          <div class="example-box" (click)="array.push('Button')">
+            Button
+          </div>
+        
+       
+        
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+       <div *ngFor="let item of array" >
+         <div cdkDrag class="component">hallo</div>
+          
+       </div>
+
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  

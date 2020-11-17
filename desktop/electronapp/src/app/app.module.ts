@@ -29,6 +29,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material';
+import { GenerateSchemeComponent } from './generate-scheme/generate-scheme.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { CommonModule } from "@angular/common";
+
 
 
 
@@ -38,6 +42,7 @@ import { MatSidenavModule } from '@angular/material';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'qrcode', component: QrscannerComponent,
 canActivate: [AuthGuardService] },
 { path: 'navigation', component: NavigationComponent },
@@ -45,6 +50,7 @@ canActivate: [AuthGuardService] },
   , redirectTo: 'login' }
   ]
 
+  
 
 @NgModule({
   declarations: [
@@ -52,7 +58,8 @@ canActivate: [AuthGuardService] },
     QrscannerComponent,
     LoginComponent,
     NavigationComponent,
-    DialogBodyComponent
+    DialogBodyComponent,
+    GenerateSchemeComponent
   ],
   entryComponents:[ DialogBodyComponent],
   imports: [
@@ -61,6 +68,8 @@ canActivate: [AuthGuardService] },
     QRCodeModule,
     FormsModule,
     MatButtonModule,
+    DragDropModule,
+    CommonModule,
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
