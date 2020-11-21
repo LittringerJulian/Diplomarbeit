@@ -1,0 +1,26 @@
+#outer{
+    width: 100px;
+    height:100px;
+    border-radius: 100%;
+    border:1px solid black;
+    margin:auto;
+}
+
+#inner{
+    width: 50px;
+    height:50px;
+    border-radius: 100%;
+    background-color: black;
+    position:relative;
+   left:25%;
+   top:25%;
+    vertical-align: middle;
+}
+#all{
+    width: 100px;
+    height:100px;
+    user-select: none;
+   cursor:move;
+   padding: 0;
+   margin: 0;
+}

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { User_id } from './user_withoutid';
+import { User_new } from './user_new';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,11 @@ export class HttpService {
     return this.http.post('http://localhost:3000/login',user);
   }
 
+  login2(user:User_new) {
+    console.log(user);
+   return this.http.post('http://localhost:3000/login',user);
+ }
+
   jwt(user:User) {
     console.log(user);
    return this.http.post('http://localhost:3000/jwt',user);
@@ -33,6 +40,6 @@ export class HttpService {
 
 
 register(user:User_id){
-  return this.http.post('http://localhost:3000/insert',user,{responseType: 'text'});
+  return this.http.post('http://localhost:3000/insert',user);
 }
 }

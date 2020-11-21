@@ -1,6 +1,7 @@
 import { HttpService } from '../http.service';
 import { Component } from '@angular/core';
 import { User } from '../user';
+import { User_new } from '../user_new';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +23,8 @@ export class LoginComponent {
 
   password: String;
   newUser: User = new User();
+  tempUser: User_new = new User_new();
+
   test = null;
   totalAngularPackages: any;
   loginText: String = "";
@@ -60,10 +63,12 @@ this.newUser.password=this.form.get('password').value;
       if (this.test != null && this.test.found == "success") {
 
         console.log(this.test.found)
-        this.authUser.id = this.test.id;
+        this.tempUser._id= this.test._id;
+        //this.authUser.id = this.test.id;
+        console.log(this.tempUser)
 
 
-        this.httpService.jwt2(this.test.id).subscribe(data => {
+        this.httpService.jwt2(this.tempUser._id).subscribe(data => {
 
          
 
@@ -110,7 +115,10 @@ this.newUser.password=this.form.get('password').value;
   goToRegister(){
     this.router.navigate(['/register']);
   }
-    
+  delete(){
+    localStorage.setItem('token', null)
+
+  }
 
 }
 

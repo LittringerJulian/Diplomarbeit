@@ -1,27 +1,46 @@
-<div class="example-container" >
-    <mat-toolbar color="primary" class="example-toolbar">
-      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-      <h1 class="example-app-name">Create your own Scheme</h1>
-    </mat-toolbar>
-  
-    <mat-sidenav-container class="example-sidenav-container">
-      <mat-sidenav #snav [mode]='over'>
-       
-          <div class="example-box" (click)="array.push('Button')">
-            Button
-          </div>
-        
-       
-        
-      </mat-sidenav>
-  
-      <mat-sidenav-content>
-       <div *ngFor="let item of array" >
-         <div cdkDrag class="component">hallo</div>
-          
-       </div>
+<div class="example-container">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Create your own Scheme</h1>
+  </mat-toolbar>
 
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
-  
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #snav [mode]='over' id="sidenav">
+
+      <div class="example-box" (click)="array.push(ButtonElement)">
+        Button
+      </div>
+      <div class="example-box" (click)="array.push(ButtonE)">
+        Button E
+      </div>
+      <div class="example-box" (click)="array.push(ButtonW)">
+        Button W
+      </div>
+      <div class="example-box" (click)="array.push(Joystick)">
+        joystick
+      </div>
+
+
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div *ngFor="let item of array">
+        <div cdkDrag *ngIf="item.identifier == 'button'">
+         <!-- <app-button ></app-button>-->
+          <app-button [element]="item"></app-button> 
+
+        </div>
+        <div cdkDrag *ngIf="item.identifier == 'joystick'">
+          <!--<JoystickComponent></JoystickComponent>-->
+          <app-joystick ></app-joystick>
+
+        </div>
+        <!--<div [innerHtml]='iagendwie' cdkDrag class="component">hallo</div> -->
+      </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

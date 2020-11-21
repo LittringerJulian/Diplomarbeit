@@ -1,6 +1,8 @@
 let mongoUtil = require("../mongo.util");
 var User = require("../../user.js");
 var User_id = require("../../user_id.js");
+var User_new = require("../../user_new.js");
+
 
 const jwt = require("jsonwebtoken");
 const { JWTError } = require("json-web-token");
@@ -100,12 +102,21 @@ exports.insert2 = (req, res) => {
 
           db.collection("User").insertOne(newUser, function (err, result) {
             if (err) throw err;
-            console.log("1 User inserted");
-            res.send("User inserted");
+            console.log(result.ops[0]._id)
+            newUser.inserted = "success";
+            newUser._id = result.ops[0]._id;
+            newUser.firstname = result.ops[0].firstname;
+            newUser.email = result.ops[0].email;
+            console.log(newUser)
+            res.send(newUser);
           });
         } else {
+          console.log(result);
+
+          newUser.inserted="emailexists"
+
           console.log("email already exists");
-          res.send("email already exists");
+          res.send(newUser);
         }
       });
   });
@@ -117,7 +128,7 @@ exports.login = (req, res) => {
 
     const db = mongoUtil.getDB();
 
-    var newUser = new User();
+    var newUser = new User_new();
     console.log("email:"+req.body.email)
     console.log("password:"+req.body.password)
 
@@ -135,9 +146,11 @@ exports.login = (req, res) => {
             "found":"success",
           }
           newUser.found = "success";
-          newUser.id = result[0].id;
+          //newUser.id = result[0].id;
+          newUser._id = result[0]._id;
           newUser.firstname = result[0].firstname;
           newUser.email = result[0].email;
+          console.log(newUser)
           res.send(newUser);
         } else {
           newUser.found = "failed";

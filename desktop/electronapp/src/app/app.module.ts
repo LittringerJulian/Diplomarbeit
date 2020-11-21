@@ -33,6 +33,8 @@ import { GenerateSchemeComponent } from './generate-scheme/generate-scheme.compo
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
 import { RegisterComponent } from './register/register.component';
+import { ButtonComponent } from './button/button.component';
+import { JoystickComponent } from './joystick/joystick.component';
 
 
 
@@ -62,7 +64,9 @@ canActivate: [AuthGuardService] },
     NavigationComponent,
     DialogBodyComponent,
     GenerateSchemeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ButtonComponent,
+    JoystickComponent
   ],
   entryComponents:[ DialogBodyComponent],
   imports: [

@@ -8,6 +8,7 @@ import { JwtHelper } from 'angular2-jwt'
  export class AuthGuardService implements CanActivate {
   constructor(public router: Router) { }
   canActivate(): boolean {
+    console.log(localStorage.getItem('token'));
     if (!this.isAuthenticated()) {
       this.router.navigate(['/qrcode']);
       return false;
@@ -18,7 +19,7 @@ import { JwtHelper } from 'angular2-jwt'
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if ( token && token != 'null')
-    return !new JwtHelper().isTokenExpired(token);
+    return true;
     return false;
     }
 }
