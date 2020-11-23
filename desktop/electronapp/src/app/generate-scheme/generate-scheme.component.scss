@@ -43,11 +43,16 @@ body {margin: 0;
   }
 
   .component{
-    border: solid 1px #000000;
    width:50px;
    height:50px;
+   margin:0 !important;
+   padding:0 !important;
    text-align:center;
    user-select: none;
    cursor:move;
+   position: absolute;
   }
   
+  #componentContainer{
+    position: relative;
+  }

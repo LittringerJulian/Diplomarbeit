@@ -35,6 +35,7 @@ import { CommonModule } from "@angular/common";
 import { RegisterComponent } from './register/register.component';
 import { ButtonComponent } from './button/button.component';
 import { JoystickComponent } from './joystick/joystick.component';
+import { SchemeNameComponent } from './scheme-name/scheme-name.component';
 
 
 
@@ -66,9 +67,10 @@ canActivate: [AuthGuardService] },
     GenerateSchemeComponent,
     RegisterComponent,
     ButtonComponent,
-    JoystickComponent
+    JoystickComponent,
+    SchemeNameComponent
   ],
-  entryComponents:[ DialogBodyComponent],
+  entryComponents:[ DialogBodyComponent,SchemeNameComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

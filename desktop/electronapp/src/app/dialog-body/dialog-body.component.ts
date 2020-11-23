@@ -16,7 +16,7 @@ export class DialogBodyComponent implements OnInit {
 
   public allowed;
 
-  constructor(public dialogRef: MatDialogRef<QrscannerComponent>,private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyComponent>,private router: Router) { }
 
   ngOnInit() {
   }

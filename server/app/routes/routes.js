@@ -19,7 +19,8 @@ module.exports = app => {
     app.get("/jwt2/:id",jsonParser,statistics.generateJWT2);
     app.post("/findMail",jsonParser,statistics.getIdByMail);
 
-    
+    app.post("/insertScheme",jsonParser ,statistics.insertScheme);
+
 
     
 };

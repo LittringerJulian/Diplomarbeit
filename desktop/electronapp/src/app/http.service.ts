@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { User_id } from './user_withoutid';
 import { User_new } from './user_new';
+import { Scheme } from './scheme';
 
 
 @Injectable({
@@ -41,5 +42,9 @@ export class HttpService {
 
 register(user:User_id){
   return this.http.post('http://localhost:3000/insert',user);
+}
+
+saveScheme(scheme:Scheme){
+  return this.http.post('http://localhost:3000/insertScheme',scheme,{responseType: 'text'});
 }
 }

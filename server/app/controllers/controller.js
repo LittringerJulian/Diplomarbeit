@@ -2,6 +2,7 @@ let mongoUtil = require("../mongo.util");
 var User = require("../../user.js");
 var User_id = require("../../user_id.js");
 var User_new = require("../../user_new.js");
+var Scheme = require("../../scheme.js");
 
 
 const jwt = require("jsonwebtoken");
@@ -58,6 +59,25 @@ exports.init = (req, res) => {
   });
 };
 
+exports.insertScheme = (req, res) => {
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+    var newScheme = new Scheme();
+    newScheme.content=req.body.content;
+    newScheme.name=req.body.name;
+
+
+
+    db.collection("Scheme").insertOne(newScheme, function (err, result) {
+      if (err) throw err;
+      res.send("Scheme inserted");
+    });
+  });
+};
+
 exports.insert = (req, res) => {
   mongoUtil.connectToServer(function (err, client) {
     if (err) console.log(err);
@@ -91,6 +111,7 @@ exports.insert2 = (req, res) => {
     newUser.email = req.body.email;
     newUser.sex = req.body.sex;
     newUser.password = req.body.password;
+    
 
     const db = mongoUtil.getDB();
     console.log(req.body.email);
