@@ -47,4 +47,9 @@ register(user:User_id){
 saveScheme(scheme:Scheme){
   return this.http.post('http://localhost:3000/insertScheme',scheme,{responseType: 'text'});
 }
+
+getScheme(json){
+  console.log(json);
+  return this.http.post('http://localhost:3000/getScheme',json,{responseType: 'text'});
+}
 }

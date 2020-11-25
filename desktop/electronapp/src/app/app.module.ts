@@ -36,6 +36,8 @@ import { RegisterComponent } from './register/register.component';
 import { ButtonComponent } from './button/button.component';
 import { JoystickComponent } from './joystick/joystick.component';
 import { SchemeNameComponent } from './scheme-name/scheme-name.component';
+import { SelectSchemeComponent } from './select-scheme/select-scheme.component';
+import { OpenSchemeComponent } from './open-scheme/open-scheme.component';
 
 
 
@@ -46,6 +48,7 @@ import { SchemeNameComponent } from './scheme-name/scheme-name.component';
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'open', component: OpenSchemeComponent },
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'qrcode', component: QrscannerComponent,
@@ -68,7 +71,9 @@ canActivate: [AuthGuardService] },
     RegisterComponent,
     ButtonComponent,
     JoystickComponent,
-    SchemeNameComponent
+    SchemeNameComponent,
+    SelectSchemeComponent,
+    OpenSchemeComponent
   ],
   entryComponents:[ DialogBodyComponent,SchemeNameComponent],
   imports: [

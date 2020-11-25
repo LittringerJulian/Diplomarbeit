@@ -3,6 +3,8 @@ var User = require("../../user.js");
 var User_id = require("../../user_id.js");
 var User_new = require("../../user_new.js");
 var Scheme = require("../../scheme.js");
+var ObjectID = require('mongodb').ObjectID;
+
 
 
 const jwt = require("jsonwebtoken");
@@ -59,6 +61,8 @@ exports.init = (req, res) => {
   });
 };
 
+
+//insert new Scheme
 exports.insertScheme = (req, res) => {
   mongoUtil.connectToServer(function (err, client) {
     if (err) console.log(err);
@@ -77,6 +81,32 @@ exports.insertScheme = (req, res) => {
     });
   });
 };
+
+//get Scheme by ID
+exports.getSchemeById = (req, res) => {
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+
+    
+    
+
+    //var string = JSON.parse(req.body.id);
+    //var objectid=new ObjectID(req.params.id);
+
+    db.collection("Scheme")
+      .find({ _id: ObjectID(req.body.id) })
+      .toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result[0].content)
+      });
+  });
+};
+
+
 
 exports.insert = (req, res) => {
   mongoUtil.connectToServer(function (err, client) {

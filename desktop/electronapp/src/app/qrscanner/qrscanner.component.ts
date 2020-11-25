@@ -76,6 +76,9 @@ export class QrscannerComponent implements OnInit {
   scheme(){
     this.router.navigate(['/scheme']);
   }
+  openscheme(){
+    this.router.navigate(['/open']);
+  }
 
 
   scanned(){

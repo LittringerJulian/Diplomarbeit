@@ -1,0 +1,33 @@
+<div id="all">
+<mat-toolbar color="primary" class="example-toolbar">
+    
+    <h1 class="example-app-name">Open Scheme</h1>
+    <!--<button mat-raised-button color="primary" (click)="saveScheme()">Save</button> -->
+    <div id="idinput">
+    <mat-form-field class="full-width-input">
+        <input matInput  [(ngModel)]="SchemeId">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="openScheme()">Open</button>
+    </div>
+    </mat-toolbar>
+
+    <div id="content">
+
+        <div *ngFor="let item of array">
+            <div class="component"  *ngIf="item.identifier == 'button'" [ngStyle]="{'top.%':(item.percentagey)*100,'left.%':(item.percentagex)*100}">
+                <!-- <app-button ></app-button>-->
+                
+                 <app-button [element]="item"></app-button> 
+       
+               </div>
+               <div class="component"  *ngIf="item.identifier == 'joystick'"  [ngStyle]="{'top.%':(item.percentagey)*100,'left.%':(item.percentagex)*100}">
+                 <!--<JoystickComponent></JoystickComponent>-->
+                 <app-joystick ></app-joystick>
+       
+               </div>
+           
+        </div>
+
+    </div>
+    
+</div>

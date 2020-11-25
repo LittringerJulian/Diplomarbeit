@@ -21,6 +21,7 @@ module.exports = app => {
 
     app.post("/insertScheme",jsonParser ,statistics.insertScheme);
 
-
+    app.post("/getScheme",jsonParser,statistics.getSchemeById);
+    
     
 };

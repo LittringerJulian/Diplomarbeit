@@ -27,8 +27,6 @@ mongoUtil.connectToServer(function(err,client){
 
 http.listen(3000,function(){
 console.log("listening on port: 3000");
-//var hash= crypto.randomBytes(64).toString('hex');
-//console.log(hash);
 })
 
 
