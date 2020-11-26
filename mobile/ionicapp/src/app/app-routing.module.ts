@@ -12,13 +12,18 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'connectToDesktop',
+    redirectTo: 'accelerometer-mouse',
     pathMatch: 'full'
   },
   {
     path: 'laserpointer',
     loadChildren: () => import('./pages/laserpointer/laserpointer.module').then( m => m.LaserpointerPageModule)
   },
+  {
+    path: 'accelerometer-mouse',
+    loadChildren: () => import('./pages/accelerometer-mouse/accelerometer-mouse.module').then( m => m.AccelerometerMousePageModule)
+  },
+
 
 
 ];

@@ -18,20 +18,8 @@ export class WebsocketService {
     try {
       
       this.websocket = webSocket("ws://" + socketUri + ":80");
-
-      console.log("connected to websocket server");
-
       this.websocket.subscribe()
-      
-      //this.websocket.next("heee")
 
-      /*this.websocket.subscribe((msg) => {
-        console.log("msg: " + msg)
-
-      }, (err) => {
-        console.log("err: " + err)
-      })
-      */
      return true
     } catch (e) {
       return false;

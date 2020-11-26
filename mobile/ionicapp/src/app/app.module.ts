@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native/gyroscope/ngx';
+import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
+
 
 
 
@@ -34,6 +36,7 @@ import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native
         SplashScreen,
         CameraPreview,
         Gyroscope,
+        DeviceMotion,
         WebsocketService,
         HttpService,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

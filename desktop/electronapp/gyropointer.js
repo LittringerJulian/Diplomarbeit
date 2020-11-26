@@ -26,6 +26,9 @@ module.exports = class Gyropointer {
             this.realsens = this.sens
         }
 
+        gyroval.gamma = gyroval.gamma < 0.2 ? 0 : gyroval.gamma
+        gyroval.alpha = gyroval.alpha < 0.2 ? 0 : gyroval.alpha
+
         robot.moveMouse(
             robot.getMousePos().x - this.normalize(gyroval.gamma) * this.realsens,
             robot.getMousePos().y - this.normalize(gyroval.alpha) * this.realsens
