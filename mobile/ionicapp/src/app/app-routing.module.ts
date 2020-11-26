@@ -12,9 +12,14 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'connectToDesktop',
     pathMatch: 'full'
   },
+  {
+    path: 'laserpointer',
+    loadChildren: () => import('./pages/laserpointer/laserpointer.module').then( m => m.LaserpointerPageModule)
+  },
+
 
 ];
 

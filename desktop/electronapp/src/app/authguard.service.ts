@@ -18,7 +18,7 @@ import { JwtHelper } from 'angular2-jwt'
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if ( token && token != 'null')
-    return !new JwtHelper().isTokenExpired(token);
+    return true //!new JwtHelper().isTokenExpired(token);
     return false;
     }
 }

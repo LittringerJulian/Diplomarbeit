@@ -16,19 +16,36 @@ export class WebsocketService {
 
   connect(socketUri) {
     try {
-      this.socketUri = "ws://" + socketUri + ":80";
-      this.websocket = webSocket(this.socketUri);
+      
+      this.websocket = webSocket("ws://" + socketUri + ":80");
 
-      this.websocket.subscribe((msg) => {
+      console.log("connected to websocket server");
+
+      this.websocket.subscribe()
+      this.sendData("first message")
+      
+      //this.websocket.next("heee")
+
+      /*this.websocket.subscribe((msg) => {
         console.log("msg: " + msg)
 
       }, (err) => {
         console.log("err: " + err)
       })
-
+      */
+     return true
     } catch (e) {
-      return "Connection failed!";
+      return false;
     }
+  }
+
+
+  sendData(data) {
+    this.websocket.next(data)
+  }
+
+  close(){
+    this.websocket.complete()
   }
 
 
