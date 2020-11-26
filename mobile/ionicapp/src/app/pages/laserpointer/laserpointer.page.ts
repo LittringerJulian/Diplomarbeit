@@ -71,7 +71,9 @@ export class LaserpointerPage implements OnInit {
   }
 
   sendGyroData(){
-    this.socket.sendData(this.gyroval)
+    let data = {type: "gyro", data: this.gyroval}
+
+    this.socket.sendData(data)
   }
 
 }

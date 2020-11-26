@@ -22,7 +22,6 @@ export class WebsocketService {
       console.log("connected to websocket server");
 
       this.websocket.subscribe()
-      this.sendData("first message")
       
       //this.websocket.next("heee")
 

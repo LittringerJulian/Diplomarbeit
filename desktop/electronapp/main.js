@@ -6,6 +6,21 @@ const ip = require("node-local-ipv4")();
 const cors = require("cors");
 const { v4: uuidv4 } = require('uuid');
 
+let permission = false;
+
+// robot and affiliated calculation modules
+var robot = require("robotjs")
+
+const Gyropointer = require("./gyropointer.js")
+var gyroPointer = new Gyropointer()
+
+function handleSocketMessage(msg) {
+    switch (msg.type) {
+        case 'gyro':
+            gyroPointer.moveMouse(msg.data)
+            break;
+    }
+}
 
 const allowedOrigins = [
     "capacitor://localhost",
@@ -14,8 +29,6 @@ const allowedOrigins = [
     "http://localhost:8080",
     "http://localhost:8100",
 ];
-
-let permission = false;
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -45,13 +58,13 @@ const { filter } = require("rxjs-compat/operator/filter");
 const wsport = process.env.PORT || 80;
 const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
-
 wss.on("connection", function connection(ws, req) {
-    console.log("new connection: " + req.socket.remoteAddress);
 
+    console.log("new connection: " + req.socket.remoteAddress);
     ws.id = uuidv4();
     ws.access = false;
     ws.kick = false;
+
     mainWindow.webContents.send("sendDeviceAccess", ws);
 
 
@@ -59,16 +72,7 @@ wss.on("connection", function connection(ws, req) {
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
 
-
-        data = JSON.parse(data)
-        console.log(data.alpha)
-            /*
-            wss.clients.forEach(function each(client) {
-                if (client.readyState === WebSocket.OPEN) {
-                    console.log(client.access);
-                    client.send(data);
-                }
-            }); */
+        handleSocketMessage(JSON.parse(data))
     });
 });
 
@@ -76,11 +80,11 @@ ipcMain.on("WebSocketAccess", (e, ws2, bool) => {
     wss.clients.forEach(function each(ws) {
 
         if (ws.id == ws2.id) {
-            console.log("inner1");
+            //console.log("inner1");
             if (bool) {
                 ws.access = true;
             } else {
-                console.log("inner2");
+                //console.log("inner2");
 
                 ws.kick = true;
 
@@ -93,13 +97,13 @@ ipcMain.on("WebSocketAccess", (e, ws2, bool) => {
 function noop() {}
 
 function heartbeat() {
-    console.log("heartbeat");
+    //console.log("heartbeat");
     this.isAlive = true;
 }
 const interval = setInterval(function ping() {
     wss.clients.forEach(function each(ws) {
-        console.log("in loop");
-        console.log("in heartbeat:" + ws.kick)
+        //console.log("in loop");
+        //console.log("in heartbeat:" + ws.kick)
         if (ws.isAlive == false || ws.kick == true) return ws.terminate();
         ws.isAlive = false;
         ws.ping(noop);
