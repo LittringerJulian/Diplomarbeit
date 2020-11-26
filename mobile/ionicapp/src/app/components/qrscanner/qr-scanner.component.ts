@@ -77,8 +77,8 @@ export class QrScannerComponent {
         // ouput: base64 image
         //
         // the same image is loaded into an image object
-        // which then is put onto a canvas
-        // the canvas finally returns an imageData object,
+        // which then is put on a canvas
+        // the canvas finally return an imageData object
         // which is the correct format to use in the jsQr library
         this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
             base64data = 'data:image/jpeg;base64,' + snapshotData;
@@ -106,7 +106,7 @@ export class QrScannerComponent {
                 // scan is repeated until success or termination by user
                 if (this.qrData != "" && this.qrData != null) {
                     this.qrData = this.qrData.data
-
+                    
                     console.log(this.qrData + " init socket")
                     if(this.initSocket()){
                         this.cameraPreview.stopCamera()

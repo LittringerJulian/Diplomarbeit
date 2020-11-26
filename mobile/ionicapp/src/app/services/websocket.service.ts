@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { webSocket } from 'rxjs/webSocket';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 
 
 @Injectable({
@@ -8,6 +8,7 @@ import { webSocket } from 'rxjs/webSocket';
 export class WebsocketService {
 
   websocket: any;
+  socketUri: string;
 
   constructor() {
 
