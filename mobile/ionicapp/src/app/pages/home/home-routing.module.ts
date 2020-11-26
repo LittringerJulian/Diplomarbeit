@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage
-  }
+  },
+  {
+    path: 'laserpointer',
+    loadChildren: () => import('./../laserpointer/laserpointer.module').then( m => m.LaserpointerPageModule)
+  },
 ];
 
 @NgModule({

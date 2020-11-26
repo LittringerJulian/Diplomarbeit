@@ -1,9 +1,26 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>home</ion-title>
+    </ion-toolbar>
+
+    <ion-button (click)='enterPage("laserpointer")' style="position: absolute">
+        laser
+    </ion-button>
 </ion-header>
 
-<ion-content>
-  <ion-button routerLink="/connectToDesktop">Connect To Desktop</ion-button>
-</ion-content>
+
+
+<ion-tabs>
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="home">
+            <ion-icon name="home"></ion-icon>
+            <ion-label>Home</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="schemes">
+            <ion-icon name="planet"></ion-icon>
+            <ion-label>Schemes</ion-label>
+            <ion-badge>6</ion-badge>
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>

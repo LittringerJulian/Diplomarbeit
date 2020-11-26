@@ -15,7 +15,15 @@ export class WebsocketService {
 
   connect(socketUri) {
     try {
+      
       this.websocket = webSocket("ws://" + socketUri + ":80");
+
+      console.log("connected to websocket server");
+
+      this.websocket.subscribe()
+      this.sendData("first message")
+      
+      //this.websocket.next("heee")
 
       /*this.websocket.subscribe((msg) => {
         console.log("msg: " + msg)
@@ -32,8 +40,15 @@ export class WebsocketService {
 
 
   sendData(data) {
-    this.websocket.subscribe()
     this.websocket.next(data)
+  }
+
+  close(){
     this.websocket.complete()
   }
+
+
+  //todo
+  // .on()
+  // .emit()
 }
