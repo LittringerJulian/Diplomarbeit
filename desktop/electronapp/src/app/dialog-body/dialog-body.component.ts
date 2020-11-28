@@ -27,7 +27,7 @@ export class DialogBodyComponent implements OnInit {
     this.dialogRef.close(allowed);
 
     if(allowed==true){
-      this.router.navigate(['/navigation']);  
+      //this.router.navigate(['/navigation']);  
 
     }
 }

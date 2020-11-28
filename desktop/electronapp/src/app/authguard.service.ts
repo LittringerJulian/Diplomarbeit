@@ -19,6 +19,7 @@ import { JwtHelper } from 'angular2-jwt'
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     if ( token && token != 'null')
+    this.router.navigate(['/qrcode']);
     return true;
     return false;
     }

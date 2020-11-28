@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'accelerometer-mouse',
+    redirectTo: 'connectToDesktop',
     pathMatch: 'full'
   },
   {
@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'accelerometer-mouse',
     loadChildren: () => import('./pages/accelerometer-mouse/accelerometer-mouse.module').then( m => m.AccelerometerMousePageModule)
+  },  {
+    path: 'image-clipboard',
+    loadChildren: () => import('./pages/image-clipboard/image-clipboard.module').then( m => m.ImageClipboardPageModule)
   },
+
 
 
 

@@ -65,6 +65,22 @@ export class QrscannerComponent implements OnInit {
     
   }
 
+  ngAfterViewInit(){
+    electron.ipcRenderer.on('sendImageToCopy', (e, imgData) => {
+      document.getElementById("imageClipboardDiv").innerHTML = imgData
+      /*let newImage = document.createElement('img');
+      newImage.src = imgData
+      document.getElementById("imageClipboardDiv").appendChild(newImage)
+
+      var r = document.createRange();
+      r.setStartBefore(newImage);
+      r.setEndAfter(newImage);
+      r.selectNode(newImage);
+      var sel = window.getSelection();
+      sel.addRange(r);
+      document.execCommand('Copy');*/
+    })
+  }
  
   
 
@@ -87,7 +103,7 @@ export class QrscannerComponent implements OnInit {
 
   confirmDevice(){
     if(true){
-      this.router.navigate(['/navigation']);   
+      //this.router.navigate(['/navigation']);   
     }
   }
 }

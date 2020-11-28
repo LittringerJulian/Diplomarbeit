@@ -11,33 +11,42 @@ export class LaserpointerPage {
 
   constructor(private gyroscope: Gyroscope, private socket: WebsocketService) { }
 
-  gyroval = {
+  gyro = {
     alpha: 0,
     beta: 0,
     gamma: 0,
   }
 
-  ngAfterViewInit(){
+  listener
+  throttle = false;
+  throttletickrate = 100;
+
+  ngAfterViewInit() {
     this.startGyro()
   }
 
-  startGyro(){
-    let options: GyroscopeOptions = {
-      frequency: 128
-    }
-  
-    this.gyroscope.watch(options)
-     .subscribe((orientation: GyroscopeOrientation) => {
-        this.gyroval.alpha = orientation.x
-        this.gyroval.beta = orientation.y
-        this.gyroval.gamma = orientation.z
+  startGyro() {
+    window.addEventListener("deviceorientation", this.listener = (event) => {
+      if (!this.throttle) {
+        this.gyro.alpha = event.alpha
+        this.gyro.beta = event.beta
+        this.gyro.gamma = event.gamma
+
         this.sendGyroData()
-     });
+
+        this.throttle = true;
+        setTimeout(() => { this.throttle = false }, 1000 / this.throttletickrate);
+      }
+    });
   }
 
-  sendGyroData(){
-    let data = {type: "gyro", data: this.gyroval}
+  sendGyroData() {
+    let data = { type: "gyro", data: this.gyro }
     this.socket.sendData(data)
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener("deviceorientation", this.listener)
   }
 
 }

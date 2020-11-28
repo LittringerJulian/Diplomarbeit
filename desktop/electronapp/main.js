@@ -12,13 +12,67 @@ let permission = false;
 var robot = require("robotjs")
 
 const Gyropointer = require("./gyropointer.js")
+const AccelerometerMouse = require("./accelerometerMouse.js")
+const ClipboardManager = require("./clipboardManager.js")
 var gyroPointer = new Gyropointer()
+var accelerometerMouse = new AccelerometerMouse()
+var clipboardManager = new ClipboardManager()
+
+//const cmd = require('node-cmd')
+
+const shell = require('node-powershell');
+
+let ps = new shell({
+    executionPolicy: 'Bypass',
+    noProfile: true
+});
+
 
 function handleSocketMessage(msg) {
     switch (msg.type) {
         case 'gyro':
             gyroPointer.moveMouse(msg.data)
             break;
+        case 'acceleration':
+            accelerometerMouse.moveMouse(msg.data)
+            break;
+        case 'copyimage':
+
+            let imagepath = './clipboardimage.jpg'
+            msg.data = msg.data.substring(23)
+
+            ps.addCommand('$b64 = "' + msg.data + '"')
+            ps.addCommand('$filename = "' + imagepath + '"')
+            ps.addCommand('./imagesave.ps1')
+            ps.addCommand('$filename = "' + imagepath + '"')
+            ps.addCommand('./imagecopy.ps1')
+            ps.invoke()
+                .then(output => {
+                    console.log(output);
+                })
+                .catch(err => {
+                    console.log(err);
+                    ps.dispose();
+                });
+
+            /*ps.addCommand('$filename = "' + param + '"')
+            ps.addCommand('./imagecopy.ps1')
+                //ps.addCommand(`& "${require('path').resolve(__dirname, 'imagecopy.ps1')}"`);
+            ps.invoke()
+                .then(output => {
+                    console.log(output);
+                })
+                .catch(err => {
+                    console.log(err);
+                    ps.dispose();
+                });*/
+
+            /*cmd.run('powershell -noexit "& ""C:\\Users\\Julian\\Desktop\\imagecopy.ps1"" ""C:\\\Users\\\Julian\\\Desktop\\\testimage.jpg"""', function(err, data, stderr) {
+                console.log(err, data, stderr)
+            });*/
+
+            //mainWindow.webContents.send("sendImageToCopy", msg.data)
+            //clipboardManager.copyImage(msg.data)
     }
 }
 
@@ -55,10 +109,13 @@ express.options("*", cors(corsOptions));
 const WebSocket = require("ws");
 const { windowsStore } = require("process");
 const { filter } = require("rxjs-compat/operator/filter");
+const { createEnumDeclaration } = require("typescript");
 const wsport = process.env.PORT || 80;
 const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
 wss.on("connection", function connection(ws, req) {
+
+    //clipboardManager.copyText("hallo test electon copy")
 
     console.log("new connection: " + req.socket.remoteAddress);
     ws.id = uuidv4();

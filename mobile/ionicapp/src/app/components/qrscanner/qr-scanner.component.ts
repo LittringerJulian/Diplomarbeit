@@ -109,8 +109,8 @@ export class QrScannerComponent {
                     
                     console.log(this.qrData + " init socket")
                     if(this.initSocket()){
-                        this.cameraPreview.stopCamera()
                         this.router.navigate(["/", "home"])
+                        this.cameraPreview.stopCamera()
                     }
                 }
                 else {
@@ -123,6 +123,10 @@ export class QrScannerComponent {
             console.log("Scan failed.");
         });
 
+    }
+
+    ngOnDestroy(){
+        this.cameraPreview.stopCamera()
     }
 }
 
