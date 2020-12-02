@@ -14,7 +14,7 @@ declare var electron: any;
 
 export class DialogBodyComponent implements OnInit {
 
-  public allowed;
+  //public allowed;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComponent>,private router: Router) { }
 
@@ -24,11 +24,17 @@ export class DialogBodyComponent implements OnInit {
   allow(allowed){
     //this.allowed=allowed;
     //electron.ipcRenderer.send("requestPermission", allowed);
-    this.dialogRef.close(allowed);
 
     if(allowed==true){
-      this.router.navigate(['/navigation']);  
+      this.dialogRef.close(allowed);
+
+      //this.router.navigate(['/navigation']);  
 
     }
+    else{
+      this.dialogRef.close(allowed);
+
+    }
+
 }
 }

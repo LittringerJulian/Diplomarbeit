@@ -32,10 +32,11 @@ body {margin: 0;
   
   
   .example-box {
-    width: 50px;
-    height: 50px;
-    border: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
+    width: 100%;
+    height: 10%;
+    border-bottom: 1px solid black;
+
+    color: rgba(0, 0, 0, 1);
     text-align: center;
     background: #fff;
     z-index: 1;
@@ -55,4 +56,17 @@ body {margin: 0;
   
   #componentContainer{
     position: relative;
+   
+  }
+
+  #scheme{
+    position: absolute;
+    width:80%;
+    padding-bottom:calc(80%*(9/16));
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
+    top:50%;
+   transform:translate(-50%,-50%);
+   left:50%;
+
+
   }

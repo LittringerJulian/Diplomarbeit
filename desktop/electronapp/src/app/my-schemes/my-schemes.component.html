@@ -1,0 +1,36 @@
+<div *ngFor="let item of array;let i = index"> 
+    <mat-card class="scheme-card" >
+        <mat-card-header>
+          
+          <mat-card-title>{{item.name}}</mat-card-title>
+          <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+
+          <div id="scheme" *ngIf="item.format=='Landscape'">
+            <div *ngFor="let item2 of array[i].content;let j = index" >
+              
+              <app-button  *ngIf="item2.identifier == 'button'" [element]="item2"></app-button> 
+
+              <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2"></app-joystickpreview>
+             
+             </div>
+            </div> 
+            <div id="scheme2" *ngIf="item.format=='Portrait'">
+              <div *ngFor="let item2 of array[i].content;let j = index" >
+                
+                <app-button  *ngIf="item2.identifier == 'button'" [element]="item2"></app-button> 
+  
+                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2"></app-joystickpreview>
+               
+               </div>
+              </div> 
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button id="button" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
+          
+        </mat-card-actions>
+      </mat-card>
+      <br>
+    </div>

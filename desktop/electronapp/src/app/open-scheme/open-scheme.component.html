@@ -11,13 +11,13 @@
     </div>
     </mat-toolbar>
 
-    <div id="content">
+    <div id="snavcontent">
 
         <div *ngFor="let item of array">
             <div class="component"  *ngIf="item.identifier == 'button'" [ngStyle]="{'top.%':(item.percentagey)*100,'left.%':(item.percentagex)*100}">
                 <!-- <app-button ></app-button>-->
                 
-                 <app-button [element]="item"></app-button> 
+                 <app-button ></app-button> 
        
                </div>
                <div class="component"  *ngIf="item.identifier == 'joystick'"  [ngStyle]="{'top.%':(item.percentagey)*100,'left.%':(item.percentagex)*100}">

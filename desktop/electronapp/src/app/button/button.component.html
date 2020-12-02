@@ -1,2 +1,4 @@
+<div [ngStyle]="{'width.%':(element.width),'padding-bottom.%':(element.height)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
 
-<button>{{element.identifier}} {{element.specification}}</button>
+    <p id="text">{{element.identifier}} {{element.specification}}</p>
+</div>

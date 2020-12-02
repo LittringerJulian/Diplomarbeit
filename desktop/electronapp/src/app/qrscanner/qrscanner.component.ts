@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component, Injectable, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, OnInit, ViewRef } from '@angular/core';
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+
+
+
 
 
 declare var electron: any;
@@ -17,8 +20,8 @@ declare var electron: any;
 export class QrscannerComponent implements OnInit {
 
 
-  public qrcode: string = "";
-  public qrCodeIsSet = false;
+  public qrcode;
+  public qrCodeIsSet;
   public scanset = false;
 
 
@@ -29,65 +32,80 @@ export class QrscannerComponent implements OnInit {
 
 
 
-  constructor(public cd: ChangeDetectorRef,private router: Router,public dialog: MatDialog) {
+  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
     this.width = 512;
   }
 
-  ngOnInit() {
-   
+  ngOnDestroy() {
+
+    this.cd.detach();
+
+  }
+
+  ngAfterViewInit() {
     this.cd.markForCheck();
     electron.ipcRenderer.send("requestLocalIp", "req");
     electron.ipcRenderer.on("sendLocalIp", (e, arg) => {
+
       this.qrcode = arg;
       this.qrCodeIsSet = true;
-      this.cd.detectChanges();
-      this.cd.detach();
+      if (!(this.cd as ViewRef).destroyed) {
+        this.cd.detectChanges()
+        // do other tasks
+      }
+
     })
+  }
+  ngOnInit() {
 
-    
+  
 
+    //this.cd.detach();
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
       console.log(ws);
-      let ref = this.dialog.open(DialogBodyComponent,ws);
-      ref.afterClosed().subscribe(result =>{
+      let ref = this.dialog.open(DialogBodyComponent, ws);
+      ref.afterClosed().subscribe(result => {
         console.log(result);
-        electron.ipcRenderer.send("WebSocketAccess", ws,result);
+        electron.ipcRenderer.send("WebSocketAccess", ws, result);
 
       })
 
-      
-      
+
+
     })
-    
+
   }
 
- 
-  
+
+
 
 
   logout() {
     localStorage.setItem('token', null)
-    this.router.navigate(['/login']);   
+    this.router.navigate(['/login']);
   }
-  scheme(){
+  scheme() {
     this.router.navigate(['/scheme']);
   }
-  openscheme(){
+  openscheme() {
     this.router.navigate(['/open']);
   }
-
-
-  scanned(){
-    
+  myschemes() {
+    this.router.navigate(['/myschemes']);
   }
 
-  confirmDevice(){
-    if(true){
-      this.router.navigate(['/navigation']);   
+
+  scanned() {
+
+  }
+
+  confirmDevice() {
+    if (true) {
+      // this.router.navigate(['/navigation']);   
     }
   }
 }

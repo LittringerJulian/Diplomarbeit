@@ -22,6 +22,10 @@ module.exports = app => {
     app.post("/insertScheme",jsonParser ,statistics.insertScheme);
 
     app.post("/getScheme",jsonParser,statistics.getSchemeById);
+    app.get("/getSchemeByUserId",jsonParser,statistics.getSchemeByUserId);
+    app.post("/insertPublicScheme",jsonParser,statistics.insertPublicScheme);
+
+
     
     
 };

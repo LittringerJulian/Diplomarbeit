@@ -14,10 +14,15 @@
   <script>
     const electron = require('electron');
     const customTitlebar = require('custom-electron-titlebar');
+  
 
-    new customTitlebar.Titlebar({
+
+    let  myTitlebar = new customTitlebar.Titlebar({
     backgroundColor: customTitlebar.Color.fromHex('#444')
 });
+myTitlebar.updateTitle('Imperio');
+
+
 
 </script>
 </body>

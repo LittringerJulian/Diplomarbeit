@@ -22,7 +22,9 @@ export class OpenSchemeComponent implements OnInit {
 
     this.httpService.getScheme(json).subscribe(data => {
       this.array=JSON.parse(data);
-      console.log(data);
+      console.log(this.array[0]);
+      console.log(this.array[1]);
+
     })
     //console.log(json)
   }

@@ -38,7 +38,11 @@ import { JoystickComponent } from './joystick/joystick.component';
 import { SchemeNameComponent } from './scheme-name/scheme-name.component';
 import { SelectSchemeComponent } from './select-scheme/select-scheme.component';
 import { OpenSchemeComponent } from './open-scheme/open-scheme.component';
-
+import { UiElementComponent } from './ui-element/ui-element.component';
+import { MySchemesComponent } from './my-schemes/my-schemes.component';
+import { JoystickpreviewComponent } from './joystickpreview/joystickpreview.component';
+import { TagDialogComponent } from './tag-dialog/tag-dialog.component';
+import { TagInputModule } from 'ngx-chips';
 
 
 
@@ -51,6 +55,7 @@ const appRoutes: Routes = [
   { path: 'open', component: OpenSchemeComponent },
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'myschemes', component: MySchemesComponent },
   { path: 'qrcode', component: QrscannerComponent,
 canActivate: [AuthGuardService] },
 { path: 'navigation', component: NavigationComponent },
@@ -73,9 +78,13 @@ canActivate: [AuthGuardService] },
     JoystickComponent,
     SchemeNameComponent,
     SelectSchemeComponent,
-    OpenSchemeComponent
+    OpenSchemeComponent,
+    UiElementComponent,
+    MySchemesComponent,
+    JoystickpreviewComponent,
+    TagDialogComponent
   ],
-  entryComponents:[ DialogBodyComponent,SchemeNameComponent],
+  entryComponents:[ DialogBodyComponent,SchemeNameComponent,TagDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -101,6 +110,7 @@ canActivate: [AuthGuardService] },
     MatSlideToggleModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    TagInputModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: true}

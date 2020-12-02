@@ -5,6 +5,10 @@
     </button>
     <h1 class="example-app-name">Create your own Scheme</h1>
     <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
+
+    <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" > {{format}}</mat-slide-toggle>
+
+
     </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
@@ -22,27 +26,26 @@
       <div class="example-box" (click)="addArray('joystick','')">
         joystick
       </div>
+      <!--<div class="example-box" (click)="addArray('test','')">
+        test
+      </div>-->
+     
 
 
 
     </mat-sidenav>
 
     <mat-sidenav-content id="snavcontent">
-      <div *ngFor="let item of array;let i = index" id="componentContainer">
-        <div class="component" cdkDrag *ngIf="item.identifier == 'button'" [cdkDragFreeDragPosition]="{x:item.posx,y:item.posy}" (cdkDragEnded)="cdkDragReleased($event, item,i)">
-         <!-- <app-button ></app-button>-->
-         
-          <app-button [element]="item"></app-button> 
+      <div id="scheme">
+      <div *ngFor="let item of array;let i = index" >
+    
+        <app-button  *ngIf="item.identifier == 'button'" [element]="item"></app-button> 
 
-        </div>
-        <div class="component" cdkDrag *ngIf="item.identifier == 'joystick'" [cdkDragFreeDragPosition]="{x:item.posx,y:item.posy}" (cdkDragEnded)="cdkDragReleased($event, item,i)">
-          <!--<JoystickComponent></JoystickComponent>-->
-          <app-joystick ></app-joystick>
-
-        </div>
-        <!--<div [innerHtml]='iagendwie' cdkDrag class="component">hallo</div> -->
+        <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item"></app-joystick>
+        <app-ui-element *ngIf="item.identifier== 'test'"   [element]="item"></app-ui-element>
+        
       </div>
-
+    </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { User_id } from '../user_withoutid';
 import { User_new } from '../user_new';
+//import {sha256} from 'crypto-js/sha256';
+import { HmacSHA256 } from 'crypto-js'
+
 
 
 @Component({
@@ -40,8 +43,10 @@ export class RegisterComponent implements OnInit {
     this.tempUser.lastname = this.form.get('last').value;
     this.tempUser.email = this.form.get('email').value;
     this.tempUser.sex = this.genderControl.value;
-    this.tempUser.password = this.form.get('password').value;
+    this.tempUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136f4c5fb3cf1988e46a3b177902911d7ea7833465eaaae05e14a82").toString();
 
+    //rypto.HmacSHA256("Test124.","secretkey").toString()
+    
 
     this.httpService.register(this.tempUser).subscribe(data => {
 

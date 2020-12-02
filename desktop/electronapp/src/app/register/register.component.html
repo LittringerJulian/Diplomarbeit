@@ -2,7 +2,7 @@
     <form [formGroup]="form" (ngSubmit)="registerBefore()">
       <h2>Register</h2>
       <mat-error *ngIf="loginInvalid">
-        Error occurred
+        Email already exists!
       </mat-error>
       <mat-form-field class="full-width-input">
         <input matInput placeholder="firstname" formControlName="first" required >

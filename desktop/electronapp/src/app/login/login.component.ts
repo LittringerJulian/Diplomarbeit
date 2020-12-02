@@ -5,7 +5,7 @@ import { User_new } from '../user_new';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { HmacSHA256 } from 'crypto-js'
 
 
 
@@ -53,7 +53,7 @@ export class LoginComponent {
 
 login2(){
 this.newUser.email=this.form.get('email').value;
-this.newUser.password=this.form.get('password').value;
+this.newUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136f4c5fb3cf1988e46a3b177902911d7ea7833465eaaae05e14a82").toString();
 
 
   this.httpService.login(this.newUser).subscribe(data => {

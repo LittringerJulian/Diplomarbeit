@@ -45,11 +45,42 @@ register(user:User_id){
 }
 
 saveScheme(scheme:Scheme){
-  return this.http.post('http://localhost:3000/insertScheme',scheme,{responseType: 'text'});
+  let token = localStorage.getItem('token');
+  //let headers = new HttpHeaders().set('responseType', 'text');//.set('Authorization',`Bearer ${token}`);
+  
+  const options  = {
+    headers: new HttpHeaders().set('Authorization',`Bearer ${token}`),
+    responseType: 'text' as 'text'};
+  //console.log(headers);
+  return this.http.post('http://localhost:3000/insertScheme',scheme,options);
+  
+}
+
+getSchemeByUserId(){
+  let token = localStorage.getItem('token');
+  //let headers = new HttpHeaders().set('responseType', 'text');//.set('Authorization',`Bearer ${token}`);
+  
+  const options  = {
+    headers: new HttpHeaders().set('Authorization',`Bearer ${token}`),
+    responseType: 'text' as 'text'};
+  //console.log(headers);
+  return this.http.get('http://localhost:3000/getSchemeByUserId',options);
+  
 }
 
 getScheme(json){
   console.log(json);
   return this.http.post('http://localhost:3000/getScheme',json,{responseType: 'text'});
+}
+
+insertPublicScheme(json){
+  let token = localStorage.getItem('token');
+
+  console.log()
+  const options  = {
+    headers: new HttpHeaders().set('Authorization',`Bearer ${token}`),
+    responseType: 'text' as 'text'};
+
+  return this.http.post('http://localhost:3000/insertPublicScheme/',json,options);
 }
 }

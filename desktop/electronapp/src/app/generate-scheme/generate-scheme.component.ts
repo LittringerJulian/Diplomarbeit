@@ -5,6 +5,7 @@ import { HttpService } from '../http.service';
 import { Scheme } from '../scheme';
 import { MatDialog } from '@angular/material';
 import { SchemeNameComponent } from '../scheme-name/scheme-name.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -14,9 +15,12 @@ import { SchemeNameComponent } from '../scheme-name/scheme-name.component';
 })
 export class GenerateSchemeComponent implements OnInit {
   public isMenuOpen: boolean = false;
-
+  formGroup: FormGroup;
+  isChecked = true;
   array = []
-
+  elementWidth = 10;
+  elementHeight = 10;
+  format = 'Landscape';
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -25,44 +29,32 @@ export class GenerateSchemeComponent implements OnInit {
 
   newScheme: Scheme = new Scheme();
 
-  element: HTMLElement;
   contentWidth;
   contentHeight;
   el: HTMLElement
 
 
-  constructor(private httpService: HttpService, public dialog: MatDialog) { }
+  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
-    this.el = document.getElementById('snavcontent');
+    this.el = document.getElementById('scheme');
     this.contentHeight = this.el.offsetHeight;
     this.contentWidth = this.el.offsetWidth;
 
-  }
-
-  cdkDragReleased(event, item, i) {
-
-    //item.posx=event.source.getFreeDragPosition().x;
-    //item.posy=event.source.getFreeDragPosition().y;
-
-    this.array[i].posx = event.source.getFreeDragPosition().x;
-    this.array[i].posy = event.source.getFreeDragPosition().y;
-    this.array[i].percentagex = this.round((event.source.getFreeDragPosition().x) / this.el.offsetWidth, 2);
-    this.array[i].percentagey = this.round((event.source.getFreeDragPosition().y) / this.el.offsetHeight, 2);
-
-
-    console.log(this.array[i].posx);
-
-    console.log(this.array.length)
-
-
-
+    console.log(this.contentWidth);
 
   }
+
+
 
   addArray(identifier, specification) {
-    this.array.push(new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight))
-    this.element = document.getElementById("snavcontent");
+
+    this.array.push(new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight))
+
+    console.log(this.array[0])
+    console.log(this.array[1])
 
     /*console.log(this.contentHeight )
     this.el = document.getElementById('snavcontent');
@@ -82,6 +74,7 @@ export class GenerateSchemeComponent implements OnInit {
       console.log(result)
       if (result != undefined) {
         this.newScheme.name = result;
+        this.newScheme.format=this.format;
         this.httpService.saveScheme(this.newScheme).subscribe(data => {
 
           console.log(data);
@@ -91,30 +84,38 @@ export class GenerateSchemeComponent implements OnInit {
     })
 
   }
+  checkChange() {
 
-  round(value, precision) {
-    var multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
-  }
+    if (this.isChecked) {
+      this.elementWidth = 10;
+      this.elementHeight = 10;
+      this.format = 'Landscape';
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    //console.log(event.target.innerWidth);
-    //console.log(this.el.offsetHeight)
-    //this.contentWidth=this.el.offsetWidth;
-    this.draw(this.el.offsetHeight, this.el.offsetWidth);
-  }
+      this.array = [];
+      this.el.style.width = '80%';
 
-  draw(height: number, width: number) {
-    for(let i = 0;i<this.array.length;i++){
-      //console.log(height);
-      this.array[i].posx=width*this.array[i].percentagex ;
-      //console.log(this.array[i].posx)
-      this.array[i].posy=height*this.array[i].percentagey ;
+      this.el.style.paddingBottom = 'calc(80%*(9/16))';
+      this.contentHeight = this.el.offsetHeight;
+      this.contentWidth = this.el.offsetWidth;
+    }
+    else {
+      this.elementWidth = 20;
+      this.elementHeight = 20;
+      this.format = 'Portrait';
 
-      //console.log(this.array[i].posx);
+      this.array = [];
+      this.el.style.width = '25%';
 
+      this.el.style.paddingBottom = 'calc(25%*(16/9))';
+
+      this.contentHeight = this.el.offsetHeight;
+      this.contentWidth = this.el.offsetWidth;
     }
   }
+
+
+
+
+
 
 }

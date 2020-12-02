@@ -64,14 +64,24 @@ exports.init = (req, res) => {
 
 //insert new Scheme
 exports.insertScheme = (req, res) => {
+
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  let payload;
+  payload = jwt.verify(token, process.env.TOKEN_SECRET)
+  console.log(payload)
   mongoUtil.connectToServer(function (err, client) {
     if (err) console.log(err);
 
     const db = mongoUtil.getDB();
 
     var newScheme = new Scheme();
-    newScheme.content=req.body.content;
-    newScheme.name=req.body.name;
+    newScheme.content = req.body.content;
+    newScheme.name = req.body.name;
+    newScheme.format = req.body.format;
+    newScheme.userid = ObjectID(payload);
 
 
 
@@ -90,8 +100,8 @@ exports.getSchemeById = (req, res) => {
     const db = mongoUtil.getDB();
 
 
-    
-    
+
+
 
     //var string = JSON.parse(req.body.id);
     //var objectid=new ObjectID(req.params.id);
@@ -106,6 +116,80 @@ exports.getSchemeById = (req, res) => {
   });
 };
 
+exports.getSchemeByUserId = (req, res) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  let payload;
+  payload = jwt.verify(token, process.env.TOKEN_SECRET)
+
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+
+    //var string = JSON.parse(req.body.id);
+    //var objectid=new ObjectID(req.params.id);
+
+    db.collection("Scheme")
+      .find({ userid: ObjectID(payload) })
+      .toArray(function (err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.send(result)
+      });
+  });
+};
+
+//insert into PublicScheme
+exports.insertPublicScheme = (req, res) => {
+
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  //verify Token
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+
+
+    //connecttoDb
+    mongoUtil.connectToServer(function (err, client) {
+      if (err) console.log(err);
+
+      const db = mongoUtil.getDB();
+      var myobj = {
+        Schemeid: ObjectID,
+        tags:[]
+      };
+      myobj.Schemeid = ObjectID(req.body.schemeid);
+      myobj.tags= req.body.tags;
+      
+
+      //find if exists
+      db.collection("PublicScheme")
+        .find({ Schemeid: myobj.Schemeid })
+        .toArray(function (err, result) {
+          if (err) throw err;
+          if (result.length > 0) {
+            console.log("found");
+            res.send("found")
+          }
+          else {
+
+            //insert
+            db.collection("PublicScheme").insertOne(myobj, function (err, result) {
+              if (err) throw err;
+              res.send("inserted")
+
+            });
+          }
+        });
+    });
+  })
+};
 
 
 exports.insert = (req, res) => {
@@ -141,7 +225,7 @@ exports.insert2 = (req, res) => {
     newUser.email = req.body.email;
     newUser.sex = req.body.sex;
     newUser.password = req.body.password;
-    
+
 
     const db = mongoUtil.getDB();
     console.log(req.body.email);
@@ -164,7 +248,7 @@ exports.insert2 = (req, res) => {
         } else {
           console.log(result);
 
-          newUser.inserted="emailexists"
+          newUser.inserted = "emailexists"
 
           console.log("email already exists");
           res.send(newUser);
@@ -180,8 +264,8 @@ exports.login = (req, res) => {
     const db = mongoUtil.getDB();
 
     var newUser = new User_new();
-    console.log("email:"+req.body.email)
-    console.log("password:"+req.body.password)
+    console.log("email:" + req.body.email)
+    console.log("password:" + req.body.password)
 
     db.collection("User")
       .find({ email: req.body.email, password: req.body.password })
@@ -191,10 +275,10 @@ exports.login = (req, res) => {
         if (result.length > 0) {
 
           var json = {
-            "id":result[0].id,
-            "firstname":result[0].firstname,
-            "email":result[0].email,
-            "found":"success",
+            "id": result[0].id,
+            "firstname": result[0].firstname,
+            "email": result[0].email,
+            "found": "success",
           }
           newUser.found = "success";
           //newUser.id = result[0].id;
@@ -260,32 +344,43 @@ exports.update = (req, res) => {
 exports.authenticateJWT = (req, res) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  if (token == null) return res.sendStatus(401) 
+  if (token == null) return res.sendStatus(401)
+
+  let payload;
+  payload = jwt.verify(token, process.env.TOKEN_SECRET)
+  console.log("payload: " + payload);
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     console.log(err)
     if (err) return res.sendStatus(403)
     //eq.user = user
+
     res.send("allowed");
   })
 
 };
 
 exports.generateJWT = (req, res) => {
- 
+
 
   console.log(req.body.id)
   console.log(jwt.sign(req.body.id, process.env.TOKEN_SECRET));
+
   var token = jwt.sign(req.body.id, process.env.TOKEN_SECRET);
   res.send(token);
 };
 
 exports.generateJWT2 = (req, res) => {
- 
+
 
   console.log(req.params.id)
+  const id = req.params.id;
   console.log(jwt.sign(req.params.id, process.env.TOKEN_SECRET));
-  var token = jwt.sign(req.params.id, process.env.TOKEN_SECRET);
+  //var token = jwt.sign(req.params.id, process.env.TOKEN_SECRET);
+  const token = jwt.sign(id, process.env.TOKEN_SECRET, {
+    algorithm: "HS256"
+  })
+
   res.send(token);
 };
 
@@ -293,16 +388,16 @@ exports.generateJWT2 = (req, res) => {
 exports.getIdByMail = (req, res) => {
   const db = mongoUtil.getDB();
 
- 
+
   db.collection("User")
-  .find({ email: req.body.email })
-  .toArray(function (err, result) {
-    if (result.length == 0) {
-      res.send("No User found")
-     
-    } else {
-      res.send(result[0]._id);
-    }
-  });
-  
+    .find({ email: req.body.email })
+    .toArray(function (err, result) {
+      if (result.length == 0) {
+        res.send("No User found")
+
+      } else {
+        res.send(result[0]._id);
+      }
+    });
+
 };

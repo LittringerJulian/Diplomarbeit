@@ -1,12 +1,11 @@
 #outer{
-    //width: 100%;
-    //height:100%;
+
     border-radius: 100%;
     border:1px solid black;
-    //margin:auto;
+    
     text-align:center;
     user-select: none;
-    cursor:move;
+    
     position: absolute;
 }
 
@@ -22,14 +21,3 @@
 }
 
 
-.component{
-   
- 
-    text-align:center;
-    user-select: none;
-    cursor:move;
-    position: absolute;
-   
-    display:block;
-   }
-   
