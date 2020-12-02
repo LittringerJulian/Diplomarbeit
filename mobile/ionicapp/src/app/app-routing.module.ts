@@ -15,6 +15,20 @@ const routes: Routes = [
     redirectTo: 'connectToDesktop',
     pathMatch: 'full'
   },
+  {
+    path: 'laserpointer',
+    loadChildren: () => import('./pages/laserpointer/laserpointer.module').then( m => m.LaserpointerPageModule)
+  },
+  {
+    path: 'accelerometer-mouse',
+    loadChildren: () => import('./pages/accelerometer-mouse/accelerometer-mouse.module').then( m => m.AccelerometerMousePageModule)
+  },  {
+    path: 'image-clipboard',
+    loadChildren: () => import('./pages/image-clipboard/image-clipboard.module').then( m => m.ImageClipboardPageModule)
+  },
+
+
+
 
 ];
 

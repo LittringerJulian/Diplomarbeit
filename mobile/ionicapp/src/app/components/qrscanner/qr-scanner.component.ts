@@ -3,6 +3,7 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions } from
 import jsQr from 'jsQr';
 import { HttpService } from 'src/app/services/http.service';
 import { WebsocketService } from "../../services/websocket.service";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-qr-scanner',
@@ -12,8 +13,10 @@ import { WebsocketService } from "../../services/websocket.service";
 export class QrScannerComponent {
     qrData: any = "";
     counter = 0;
+    cameraSizeX
+    cameraSizeY
 
-    constructor(private cameraPreview: CameraPreview, private socket: WebsocketService, private http: HttpService) {
+    constructor(private cameraPreview: CameraPreview, private socket: WebsocketService, private http: HttpService, private router: Router) {
     }
 
     ngAfterViewInit() {
@@ -34,17 +37,13 @@ export class QrScannerComponent {
     }
 
     initCamera() {
-        let cameraSize = Math.floor(window.screen.width * 0.8);
-        let cameraMargin = Math.floor(window.screen.width * 0.1);
+        this.cameraSizeX = window.screen.width
+        this.cameraSizeY = Math.floor(window.screen.height * 0.8)
 
         const cameraPreviewOpts: CameraPreviewOptions = {
             camera: 'back',
-            //width: cameraSize,
-            //height: cameraSize,
-            //x: cameraMargin,
-            //y: cameraMargin * 5,
-            width: window.screen.width,
-            height: Math.floor(window.screen.height * 0.8),
+            width: this.cameraSizeX,
+            height: this.cameraSizeY,
             x: 0,
             y: 0,
             toBack: true,
@@ -62,16 +61,15 @@ export class QrScannerComponent {
     }
 
     async scan() {
-        let scanSize = 1024;
-        let scanQuality = 100;
+        let scanQuality = 75;
         let base64data = "";
 
         // loop condition
         let scanAgain = true;
 
         const pictureOpts: CameraPreviewPictureOptions = {
-            width: scanSize,
-            height: scanSize,
+            width: this.cameraSizeX,
+            height: this.cameraSizeY,
             quality: scanQuality
         }
 
@@ -79,8 +77,8 @@ export class QrScannerComponent {
         // ouput: base64 image
         //
         // the same image is loaded into an image object
-        // which then is put onto a canvas
-        // the canvas finally returns an imageData object,
+        // which then is put on a canvas
+        // the canvas finally return an imageData object
         // which is the correct format to use in the jsQr library
         this.cameraPreview.takeSnapshot(pictureOpts).then((snapshotData) => {
             base64data = 'data:image/jpeg;base64,' + snapshotData;
@@ -108,10 +106,10 @@ export class QrScannerComponent {
                 // scan is repeated until success or termination by user
                 if (this.qrData != "" && this.qrData != null) {
                     this.qrData = this.qrData.data
-
+                    
                     console.log(this.qrData + " init socket")
-                    //this.requestSocketConnection()
-                    if (this.initSocket()) {
+                    if(this.initSocket()){
+                        this.router.navigate(["/", "home"])
                         this.cameraPreview.stopCamera()
                     }
                 }
@@ -125,6 +123,10 @@ export class QrScannerComponent {
             console.log("Scan failed.");
         });
 
+    }
+
+    ngOnDestroy(){
+        this.cameraPreview.stopCamera()
     }
 }
 

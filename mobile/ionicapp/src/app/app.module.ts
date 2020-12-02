@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -15,6 +16,11 @@ import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 
 
+import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native/gyroscope/ngx';
+import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
+
+
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,12 +28,15 @@ import { HttpClientModule } from '@angular/common/http';
     imports: [
         BrowserModule,
         HttpClientModule,
+        FormsModule,
         IonicModule.forRoot(),
         AppRoutingModule],
     providers: [
         StatusBar,
         SplashScreen,
         CameraPreview,
+        Gyroscope,
+        DeviceMotion,
         WebsocketService,
         HttpService,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { webSocket } from 'rxjs/webSocket';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 
 
 @Injectable({
@@ -8,6 +8,7 @@ import { webSocket } from 'rxjs/webSocket';
 export class WebsocketService {
 
   websocket: any;
+  socketUri: string;
 
   constructor() {
 
@@ -15,15 +16,10 @@ export class WebsocketService {
 
   connect(socketUri) {
     try {
+      
       this.websocket = webSocket("ws://" + socketUri + ":80");
+      this.websocket.subscribe()
 
-      /*this.websocket.subscribe((msg) => {
-        console.log("msg: " + msg)
-
-      }, (err) => {
-        console.log("err: " + err)
-      })
-      */
      return true
     } catch (e) {
       return false;
@@ -32,8 +28,15 @@ export class WebsocketService {
 
 
   sendData(data) {
-    this.websocket.subscribe()
     this.websocket.next(data)
+  }
+
+  close(){
     this.websocket.complete()
   }
+
+
+  //todo
+  // .on()
+  // .emit()
 }

@@ -19,7 +19,7 @@
 
 
 <div id="content" *ngIf="this.qrCodeIsSet">
-  <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType"></qrcode>
+    <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType"></qrcode>
 </div>
 <button (click)="logout()">logout</button>
 <button (click)="scheme()">generate scheme</button>
@@ -27,7 +27,4 @@
 <button (click)="myschemes()">my schemes</button>
 
 
-
-
-
-
+<div id="imageClipboardDiv"></div>

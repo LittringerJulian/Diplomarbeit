@@ -33,6 +33,7 @@ export class DialogBodyComponent implements OnInit {
     }
     else{
       this.dialogRef.close(allowed);
+      //this.router.navigate(['/navigation']);  
 
     }
 
