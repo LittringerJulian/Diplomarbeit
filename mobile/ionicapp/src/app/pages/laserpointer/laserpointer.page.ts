@@ -19,7 +19,7 @@ export class LaserpointerPage {
 
   listener
   throttle = false;
-  throttletickrate = 100;
+  throttletickrate = 60;
 
   ngAfterViewInit() {
     this.startGyro()
