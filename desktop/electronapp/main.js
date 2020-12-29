@@ -146,8 +146,8 @@ function createWindow() {
 
         width: 1280,
         height: 720,
-        minHeight : 720,
-        minWidth : 1280,
+        minHeight: 720,
+        minWidth: 1280,
 
         titleBarStyle: "hidden",
         resizable: true,
@@ -165,12 +165,12 @@ function createWindow() {
             slashes: true,
         })
     );
-    mainWindow.on('resize', function () {
-        
-          var size = mainWindow.getSize();
-          mainWindow.setSize(size[0], parseInt(size[0] * 9 / 16));
-        
-      });
+    mainWindow.on('resize', function() {
+
+        var size = mainWindow.getSize();
+        mainWindow.setSize(size[0], parseInt(size[0] * 9 / 16));
+
+    });
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
     mainWindow.on("closed", function() {

@@ -19,9 +19,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native/gyroscope/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
 
-
-
-
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],

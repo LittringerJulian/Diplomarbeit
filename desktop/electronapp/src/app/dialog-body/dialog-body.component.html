@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>A new Device wants to connect!</h1>
 <div mat-dialog-content></div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close  (click)="allow(true)">Accept</button>
-  <button mat-button   (click)="allow(false)">Deny</button>
+    <button mat-button [mat-dialog-close]="true">Accept</button>
+    <button mat-button [mat-dialog-close]="false">Deny</button>
 
 </div>

@@ -16,11 +16,13 @@ export class QrScannerAndroidComponent {
   canvasElement: any
   canvasContext: any
 
+  videoReady = false;
+
   constructor(private socket: WebsocketService) { }
 
   async startScan(){
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { width: window.innerHeight, height: window.innerWidth, facingMode: { exact: 'environment' } }
+      video: { width: window.innerHeight, height: window.innerWidth, facingMode: "environment" }
     })
 
     this.videoElement.srcObject = stream
@@ -35,6 +37,7 @@ export class QrScannerAndroidComponent {
 
   scan(){
     if(this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA){
+      this.videoReady = true
       
       this.canvasElement.height = this.videoElement.height
       this.canvasElement.width = this.videoElement.width
@@ -44,7 +47,7 @@ export class QrScannerAndroidComponent {
       
       this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
-    console.log(this.qrData);
+      console.log(this.qrData);
 
 
       if(this.qrData){

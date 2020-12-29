@@ -21,6 +21,7 @@ export class WebsocketService {
       this.websocket = webSocket("ws://" + socketUri + ":80");
       this.websocket.subscribe()
       this.router.navigate(["/", "home"])
+      
      return true
     } catch (e) {
       return false;

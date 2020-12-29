@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins } from "@capacitor/core"
 const { CameraPreview } = Plugins;
-import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
+import { CameraPreviewOptions, CameraPreviewPictureOptions } from '@capacitor-community/camera-preview';
 import { WebsocketService } from 'src/app/services/websocket.service';
-import { CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
 
 @Component({
   selector: 'app-image-clipboard',
@@ -25,30 +24,32 @@ export class ImageClipboardPage {
   }
 
   initCamera() {
+    
+    this.imgQuality = 100;
     this.cameraSizeX = window.screen.width
-    this.cameraSizeY = Math.floor(window.screen.height * 0.8)
+    this.cameraSizeY = window.screen.height
 
     const cameraPreviewOptions: CameraPreviewOptions = {
       position: 'rear',
-      width: this.cameraSizeX,
-      height: this.cameraSizeY,
       x: 0,
       y: 0,
+      toBack: true,
     };
+
     CameraPreview.start(cameraPreviewOptions);
   }
 
-    async takePhoto(){
-      this.imgQuality = 100;
-
-      const cameraPreviewPictureOptions: CameraPreviewPictureOptions = {
-          width: this.cameraSizeX,
-          height: this.cameraSizeY,
-          quality: this.imgQuality
-      }
-
-      const result = await CameraPreview.capture(cameraPreviewPictureOptions).then((base64data) => {
-        this.sendData(base64data)});
+  async takePhoto() {
+    const cameraPreviewPictureOptions: CameraPreviewPictureOptions = {
+      width: 1080,
+      height: 1920,
+      quality: this.imgQuality
+    }
+    const result = await CameraPreview.capture(cameraPreviewPictureOptions).then((base64data) => {
+      console.log(window.screen.width, window.screen.height);
+      
+      this.sendData(base64data)
+    });
   }
 
   sendData(img) {
@@ -56,7 +57,11 @@ export class ImageClipboardPage {
     this.socket.sendData(data)
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     CameraPreview.stop();
+  }
+
+  flipCamera() {
+    CameraPreview.flip();
   }
 }
