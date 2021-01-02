@@ -24,8 +24,11 @@ module.exports = app => {
     app.post("/getScheme",jsonParser,statistics.getSchemeById);
     app.get("/getSchemeByUserId",jsonParser,statistics.getSchemeByUserId);
     app.post("/insertPublicScheme",jsonParser,statistics.insertPublicScheme);
-
-
+    //app.get("/findAllPublic",jsonParser,  statistics.findAllPublic);
     
+    app.post("/updateScheme", jsonParser,statistics.updateScheme);
     
+    app.get("/findAllPublic",jsonParser,  statistics.getPublic);
+    app.get("/getUserInfo",jsonParser,  statistics.getUserInformation);
+
 };

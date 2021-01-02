@@ -10,6 +10,7 @@ import { Element } from '../element';
 export class UiElementComponent implements OnInit {
 
   @Input() element :Element;
+  @Input() format : String;
 
   contentWidth;
   contentHeight;

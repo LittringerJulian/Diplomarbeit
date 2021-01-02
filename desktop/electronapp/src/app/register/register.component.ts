@@ -24,6 +24,8 @@ export class RegisterComponent implements OnInit {
   authUser: User_new = new User_new();
   token;
 
+  userinfo;
+
   public loginInvalid: boolean;
 
 
@@ -68,7 +70,16 @@ export class RegisterComponent implements OnInit {
             console.log("token set")
             console.log("Token:" + localStorage.getItem('token'));
 
-            this.router.navigate(['/qrcode']);
+            this.httpService.getUserInformation().subscribe(data =>{
+              this.userinfo = JSON.parse(data)
+              localStorage.setItem('imperiofname', this.userinfo.firstname)
+              localStorage.setItem('imperiolname', this.userinfo.lastname)
+              localStorage.setItem('imperioemail', this.userinfo.email)
+
+              this.router.navigate(['/qrcode']);
+
+            })
+
           }
 
         })
@@ -95,6 +106,10 @@ export class RegisterComponent implements OnInit {
     } else {
       this.formSubmitAttempt = true;
     }
+  }
+
+  goToLogin(){
+    this.router.navigate(['/login']);
   }
 
 }

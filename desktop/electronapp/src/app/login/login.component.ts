@@ -31,6 +31,8 @@ export class LoginComponent {
   authUser: User = new User()
   token;
 
+  userinfo;
+
 
   constructor(private fb: FormBuilder,private httpService: HttpService, private router: Router) { }
 
@@ -51,7 +53,7 @@ export class LoginComponent {
 
 }
 
-login2(){
+ login2(){
 this.newUser.email=this.form.get('email').value;
 this.newUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136f4c5fb3cf1988e46a3b177902911d7ea7833465eaaae05e14a82").toString();
 
@@ -81,7 +83,21 @@ this.newUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136
             console.log("token set")
             console.log("Token:" + localStorage.getItem('token'));
 
-            this.router.navigate(['/qrcode']);
+            //TODO getUserInfo
+
+            this.httpService.getUserInformation().subscribe(data =>{
+              this.userinfo = JSON.parse(data)
+              localStorage.setItem('imperiofname', this.userinfo.firstname)
+              localStorage.setItem('imperiolname', this.userinfo.lastname)
+              localStorage.setItem('imperioemail', this.userinfo.email)
+        
+        
+        
+              this.router.navigate(['/qrcode']);
+        
+            })
+
+
           }
 
         })
@@ -117,6 +133,11 @@ this.newUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136
   }
   delete(){
     localStorage.setItem('token', null)
+
+  }
+
+  async getUserInfoLogin(){
+    
 
   }
 

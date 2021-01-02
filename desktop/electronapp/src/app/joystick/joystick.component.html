@@ -3,6 +3,9 @@
         <div id="inner"></div>
     </div>
 </div> -->
-<div id="outer" [ngStyle]="{'width.%':(element.width ),'padding-bottom.%':(element.height)}"  cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
+<div *ngIf="format=='Portrait'" id="outer" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 9/16)}"  cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
+    <div id="inner"></div>
+</div>
+<div *ngIf="format=='Landscape'" id="outer" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 16/9)}"  cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
     <div id="inner"></div>
 </div>

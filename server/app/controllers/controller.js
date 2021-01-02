@@ -62,6 +62,31 @@ exports.init = (req, res) => {
 };
 
 
+//getPublicSchemes
+exports.getPublic = (req, res) => {
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+
+
+
+
+    //var string = JSON.parse(req.body.id);
+    //var objectid=new ObjectID(req.params.id);
+
+    db.collection("Scheme")
+      .find({ published:true  })
+      .toArray(function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result)
+      });
+  });
+};
+
+
 //insert new Scheme
 exports.insertScheme = (req, res) => {
 
@@ -82,6 +107,8 @@ exports.insertScheme = (req, res) => {
     newScheme.name = req.body.name;
     newScheme.format = req.body.format;
     newScheme.userid = ObjectID(payload);
+    newScheme.published=req.body.published;
+    newScheme.tags=req.body.tags;
 
 
 
@@ -162,11 +189,11 @@ exports.insertPublicScheme = (req, res) => {
       const db = mongoUtil.getDB();
       var myobj = {
         Schemeid: ObjectID,
-        tags:[]
+        tags: []
       };
       myobj.Schemeid = ObjectID(req.body.schemeid);
-      myobj.tags= req.body.tags;
-      
+      myobj.tags = req.body.tags;
+
 
       //find if exists
       db.collection("PublicScheme")
@@ -190,6 +217,8 @@ exports.insertPublicScheme = (req, res) => {
     });
   })
 };
+
+
 
 
 exports.insert = (req, res) => {
@@ -360,6 +389,39 @@ exports.authenticateJWT = (req, res) => {
 
 };
 
+exports.updateScheme = (req, res) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  let payload;
+  payload = jwt.verify(token, process.env.TOKEN_SECRET)
+
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+    console.log(req.body._id)
+    var myquery = { _id: ObjectID(req.body._id) };
+    var newScheme = new Scheme();
+    newScheme.content = req.body.content;
+    newScheme.name = req.body.name;
+    newScheme.format = req.body.format;
+    newScheme.userid = ObjectID(payload);
+    newScheme.published=req.body.published;
+    newScheme.tags=req.body.tags;
+
+    var newvalues = { $set: newScheme };
+
+    db.collection("Scheme").updateOne(myquery, newvalues, function (err, result) {
+      if (err) throw err;
+      console.log("1 Scheme updated");
+      res.send("updated");
+    });
+  });
+};
+
 exports.generateJWT = (req, res) => {
 
 
@@ -401,3 +463,34 @@ exports.getIdByMail = (req, res) => {
     });
 
 };
+
+exports.getUserInformation = (req, res) => {
+
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  let payload;
+  payload = jwt.verify(token, process.env.TOKEN_SECRET)
+
+  var userid = ObjectID(payload);
+
+  const db = mongoUtil.getDB();
+
+
+  console.log(payload)
+  db.collection("User")
+    .find({ _id:userid })
+    .toArray(function (err, result) {
+      var json = {
+        "firstname": result[0].firstname,
+        "lastname": result[0].lastname,
+        "email": result[0].email
+      }
+      console.log(json)
+      res.send(json)
+    });
+
+};
+
+

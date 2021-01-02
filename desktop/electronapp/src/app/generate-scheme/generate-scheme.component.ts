@@ -3,9 +3,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Element } from '../element';
 import { HttpService } from '../http.service';
 import { Scheme } from '../scheme';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { SchemeNameComponent } from '../scheme-name/scheme-name.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -32,9 +33,10 @@ export class GenerateSchemeComponent implements OnInit {
   contentWidth;
   contentHeight;
   el: HTMLElement
+  
 
 
-  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder) {
+  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder,private router: Router,private snackBar: MatSnackBar) {
 
   }
 
@@ -65,23 +67,33 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   saveScheme() {
+    if(this.array.length>0){
+      this.newScheme.content = this.array;
 
-    this.newScheme.content = JSON.stringify(this.array);
+      let dialogRef = this.dialog.open(SchemeNameComponent);
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result)
+        if (result != undefined) {
+          this.newScheme.name = result;
+          this.newScheme.format=this.format;
+          
+          this.httpService.saveScheme(this.newScheme).subscribe(data => {
+  
+            if(data=="Scheme inserted"){
+              this.openSnackbar("Saved Scheme")
+            }
+          })
+        }
+  
+      })
+    }
 
-    let dialogRef = this.dialog.open(SchemeNameComponent);
+    else{
+      this.openSnackbar("Schem is Empty!")
+    }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      if (result != undefined) {
-        this.newScheme.name = result;
-        this.newScheme.format=this.format;
-        this.httpService.saveScheme(this.newScheme).subscribe(data => {
-
-          console.log(data);
-        })
-      }
-
-    })
+    
 
   }
   checkChange() {
@@ -92,9 +104,9 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Landscape';
 
       this.array = [];
-      this.el.style.width = '80%';
+      this.el.style.width = '70%';
 
-      this.el.style.paddingBottom = 'calc(80%*(9/16))';
+      this.el.style.paddingBottom = 'calc(70%*(9/16))';
       this.contentHeight = this.el.offsetHeight;
       this.contentWidth = this.el.offsetWidth;
     }
@@ -115,7 +127,15 @@ export class GenerateSchemeComponent implements OnInit {
 
 
 
+  home(){
+    this.router.navigate(['/qrcode']);
+  }
 
-
+  openSnackbar(Message){
+    this.snackBar.open(Message, '', {
+      duration: 3000,
+      panelClass: ['simple-snack-bar']
+    });
+  }
 
 }

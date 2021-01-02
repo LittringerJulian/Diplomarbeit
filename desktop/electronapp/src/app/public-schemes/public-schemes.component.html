@@ -1,0 +1,51 @@
+<mat-toolbar color="primary" class="example-toolbar">
+  
+    <button mat-icon-button color="accent" (click)="home()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  
+  
+    </mat-toolbar>
+    <div id="content">
+  <div *ngFor="let item of array;let i = index" class="card"> 
+      <mat-card class="scheme-card" >
+          <mat-card-header>
+            
+            <mat-card-title>{{item.name}}</mat-card-title>
+            <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+  
+            <div id="scheme" *ngIf="item.format=='Landscape'">
+              <div *ngFor="let item2 of array[i].content;let j = index" >
+                
+                <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
+  
+                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+               
+               </div>
+              </div> 
+              <div id="scheme2" *ngIf="item.format=='Portrait'">
+                <div *ngFor="let item2 of array[i].content;let j = index" >
+                  
+                  <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
+    
+                  <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+                 
+                 </div>
+                </div> 
+  
+                <br>
+                <a>Tags: {{item.tags}}</a>
+
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="accent" (click)="insertScheme(item)">Download </button>
+            
+            
+          </mat-card-actions>
+        </mat-card>
+        <br>
+      </div>
+      </div>
+  

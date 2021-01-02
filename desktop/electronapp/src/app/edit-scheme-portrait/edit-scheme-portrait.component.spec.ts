@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectSchemeComponent } from './select-scheme.component';
+import { EditSchemePortraitComponent } from './edit-scheme-portrait.component';
 
-describe('SelectSchemeComponent', () => {
-  let component: SelectSchemeComponent;
-  let fixture: ComponentFixture<SelectSchemeComponent>;
+describe('EditSchemePortraitComponent', () => {
+  let component: EditSchemePortraitComponent;
+  let fixture: ComponentFixture<EditSchemePortraitComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectSchemeComponent ]
+      declarations: [ EditSchemePortraitComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectSchemeComponent);
+    fixture = TestBed.createComponent(EditSchemePortraitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpenSchemeComponent } from './open-scheme.component';
+import { EditSchemeComponent } from './edit-scheme.component';
 
-describe('OpenSchemeComponent', () => {
-  let component: OpenSchemeComponent;
-  let fixture: ComponentFixture<OpenSchemeComponent>;
+describe('EditSchemeComponent', () => {
+  let component: EditSchemeComponent;
+  let fixture: ComponentFixture<EditSchemeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OpenSchemeComponent ]
+      declarations: [ EditSchemeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpenSchemeComponent);
+    fixture = TestBed.createComponent(EditSchemeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

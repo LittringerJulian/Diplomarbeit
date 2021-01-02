@@ -1,4 +1,13 @@
-<div *ngFor="let item of array;let i = index"> 
+<mat-toolbar color="primary" class="example-toolbar">
+  
+  <button mat-icon-button color="accent" (click)="home()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+
+  </mat-toolbar>
+  <div id="content">
+<div *ngFor="let item of array;let i = index" class="card"> 
     <mat-card class="scheme-card" >
         <mat-card-header>
           
@@ -10,18 +19,18 @@
           <div id="scheme" *ngIf="item.format=='Landscape'">
             <div *ngFor="let item2 of array[i].content;let j = index" >
               
-              <app-button  *ngIf="item2.identifier == 'button'" [element]="item2"></app-button> 
+              <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
 
-              <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2"></app-joystickpreview>
+              <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
              
              </div>
             </div> 
             <div id="scheme2" *ngIf="item.format=='Portrait'">
               <div *ngFor="let item2 of array[i].content;let j = index" >
                 
-                <app-button  *ngIf="item2.identifier == 'button'" [element]="item2"></app-button> 
+                <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
   
-                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2"></app-joystickpreview>
+                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
                
                </div>
               </div> 
@@ -29,8 +38,11 @@
         </mat-card-content>
         <mat-card-actions>
           <button id="button" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
-          
+          <button *ngIf="item.format == 'Landscape'" id="button" mat-raised-button color="accent" (click)="editScheme(item)">Bearbeiten</button>
+          <button *ngIf="item.format == 'Portrait'" id="button" mat-raised-button color="accent" (click)="editSchemePortrait(item)">Bearbeiten</button>
+
         </mat-card-actions>
       </mat-card>
       <br>
     </div>
+  </div>

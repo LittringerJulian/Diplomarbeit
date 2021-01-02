@@ -1,0 +1,58 @@
+<div id="all">
+  <mat-toolbar color="primary" class="example-toolbar">
+    
+    <button mat-icon-button color="accent" (click)="home()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
+
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="false">
+    <mat-sidenav #snav [mode]='push'opened id="sidenav">
+
+      <div class="example-box" (click)="addArray('button','')">
+        Button
+      </div>
+      <!--<div class="example-box" (click)="addArray('button','E')">
+        Button E
+      </div>
+      <div class="example-box" (click)="addArray('button','W')">
+        Button W
+      </div>-->
+      <div class="example-box" (click)="addArray('joystick','')">
+        joystick
+      </div>
+
+
+
+
+
+    </mat-sidenav>
+    <mat-sidenav-content id="snavcontent">
+
+
+      <div id="scheme" >
+        <div *ngFor="let item2 of elementArray.content;let j = index">
+
+          <app-button *ngIf="item2.identifier == 'button'" [element]="item2" [format]="format"></app-button>
+
+          <app-joystick *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="format"></app-joystick>
+
+        </div>
+      </div>
+      <!--<div id="scheme" *ngIf="elementArray.format=='Portrait'" [ngStyle]="{'width.%':(25 )}"
+        style="padding-bottom:calc(25% * (16/9))">
+        <div *ngFor="let item2 of elementArray.content;let j = index">
+
+          <app-button *ngIf="item2.identifier == 'button'" [element]="item2"></app-button>
+
+          <app-joystick *ngIf="item2.identifier == 'joystick'" [element]="item2"></app-joystick>
+
+
+        </div>
+      </div>-->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>

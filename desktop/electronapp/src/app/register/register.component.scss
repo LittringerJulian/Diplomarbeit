@@ -9,3 +9,11 @@ div{
     display: block;
 
   }
+
+  #loginText{
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  #loginText:hover{
+    text-decoration: none;
+  }

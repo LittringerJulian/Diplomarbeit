@@ -1,3 +1,7 @@
-<div id="outer" [ngStyle]="{'width.%':(element.width ),'padding-bottom.%':(element.height),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100}">
+<div *ngIf="format=='Landscape'" id="outer" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 16/9),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100}">
+    <div id="inner"></div>
+</div>
+
+<div *ngIf="format=='Portrait'" id="outer" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 9/16),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100}">
     <div id="inner"></div>
 </div>

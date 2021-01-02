@@ -9,6 +9,7 @@ export class JoystickpreviewComponent implements OnInit {
 
 
   @Input() element :Element;
+  @Input() format : String;
   constructor() { }
 
   ngOnInit() {

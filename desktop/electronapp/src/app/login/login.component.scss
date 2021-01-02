@@ -15,3 +15,23 @@
     display: block;
 
   }
+  /*.mat-raised-button{
+    background-color:yellow !important;
+  }
+  ::ng-deep.mat-form-field-underline {
+    /*change color of underline*/
+    //background-color: green !important;
+  //} 
+  
+  /*::ng-deep.mat-form-field-ripple {
+   /*change color of underline when focused*/
+  // background-color: green !important;;
+ // }
+
+ #registerText{
+   text-decoration: underline;
+   cursor: pointer;
+ }
+ #registerText:hover{
+   text-decoration: none;
+ }

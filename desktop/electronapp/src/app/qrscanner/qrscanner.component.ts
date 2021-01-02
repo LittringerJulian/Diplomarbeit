@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
+import { DataService } from '../data.service';
 
 
 
@@ -31,12 +32,21 @@ export class QrscannerComponent implements OnInit {
   public width: number;
 
 
+  fname: String;
+  lname: String;
+  email: String;
+  container: HTMLCanvasElement
 
-  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog) {
+  container2:HTMLElement;
+
+
+
+
+  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog,private DataService: DataService) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
-    this.width = 512;
+    this.width = 500;
   }
 
   ngOnDestroy() {
@@ -55,26 +65,48 @@ export class QrscannerComponent implements OnInit {
       if (!(this.cd as ViewRef).destroyed) {
         this.cd.detectChanges()
         // do other tasks
+        
       }
 
     })
+    setTimeout(()=>this.getQrCode(),0)
+
   }
   ngOnInit() {
 
-  
 
-    //this.cd.detach();
+    this.fname = localStorage.getItem('imperiofname')
+    this.lname = localStorage.getItem('imperiolname')
+    this.email = localStorage.getItem('imperioemail')
+
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
       console.log(ws);
       let ref = this.dialog.open(DialogBodyComponent, ws);
       ref.afterClosed().subscribe(result => {
-        console.log(result);
         electron.ipcRenderer.send("WebSocketAccess", ws, result);
+
+        if(result==true){
+          console.log("add to list",ws.id)
+          this.DataService.DeviceArary.push(ws.id)
+
+          console.log(this.DataService.DeviceArary)
+        }
 
       })
 
+    })
+    
 
+    electron.ipcRenderer.on("removeDevice", (e, ws) => {
+          this.DataService.DeviceArary.forEach((element,index)=>{
+            if(element==ws.id){
+              this.DataService.DeviceArary.splice(index,1)
+              this.cd.detectChanges();
+
+
+            }
+          });
 
     })
 
@@ -86,20 +118,44 @@ export class QrscannerComponent implements OnInit {
 
   logout() {
     localStorage.setItem('token', null)
+    localStorage.setItem('imperiofname', null)
+    localStorage.setItem('imperiolname', null)
+    localStorage.setItem('imperioemail', null)
+
+
+    //todo remove connections
+    this.DataService.DeviceArary = []
+
+    electron.ipcRenderer.send("removeAllConnections");
+
+
     this.router.navigate(['/login']);
   }
   scheme() {
     this.router.navigate(['/scheme']);
   }
-  openscheme() {
-    this.router.navigate(['/open']);
-  }
   myschemes() {
     this.router.navigate(['/myschemes']);
   }
+  publicSchemes() {
+    this.router.navigate(['/publicschemes']);
+
+  }
 
 
-  scanned() {
+  getQrCode() {
+    //this.container = document.querySelector('img');
+    this.container2 = document.querySelector('img');
+
+    console.log(this.container)
+    console.log(this.container2)
+
+
+
+
+
+    this.container2.style.height = "100% " ;
+    this.container2.style.width = "100% " ;
 
   }
 

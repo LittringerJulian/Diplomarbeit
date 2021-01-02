@@ -2,8 +2,8 @@
 <div mat-dialog-content>
     <div>
         
-        <tag-input [ngModel]="items" [modelAsStrings]="true" (onAdd)="onAdd($event)">
-            <tag-input-dropdown [autocompleteItems]="autocompleteItems">
+        <tag-input [ngModel]="items" [modelAsStrings]="true" (onAdd)="onAdd($event)" (onRemove)="onRemove($event)" > 
+            <tag-input-dropdown [autocompleteItems]="autocompleteItems" color="primary">
             </tag-input-dropdown>
         </tag-input>
     </div>
@@ -12,6 +12,6 @@
        
     
      
-  <button mat-button mat-dialog-close  (click)="save()" >Veröffentlichen</button>
+  <button mat-button mat-dialog-close  (click)="save()"  >Veröffentlichen</button>
 
 </div>

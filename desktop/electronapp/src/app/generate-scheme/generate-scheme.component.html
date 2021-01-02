@@ -1,34 +1,51 @@
 <div class="example-container">
   <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
+    <div id="headerleft">
+      <button mat-icon-button color="accent" (click)="home()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    
+    <!--<button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="example-app-name">Create your own Scheme</h1>
-    <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
+    </button>-->
+    <a style="margin-right:1%">change Format</a>
+    <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" ></mat-slide-toggle>
 
-    <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" > {{format}}</mat-slide-toggle>
+    <div id="headerdiv">
+      <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>
+    </div>
 
 
     </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container">
-    <mat-sidenav #snav [mode]='over' id="sidenav">
+  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="false">
+    <mat-sidenav #snav [mode]='push' opened id="sidenav">
 
-      <div class="example-box" (click)="addArray('button','')">
+      <div  id="buttondiv" class="sidenavcomponents"  (click)="addArray('button','')">
+
+        <p id="text">Button</p>
+    </div>
+
+    <div  id="outer" class="sidenavcomponents" (click)="addArray('joystick','')">
+      <div id="inner"></div>
+  </div>
+
+      <!--<div class="example-box" (click)="addArray('button','')">
         Button
-      </div>
-      <div class="example-box" (click)="addArray('button','E')">
+      </div>-->
+      <!--<div class="example-box" (click)="addArray('button','E')">
         Button E
       </div>
       <div class="example-box" (click)="addArray('button','W')">
         Button W
-      </div>
-      <div class="example-box" (click)="addArray('joystick','')">
+      </div>-->
+     <!--<div class="example-box" (click)="addArray('joystick','')">
         joystick
-      </div>
+      </div>--> 
       <!--<div class="example-box" (click)="addArray('test','')">
         test
-      </div>-->
+      </div>--> 
      
 
 
@@ -39,10 +56,10 @@
       <div id="scheme">
       <div *ngFor="let item of array;let i = index" >
     
-        <app-button  *ngIf="item.identifier == 'button'" [element]="item"></app-button> 
+        <app-button  *ngIf="item.identifier == 'button'" [element]="item" [format]="format"></app-button> 
 
-        <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item"></app-joystick>
-        <app-ui-element *ngIf="item.identifier== 'test'"   [element]="item"></app-ui-element>
+        <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format"></app-joystick>
+        <app-ui-element *ngIf="item.identifier== 'test'"   [element]="item" [format]="format"></app-ui-element>
         
       </div>
     </div>

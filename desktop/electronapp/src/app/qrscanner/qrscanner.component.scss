@@ -5,6 +5,9 @@
 
 #content{
     overflow:hidden;
+    width:100%;
+    height:90%;
+    background-color: white;
 }
 
 /*.example-container {
@@ -20,3 +23,60 @@
     flex-direction: column;
     align-items: flex-start;
   }*/
+
+  .example-toolbar{
+    height:10%;
+    width:100%;
+    padding:0;
+  }
+
+  .navdiv{
+    height:100%;
+    width:25%;
+  }
+
+  .navbutton{
+    position: relative;
+    display: block;
+    width:50%;
+    height:50%;
+    margin:auto;
+    top:25%;
+  }
+  .innerdiv{
+    position: relative;
+    width:50%;
+    height:50%;
+    margin:auto;
+    top:25%;
+    text-align: center;
+    cursor:pointer;
+    text-decoration:underline;
+
+    
+    word-wrap: break-word;
+    white-space:pre-wrap;
+
+
+
+  }
+  .innerdiv:hover {
+    text-decoration:none;
+}
+
+#userinfo{
+  width:50%;
+  float:left;
+  height:50%;
+
+
+
+}
+
+
+
+#qrcodewrapper{
+  float:right;
+  width:50%;
+  height:90%;
+}
