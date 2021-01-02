@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { MatDialogRef } from "@angular/material/dialog";
 import { Router } from '@angular/router';
 import { QrscannerComponent } from '../qrscanner/qrscanner.component';
@@ -16,7 +16,7 @@ export class DialogBodyComponent implements OnInit {
 
   //public allowed;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyComponent>,private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyComponent>,private router: Router,private ngZone: NgZone) { }
 
   ngOnInit() {
   }
@@ -26,14 +26,14 @@ export class DialogBodyComponent implements OnInit {
     //electron.ipcRenderer.send("requestPermission", allowed);
 
     if(allowed==true){
+      this.ngZone.run(() => {
       this.dialogRef.close(allowed);
-
-      //this.router.navigate(['/navigation']);  
-
+    });
     }
     else{
-      this.dialogRef.close(allowed);
-      //this.router.navigate(['/navigation']);  
+      this.ngZone.run(() => {
+        this.dialogRef.close(allowed);
+      });
 
     }
 

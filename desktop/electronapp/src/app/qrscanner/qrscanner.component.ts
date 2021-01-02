@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, OnInit, ViewRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef } from '@angular/core';
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
@@ -37,12 +37,12 @@ export class QrscannerComponent implements OnInit {
   email: String;
   container: HTMLCanvasElement
 
-  container2:HTMLElement;
+  container2: HTMLElement;
 
 
 
 
-  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog,private DataService: DataService) {
+  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private DataService: DataService, private ngZone: NgZone) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
@@ -65,11 +65,11 @@ export class QrscannerComponent implements OnInit {
       if (!(this.cd as ViewRef).destroyed) {
         this.cd.detectChanges()
         // do other tasks
-        
+
       }
 
     })
-    setTimeout(()=>this.getQrCode(),0)
+    setTimeout(() => this.getQrCode(), 0)
 
   }
   ngOnInit() {
@@ -81,36 +81,39 @@ export class QrscannerComponent implements OnInit {
 
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
-      console.log(ws);
-      let ref = this.dialog.open(DialogBodyComponent, ws.id);
-      ref.afterClosed().subscribe(result => {
-        electron.ipcRenderer.send("WebSocketAccess", ws, result);
 
-        if(result==true){
-          console.log("add to list",ws.id)
-          this.DataService.DeviceArary.push(ws.id)
+      this.ngZone.run(() => {
+        console.log(ws);
+        let ref = this.dialog.open(DialogBodyComponent, ws.id);
+        ref.afterClosed().subscribe(result => {
+          electron.ipcRenderer.send("WebSocketAccess", ws, result);
 
-          console.log(this.DataService.DeviceArary)
-        }
+          if (result == true) {
+            console.log("add to list", ws.id)
+            this.DataService.DeviceArary.push(ws.id)
 
-      })
+            console.log(this.DataService.DeviceArary)
+          }
+
+        })
+      });
 
     })
-    
+
 
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
-          this.DataService.DeviceArary.forEach((element,index)=>{
-            if(element==ws.id){
-              this.DataService.DeviceArary.splice(index,1)
-              if (!(this.cd as ViewRef).destroyed) {
-                this.cd.detectChanges()
-                // do other tasks
-                
-              }
+      this.DataService.DeviceArary.forEach((element, index) => {
+        if (element == ws.id) {
+          this.DataService.DeviceArary.splice(index, 1)
+          if (!(this.cd as ViewRef).destroyed) {
+            this.cd.detectChanges()
+            // do other tasks
+
+          }
 
 
-            }
-          });
+        }
+      });
 
     })
 
@@ -158,8 +161,8 @@ export class QrscannerComponent implements OnInit {
 
 
 
-    this.container2.style.height = "100% " ;
-    this.container2.style.width = "100% " ;
+    this.container2.style.height = "100% ";
+    this.container2.style.width = "100% ";
 
   }
 
