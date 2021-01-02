@@ -1,51 +1,66 @@
 <div class="example-container">
-  <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
+    <mat-toolbar color="primary" class="example-toolbar">
+        <button mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
-    <h1 class="example-app-name">Create your own Scheme</h1>
-    <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
+        <h1 class="example-app-name">Create your own Scheme</h1>
+        <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
 
-    <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" > {{format}}</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)"> {{format}}</mat-slide-toggle>
 
 
     </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container">
-    <mat-sidenav #snav [mode]='over' id="sidenav">
+    <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="false">
+        <mat-sidenav #snav [mode]='side' id="sidenav" opened="true" disableClose="true">
 
-      <div class="example-box" (click)="addArray('button','')">
-        Button
-      </div>
-      <div class="example-box" (click)="addArray('button','E')">
-        Button E
-      </div>
-      <div class="example-box" (click)="addArray('button','W')">
-        Button W
-      </div>
-      <div class="example-box" (click)="addArray('joystick','')">
-        joystick
-      </div>
-      <!--<div class="example-box" (click)="addArray('test','')">
+            <div class="example-box" (click)="addArray('button','')">
+                Button
+            </div>
+            <div class="example-box" (click)="addArray('button','E')">
+                Button E
+            </div>
+            <div class="example-box" (click)="addArray('button','W')">
+                Button W
+            </div>
+            <div class="example-box" (click)="addArray('joystick','')">
+                joystick
+            </div>
+            <!--<div class="example-box" (click)="addArray('test','')">
         test
       </div>-->
-     
 
 
 
-    </mat-sidenav>
 
-    <mat-sidenav-content id="snavcontent">
-      <div id="scheme">
-      <div *ngFor="let item of array;let i = index" >
-    
-        <app-button  *ngIf="item.identifier == 'button'" [element]="item"></app-button> 
+        </mat-sidenav>
 
-        <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item"></app-joystick>
-        <app-ui-element *ngIf="item.identifier== 'test'"   [element]="item"></app-ui-element>
-        
-      </div>
-    </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        <mat-sidenav-content id="snavcontent">
+            <div id="scheme">
+                <input matInput placeholder="Ex. Pizza" value="Sushi">
+                <div *ngFor="let item of array;let i = index">
+                    <app-button *ngIf="item.identifier == 'button'" [element]="item" (selectComponent)="selectComponent($event)"></app-button>
+
+                    <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" (selectComponent)="selectComponent($event)"></app-joystick>
+                    <app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>
+
+                </div>
+            </div>
+        </mat-sidenav-content>
+
+        <!-- EDIT COMPONENT MENU -->
+
+        <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
+
+            <input matInput *ngIf="this.selectedComponent" type="text" [(ngModel)]="this.selectedComponent.specification">
+            <color-chrome *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+
+
+
+        </mat-sidenav>
+
+
+    </mat-sidenav-container>
+
+
 </div>

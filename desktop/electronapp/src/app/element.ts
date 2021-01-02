@@ -1,7 +1,7 @@
+import { Color } from 'ngx-color';
 
 export class Element
  {
-    
      identifier : string;
      specification : string;
      posx : number;
@@ -10,9 +10,10 @@ export class Element
      percentagey : number;
      width : number;
      height:number;
+     color: Color;
+     rgbaColor: string
 
-
-    constructor(identifier:string,specification:string,posx:number,posy:number,percentagex : number,percentagey : number,width:number,height:number) {
+    constructor(identifier:string,specification:string,posx:number,posy:number,percentagex : number,percentagey : number,width:number,height:number,color:Color,rgbaColor:string) {
         this.identifier = identifier;
         this.specification = specification;
         this.posx=posx;
@@ -21,7 +22,7 @@ export class Element
         this.percentagey=percentagey;
         this.width=width;
         this.height=height;
-
-
+        this.color=color
+        this.rgbaColor = rgbaColor
       }
 }

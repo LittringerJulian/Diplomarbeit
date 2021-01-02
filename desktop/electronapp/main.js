@@ -92,8 +92,6 @@ wss.on("connection", function connection(ws, req) {
 
     mainWindow.webContents.send("sendDeviceAccess", ws);
 
-
-
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
 

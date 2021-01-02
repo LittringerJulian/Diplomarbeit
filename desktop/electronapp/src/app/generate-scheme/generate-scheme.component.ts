@@ -6,6 +6,9 @@ import { Scheme } from '../scheme';
 import { MatDialog } from '@angular/material';
 import { SchemeNameComponent } from '../scheme-name/scheme-name.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ColorEvent } from 'ngx-color';
+import { Color } from 'ngx-color';
+
 
 
 @Component({
@@ -21,6 +24,7 @@ export class GenerateSchemeComponent implements OnInit {
   elementWidth = 10;
   elementHeight = 10;
   format = 'Landscape';
+  selectedComponent: Element
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -42,26 +46,30 @@ export class GenerateSchemeComponent implements OnInit {
     this.el = document.getElementById('scheme');
     this.contentHeight = this.el.offsetHeight;
     this.contentWidth = this.el.offsetWidth;
-
-    console.log(this.contentWidth);
-
   }
 
+  selectComponent(e) {
+    this.selectedComponent = e
+  }
 
+  changeColor($event: ColorEvent) {
+
+    let color = $event.color
+    this.selectedComponent.color = $event.color
+    this.selectedComponent.rgbaColor = "rgba(" + color.rgb.r +","+ color.rgb.g +","+color.rgb.b+","+ color.rgb.a +")"
+  }
 
   addArray(identifier, specification) {
-
-    this.array.push(new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight))
-
-    console.log(this.array[0])
-    console.log(this.array[1])
-
+    let color : Color = {hex: "#FFFFFF", hsl: {a: 1, h: 314.70198675496687, l: 1, s: 0}, hsv: {a: 1, h: 314.70198675496687, s: 0, v: 1}, oldHue: 314.70198675496687, rgb: {r: 255, g: 255, b: 255, a: 1}, source: "rgb"}
+    let rgbaColor = "rgba(" + color.rgb.r +","+ color.rgb.g +","+color.rgb.b+","+ color.rgb.a +")"
+    
+    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color,rgbaColor)
+    this.array.push(e)
+    this.selectComponent(e)
     /*console.log(this.contentHeight )
     this.el = document.getElementById('snavcontent');
     this.contentHeight=this.el.offsetHeight;
     console.log(this.contentHeight )*/
-
-
   }
 
   saveScheme() {
@@ -74,7 +82,7 @@ export class GenerateSchemeComponent implements OnInit {
       console.log(result)
       if (result != undefined) {
         this.newScheme.name = result;
-        this.newScheme.format=this.format;
+        this.newScheme.format = this.format;
         this.httpService.saveScheme(this.newScheme).subscribe(data => {
 
           console.log(data);
