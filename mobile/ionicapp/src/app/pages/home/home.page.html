@@ -2,8 +2,10 @@
     <ion-toolbar>
         <ion-title>home</ion-title>
     </ion-toolbar>
+</ion-header>
 
-    <ion-button (click)='enterPage("laserpointer")'>
+<ion-content>
+    <!--<ion-button (click)='enterPage("laserpointer")'>
         laser
     </ion-button>
     <ion-button (click)='enterPage("accelerometer-mouse")'>
@@ -12,9 +14,22 @@
     <ion-button (click)='enterPage("image-clipboard")'>
         image-clipboard
     </ion-button>
-</ion-header>
+    <ion-button (click)='enterPage("keyboard")'>
+        keyboard
+    </ion-button>
+    <ion-button (click)='enterPage("trackpad")'>
+        trackpad
+    </ion-button>-->
+
+    <div id="home-menu-wrapper">
+        <ion-icon name="calculator-outline" (click)='enterPage("keyboard")'></ion-icon>
+        <ion-icon name="camera-outline" (click)='enterPage("image-clipboard")'></ion-icon>
+        <ion-icon name="browsers-outline" (click)='enterPage("trackpad")'></ion-icon>
+        <ion-icon name="color-wand-outline" (click)='enterPage("laserpointer")'></ion-icon>
+    </div>
 
 
+    <!-----------
 
 <ion-tabs>
     <ion-tab-bar slot="bottom">
@@ -30,3 +45,5 @@
         </ion-tab-button>
     </ion-tab-bar>
 </ion-tabs>
+    ------------------------>
+</ion-content>

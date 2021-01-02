@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'image-clipboard',
     loadChildren: () => import('./pages/image-clipboard/image-clipboard.module').then( m => m.ImageClipboardPageModule)
   },
+  {
+    path: 'keyboard',
+    loadChildren: () => import('./pages/keyboard/keyboard.module').then( m => m.KeyboardPageModule)
+  },
+  {
+    path: 'trackpad',
+    loadChildren: () => import('./pages/trackpad/trackpad.module').then( m => m.TrackpadPageModule)
+  },
 
 
 

@@ -7,6 +7,9 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { SchemeNameComponent } from '../scheme-name/scheme-name.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ColorEvent } from 'ngx-color';
+import { Color } from 'ngx-color';
+
 
 
 @Component({
@@ -22,6 +25,7 @@ export class GenerateSchemeComponent implements OnInit {
   elementWidth = 10;
   elementHeight = 10;
   format = 'Landscape';
+  selectedComponent: Element
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -33,10 +37,10 @@ export class GenerateSchemeComponent implements OnInit {
   contentWidth;
   contentHeight;
   el: HTMLElement
-  
 
 
-  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder,private router: Router,private snackBar: MatSnackBar) {
+
+  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
 
@@ -44,57 +48,55 @@ export class GenerateSchemeComponent implements OnInit {
     this.el = document.getElementById('scheme');
     this.contentHeight = this.el.offsetHeight;
     this.contentWidth = this.el.offsetWidth;
-
-    console.log(this.contentWidth);
-
   }
 
+  selectComponent(e) {
+    this.selectedComponent = e
+  }
 
+  changeColor($event: ColorEvent) {
+
+    let color = $event.color
+    this.selectedComponent.color = $event.color
+    this.selectedComponent.rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
+  }
 
   addArray(identifier, specification) {
+    let color: Color = { hex: "#FFFFFF", hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: 255, g: 255, b: 255, a: 1 }, source: "rgb" }
+    let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
 
-    this.array.push(new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight))
-
-    console.log(this.array[0])
-    console.log(this.array[1])
-
+    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor)
+    this.array.push(e)
+    this.selectComponent(e)
     /*console.log(this.contentHeight )
     this.el = document.getElementById('snavcontent');
     this.contentHeight=this.el.offsetHeight;
     console.log(this.contentHeight )*/
-
-
   }
 
   saveScheme() {
-    if(this.array.length>0){
+    if (this.array.length > 0) {
       this.newScheme.content = this.array;
 
       let dialogRef = this.dialog.open(SchemeNameComponent);
-  
+
       dialogRef.afterClosed().subscribe(result => {
         console.log(result)
         if (result != undefined) {
           this.newScheme.name = result;
-          this.newScheme.format=this.format;
-          
+          this.newScheme.format = this.format;
+
           this.httpService.saveScheme(this.newScheme).subscribe(data => {
-  
-            if(data=="Scheme inserted"){
+
+            if (data == "Scheme inserted") {
               this.openSnackbar("Saved Scheme")
             }
           })
         }
-  
+
       })
+
     }
-
-    else{
-      this.openSnackbar("Schem is Empty!")
-    }
-
-    
-
   }
   checkChange() {
 
@@ -127,11 +129,11 @@ export class GenerateSchemeComponent implements OnInit {
 
 
 
-  home(){
+  home() {
     this.router.navigate(['/qrcode']);
   }
 
-  openSnackbar(Message){
+  openSnackbar(Message) {
     this.snackBar.open(Message, '', {
       duration: 3000,
       panelClass: ['simple-snack-bar']

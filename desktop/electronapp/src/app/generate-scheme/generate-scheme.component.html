@@ -20,7 +20,7 @@
     </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="false">
-    <mat-sidenav #snav [mode]='push' opened id="sidenav">
+    <mat-sidenav #snav [mode]='side' id="sidenav" opened="true" disableClose="true">
 
       <div  id="buttondiv" class="sidenavcomponents"  (click)="addArray('button','')">
 
@@ -50,19 +50,34 @@
 
 
 
-    </mat-sidenav>
 
-    <mat-sidenav-content id="snavcontent">
-      <div id="scheme">
-      <div *ngFor="let item of array;let i = index" >
-    
-        <app-button  *ngIf="item.identifier == 'button'" [element]="item" [format]="format"></app-button> 
+        </mat-sidenav>
 
-        <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format"></app-joystick>
-        <app-ui-element *ngIf="item.identifier== 'test'"   [element]="item" [format]="format"></app-ui-element>
-        
-      </div>
-    </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        <mat-sidenav-content id="snavcontent">
+            <div id="scheme">
+                <div *ngFor="let item of array;let i = index">
+                    <app-button *ngIf="item.identifier == 'button'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
+
+                    <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-joystick>
+                    <app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>
+
+                </div>
+            </div>
+        </mat-sidenav-content>
+
+        <!-- EDIT COMPONENT MENU -->
+
+        <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
+
+            <input matInput *ngIf="this.selectedComponent" type="text" [(ngModel)]="this.selectedComponent.specification">
+            <color-chrome *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+
+
+
+        </mat-sidenav>
+
+
+    </mat-sidenav-container>
+
+
 </div>

@@ -1,9 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>Connect to your desktop</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <app-qr-scanner></app-qr-scanner>
-</ion-content>
+<div id="wrapper" style="width: 100%; height: 100%; display: block; overflow: hidden;">
+    <app-qr-scanner-android *ngIf="platformIsAndroid"></app-qr-scanner-android>
+    <app-qr-scanner *ngIf="!platformIsAndroid"></app-qr-scanner>
+</div>

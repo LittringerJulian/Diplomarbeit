@@ -1,10 +1,10 @@
-<div *ngIf="format=='Portrait'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 9/16)}"   class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
+<div *ngIf="format=='Portrait'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 9/16), 'background-color':(element.rgbaColor)}"   class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
 
-    <p id="text">{{element.identifier}} </p>
+    <p id="text">{{element.specification}} </p>
 </div>
 
-<div *ngIf="format=='Landscape'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 16/9)}"   class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
+<div *ngIf="format=='Landscape'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 16/9), 'background-color':(element.rgbaColor)}"   class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
 
-    <!--<p id="text">{{element.identifier}} </p>-->
+    <p id="text">{{element.specification}} </p>
 </div>
 

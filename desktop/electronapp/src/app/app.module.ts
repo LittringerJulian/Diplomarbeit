@@ -47,10 +47,7 @@ import { ButtonpreviewComponent } from './buttonpreview/buttonpreview.component'
 import { EditSchemeComponent } from './edit-scheme/edit-scheme.component';
 import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-portrait.component';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-
-
-
+import { ColorChromeModule } from 'ngx-color/chrome';
 
 
 const appRoutes: Routes = [
@@ -125,6 +122,7 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     MatProgressSpinnerModule,
     TagInputModule,
+    ColorChromeModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

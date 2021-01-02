@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnectToDesktopPage implements OnInit {
 
+  platformIsAndroid = false;
+
   constructor() { }
 
   ngOnInit() {
+    this.platformIsAndroid = true
+
   }
 
 }

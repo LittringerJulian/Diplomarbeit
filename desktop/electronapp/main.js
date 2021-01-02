@@ -21,14 +21,9 @@ var clipboardManager = new ClipboardManager()
 
 //const cmd = require('node-cmd')
 
-const shell = require('node-powershell');
 const emitter = new EventEmitter();
 
 
-let ps = new shell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-});
 
 emitter.setMaxListeners(15);
 
@@ -42,42 +37,20 @@ function handleSocketMessage(msg) {
             accelerometerMouse.moveMouse(msg.data)
             break;
         case 'copyimage':
-
-            let imagepath = './clipboardimage.jpg'
-            msg.data = msg.data.substring(23)
-
-            ps.addCommand('$b64 = "' + msg.data + '"')
-            ps.addCommand('$filename = "' + imagepath + '"')
-            ps.addCommand('./imagesave.ps1')
-            ps.addCommand('$filename = "' + imagepath + '"')
-            ps.addCommand('./imagecopy.ps1')
-            ps.invoke()
-                .then(output => {
-                    console.log(output);
-                })
-                .catch(err => {
-                    console.log(err);
-                    ps.dispose();
-                });
-
-        /*ps.addCommand('$filename = "' + param + '"')
-        ps.addCommand('./imagecopy.ps1')
-            //ps.addCommand(`& "${require('path').resolve(__dirname, 'imagecopy.ps1')}"`);
-        ps.invoke()
-            .then(output => {
-                console.log(output);
-            })
-            .catch(err => {
-                console.log(err);
-                ps.dispose();
-            });*/
-
-        /*cmd.run('powershell -noexit "& ""C:\\Users\\Julian\\Desktop\\imagecopy.ps1"" ""C:\\\Users\\\Julian\\\Desktop\\\testimage.jpg"""', function(err, data, stderr) {
-            console.log(err, data, stderr)
-        });*/
-
-        //mainWindow.webContents.send("sendImageToCopy", msg.data)
-        //clipboardManager.copyImage(msg.data)
+            clipboardManager.copyImage(msg.data)
+            break;
+        case 'keypress':
+            robot.keyTap(msg.data)
+            break;
+        case 'keytype':
+            robot.typeString(msg.data)
+            break;
+        case 'moveMouse':
+            robot.moveMouse(robot.getMousePos().x + msg.data.x, robot.getMousePos().y + msg.data.y)
+            break;
+        case 'clickMouse':
+            robot.mouseClick(msg.data)
+            break;
     }
 }
 
@@ -128,8 +101,6 @@ wss.on("connection", function connection(ws, req) {
     ws.kick = false;
 
     mainWindow.webContents.send("sendDeviceAccess", ws);
-
-
 
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
@@ -208,6 +179,12 @@ function createWindow() {
         })
     );
 
+    mainWindow.on('resize', function() {
+
+        var size = mainWindow.getSize();
+        mainWindow.setSize(size[0], parseInt(size[0] * 9 / 16));
+
+    });
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
     mainWindow.on("closed", function () {

@@ -48,6 +48,7 @@ export class QrScannerComponent {
             y: 0,
             toBack: true,
             tapPhoto: false,
+            tapFocus: true,
         };
 
         this.cameraPreview.startCamera(cameraPreviewOpts).then(
@@ -63,9 +64,12 @@ export class QrScannerComponent {
     async scan() {
         let scanQuality = 75;
         let base64data = "";
-
-        // loop condition
-        let scanAgain = true;
+        
+        this.counter++;
+        if(this.counter == 5) {
+            this.router.navigate(["/", "home"])
+            this.cameraPreview.stopCamera()
+        }
 
         const pictureOpts: CameraPreviewPictureOptions = {
             width: this.cameraSizeX,
@@ -100,7 +104,7 @@ export class QrScannerComponent {
                 this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
                 // checks scan frequency
-                this.counter++;
+
 
                 // connecting to socket
                 // scan is repeated until success or termination by user

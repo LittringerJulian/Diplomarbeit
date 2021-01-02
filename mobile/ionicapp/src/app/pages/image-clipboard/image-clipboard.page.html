@@ -1,9 +1,10 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>imageClipboard</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content id="#image-clipboard-ion-content">
 
-<ion-content>
-    <ion-button (click)="takePhoto()">takePhoto</ion-button>
+    <div id="cameraControls">
+
+        <ion-button id="btnFlip" (click)="flipCamera()">flip</ion-button>
+
+        <ion-button id="btnPhoto" (click)="takePhoto()">takePhoto</ion-button>
+
+    </div>
 </ion-content>

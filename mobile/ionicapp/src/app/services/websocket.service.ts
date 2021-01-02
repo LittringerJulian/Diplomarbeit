@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 
 
@@ -10,7 +11,7 @@ export class WebsocketService {
   websocket: any;
   socketUri: string;
 
-  constructor() {
+  constructor(private router: Router) {
 
   }
 
@@ -19,7 +20,8 @@ export class WebsocketService {
       
       this.websocket = webSocket("ws://" + socketUri + ":80");
       this.websocket.subscribe()
-
+      this.router.navigate(["/", "home"])
+      
      return true
     } catch (e) {
       return false;
