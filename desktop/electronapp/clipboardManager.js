@@ -1,5 +1,4 @@
-const { pseudoRandomBytes } = require('crypto')
-const { clipboard, ipcMain } = require('electron')
+const { clipboard } = require('electron')
 const shell = require('node-powershell');
 
 let ps = new shell({

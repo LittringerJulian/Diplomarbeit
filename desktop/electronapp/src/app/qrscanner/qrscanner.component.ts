@@ -82,7 +82,7 @@ export class QrscannerComponent implements OnInit {
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
       console.log(ws);
-      let ref = this.dialog.open(DialogBodyComponent, ws);
+      let ref = this.dialog.open(DialogBodyComponent, ws.id);
       ref.afterClosed().subscribe(result => {
         electron.ipcRenderer.send("WebSocketAccess", ws, result);
 
@@ -102,7 +102,11 @@ export class QrscannerComponent implements OnInit {
           this.DataService.DeviceArary.forEach((element,index)=>{
             if(element==ws.id){
               this.DataService.DeviceArary.splice(index,1)
-              this.cd.detectChanges();
+              if (!(this.cd as ViewRef).destroyed) {
+                this.cd.detectChanges()
+                // do other tasks
+                
+              }
 
 
             }
