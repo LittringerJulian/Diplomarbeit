@@ -5,7 +5,7 @@ import { HttpService } from '../http.service';
 import { Scheme } from '../scheme';
 import { Element } from '../element';
 import { Color } from 'ngx-color';
-
+import { ColorEvent } from 'ngx-color';
 
 @Component({
   selector: 'app-edit-scheme',
@@ -17,6 +17,7 @@ export class EditSchemeComponent implements OnInit {
   constructor(private route: ActivatedRoute,private dataService: DataService,private httpService: HttpService,private router: Router) { }
   contentWidth;
   contentHeight;
+  selectedComponent: Element
   el: HTMLElement
   elementWidth = 10;
   elementHeight = 10;
@@ -49,6 +50,17 @@ export class EditSchemeComponent implements OnInit {
       //console.log(this.elementArray.content[i].posx)
      }*/
 
+  }
+
+  selectComponent(e) {
+    this.selectedComponent = e
+  }
+
+  changeColor($event: ColorEvent) {
+
+    let color = $event.color
+    this.selectedComponent.color = $event.color
+    this.selectedComponent.rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
   }
 
   ngAfterViewInit(){

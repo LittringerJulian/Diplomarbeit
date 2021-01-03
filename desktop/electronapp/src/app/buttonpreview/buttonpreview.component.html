@@ -1,11 +1,11 @@
-<div *ngIf="format=='Landscape'" class="component" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 16/9),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100}">
+<div *ngIf="format=='Landscape'" class="component" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 16/9),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100, 'background-color':(element.rgbaColor)}">
 
-    <!--<p id="text">{{element.identifier}} {{element.specification}}</p>-->
+    <p id="text"> {{element.specification}}</p>
 </div>
 
-<div *ngIf="format=='Portrait'" class="component" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 9/16),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100}">
+<div *ngIf="format=='Portrait'" class="component" [ngStyle]="{'width.%':(element.width ),'height.%':(element.height * 9/16),'top.%':(element.percentagey)*100,'left.%':(element.percentagex)*100, 'background-color':(element.rgbaColor)}">
 
-   <!-- <p id="text">{{element.identifier}} {{element.specification}}</p>-->
+    <p id="text"> {{element.specification}}</p>
 </div>
 
 

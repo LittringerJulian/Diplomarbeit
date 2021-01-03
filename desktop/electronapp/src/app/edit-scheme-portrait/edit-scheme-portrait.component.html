@@ -1,10 +1,13 @@
 <div id="all">
     <mat-toolbar color="primary" class="example-toolbar">
       
-      <button mat-icon-button color="secondary" (click)="home()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <button mat-raised-button color="primary" (click)="saveScheme()">Save</button>
+      <div id="headerleft">
+
+        <button mat-icon-button color="accent" (click)="home()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        </div>
+      <button mat-raised-button color="accent" (click)="saveScheme()">Save</button>
   
     </mat-toolbar>
   
@@ -35,9 +38,9 @@
         <div id="scheme" >
           <div *ngFor="let item2 of elementArray.content;let j = index">
   
-            <app-button *ngIf="item2.identifier == 'button'" [element]="item2" [format]="format"></app-button>
+            <app-button *ngIf="item2.identifier == 'button'" [element]="item2" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
   
-            <app-joystick *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="format"></app-joystick>
+            <app-joystick *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="format" (selectComponent)="selectComponent($event)"></app-joystick>
   
           </div>
         </div>
@@ -53,6 +56,15 @@
           </div>
         </div>-->
       </mat-sidenav-content>
+
+      <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
+
+        <input matInput *ngIf="this.selectedComponent" type="text" [(ngModel)]="this.selectedComponent.specification">
+        <color-chrome *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+  
+  
+  
+    </mat-sidenav>
     </mat-sidenav-container>
   
   </div>

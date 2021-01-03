@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   userinfo;
 
-  public loginInvalid: boolean;
+   loginInvalid: boolean;
 
 
   constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router) { }

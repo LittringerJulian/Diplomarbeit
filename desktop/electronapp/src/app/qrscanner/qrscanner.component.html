@@ -50,7 +50,7 @@
     Email: {{email}} <br> <br>-->
     Connected Devices:
     <div *ngFor="let item of DataService.DeviceArary" class="conDevice">{{item}}
-      <img src='../assets/kick_user.svg' (click)=kickUser(item)>
+      <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)>
     </div>
     
   </div>

@@ -18,7 +18,7 @@ export class LoginComponent {
   form: FormGroup;
   email: String;
   private formSubmitAttempt: boolean;
-  public loginInvalid: boolean;
+   loginInvalid: boolean;
 
 
   password: String;

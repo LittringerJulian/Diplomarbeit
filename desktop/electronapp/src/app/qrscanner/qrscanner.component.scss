@@ -50,8 +50,6 @@
     margin:auto;
     //top:25%;
     text-align: center;
-    cursor:pointer;
-    text-decoration:underline;
 
     
     word-wrap: break-word;
@@ -60,7 +58,7 @@
 
 
   }
-  .innerdiv:hover {
+  p:hover {
     text-decoration:none;
 }
 
@@ -70,6 +68,8 @@ p{
   top:50%;
   transform:translateY(-50%);
   font-size:1.5vw;
+  cursor:pointer;
+  text-decoration:underline;
 
 }
 
@@ -95,4 +95,7 @@ p{
 
 .conDevice{
   padding-left:2%;
+}
+.kickuserimg{
+  width:4%;
 }
