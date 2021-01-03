@@ -171,13 +171,8 @@ export class QrscannerComponent implements OnInit {
 
   }
 
-<<<<<<< Updated upstream
-    this.container2.style.height = "100% ";
-    this.container2.style.width = "100% ";
-=======
   kickUser(ws){
     electron.ipcRenderer.send("kickWs",ws);
->>>>>>> Stashed changes
 
   }
 
