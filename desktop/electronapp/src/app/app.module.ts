@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './authguard.service';
@@ -48,6 +48,7 @@ import { EditSchemeComponent } from './edit-scheme/edit-scheme.component';
 import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-portrait.component';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
+import { InterceptorService } from './loader/interceptor.service';
 
 
 const appRoutes: Routes = [
@@ -128,7 +129,9 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true}
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
