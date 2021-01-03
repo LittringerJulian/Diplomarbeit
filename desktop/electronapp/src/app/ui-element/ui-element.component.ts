@@ -49,6 +49,10 @@ export class UiElementComponent implements OnInit {
     //console.log(this.array.length)
   }
 
+  getTextColor(){
+    return this.element.color.hsl.l > 0.5 ? "#000000" : "#FFFFFF"
+  }
+
   round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;

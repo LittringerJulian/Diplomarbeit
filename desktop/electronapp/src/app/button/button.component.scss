@@ -1,23 +1,22 @@
-
-
-.component{
-   
- box-sizing: border-box;
-    text-align:center;
+.component {
+    box-sizing: border-box;
+    text-align: center;
     user-select: none;
-    cursor:move;
+    cursor: move;
     position: absolute;
-    border:1px black solid;
-    display:block;
-   }
-   
-   #text{
-       position: absolute;
-       text-align:center;
-       margin:auto;
-       width:80%;
-       height:30%;
-       top:35%;
-       left:10%;
-       font-size: 90%;
-   }
+    border: 1px black solid;
+    display: block;
+}
+
+#text {
+    position: absolute;
+    text-align: center;
+    word-wrap: break-word;
+    margin: auto;
+    width: 80%;
+    left: 10%;
+    top: 50%;
+    font-size: 90%;
+    line-height: 100%;
+    transform: translateY(-50%);
+}

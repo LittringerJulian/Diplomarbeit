@@ -13,9 +13,6 @@ export class ButtonComponent extends UiElementComponent {
     super();
   }
 
-  selected(){
-    super.selected()
-  }
 
  
 

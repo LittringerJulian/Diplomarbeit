@@ -68,7 +68,7 @@
 
             <form *ngIf="this.selectedComponent" autocomplete="off">
                 <input type="text" hidden autocomplete="false">
-                <mat-form-field>
+                <mat-form-field style="display: flex; justify-content: center; align-items: center;">
                     <input matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
             </form>
