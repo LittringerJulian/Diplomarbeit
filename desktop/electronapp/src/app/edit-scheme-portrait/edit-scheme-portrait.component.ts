@@ -58,7 +58,7 @@ export class EditSchemePortraitComponent implements OnInit {
   }
 
   home(){
-    this.router.navigate(['/qrcode']);
+    this.router.navigate(['/myschemes']);
   }
 
   selectComponent(e) {
@@ -78,8 +78,7 @@ export class EditSchemePortraitComponent implements OnInit {
     this.httpService.updateScheme(this.elementArray).subscribe(data => {
 
       if(data=="updated"){
-          //this.openSnackbar("Schme Published")
-          console.log("updated")
+        this.router.navigate(['/myschemes']);
       }
       
 
