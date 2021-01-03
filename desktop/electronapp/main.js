@@ -216,6 +216,15 @@ ipcMain.on("removeAllConnections", (e) => {
     });
 })
 
+ipcMain.on("kickWs", (e,arg) => {
+    wss.clients.forEach(function each(ws) {
+        if(ws.id==arg){
+            ws.terminate()
+        }
+         
+    });
+})
+
     /*express.get("/", cors(corsOptions), (req, res) => {
 
   res.send("requested access")

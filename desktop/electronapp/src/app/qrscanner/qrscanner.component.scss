@@ -46,9 +46,9 @@
   .innerdiv{
     position: relative;
     width:50%;
-    height:50%;
+    height:100%;
     margin:auto;
-    top:25%;
+    //top:25%;
     text-align: center;
     cursor:pointer;
     text-decoration:underline;
@@ -64,11 +64,23 @@
     text-decoration:none;
 }
 
-#userinfo{
-  width:50%;
-  float:left;
-  height:50%;
+p{
+  margin:0;
+  position:relative;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.5vw;
 
+}
+
+#userinfo{
+  width:47.5%;
+  float: right;
+  height:100%;
+  top:20%;
+  position: relative;
+  font-size: 2vw;
+  margin-left:2.5%;
 
 
 }
@@ -76,7 +88,11 @@
 
 
 #qrcodewrapper{
-  float:right;
+  float:left;
   width:50%;
-  height:90%;
+  height:100%;
+}
+
+.conDevice{
+  padding-left:2%;
 }
