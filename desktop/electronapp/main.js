@@ -51,6 +51,20 @@ function handleSocketMessage(msg) {
         case 'clickMouse':
             robot.mouseClick(msg.data)
             break;
+        case 'shortcut':
+            for (let i = 0; i < msg.data.length; i++) {
+                robot.keyToggle(msg.data[i].toLowerCase(), "down")
+            }
+            for (let i = 0; i < msg.data.length; i++) {
+                robot.keyToggle(msg.data[i].toLowerCase(), "up")
+            }
+            break;
+        case 'keydown':
+            robot.keyToggle(msg.data.toLowerCase(), "down")
+            break;
+        case 'keyup':
+            robot.keyToggle(msg.data.toLowerCase(), "up")
+            break;
     }
 }
 
@@ -107,7 +121,7 @@ wss.on("connection", function connection(ws, req) {
 
         handleSocketMessage(JSON.parse(data))
     });
-    ws.on('close', function hee(){
+    ws.on('close', function hee() {
         mainWindow.webContents.send("removeDevice", ws);
     });
 });
@@ -134,7 +148,7 @@ wss.on('close', function close() {
     clearInterval(interval);
 });
 
-function noop() { }
+function noop() {}
 
 function heartbeat() {
     //console.log("heartbeat");
@@ -187,18 +201,18 @@ function createWindow() {
     });
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
-    mainWindow.on("closed", function () {
+    mainWindow.on("closed", function() {
         mainWindow = null;
     });
 }
 
 app.on("ready", createWindow);
 
-app.on("window-all-closed", function () {
+app.on("window-all-closed", function() {
     if (process.platform !== "darwin") app.quit();
 });
 
-app.on("activate", function () {
+app.on("activate", function() {
     if (mainWindow === null) createWindow();
 });
 ipcMain.on("requestLocalIp", (e, arg) => {
@@ -211,13 +225,18 @@ ipcMain.on("requestPermission", (e, arg) => {
 })
 ipcMain.on("removeAllConnections", (e) => {
     wss.clients.forEach(function each(ws) {
-        
-         ws.terminate();
+
+        ws.terminate();
     });
 })
 
-    /*express.get("/", cors(corsOptions), (req, res) => {
+/*express.get("/", cors(corsOptions), (req, res) => {
 
   res.send("requested access")
 });
 */
+
+ipcMain.on("pressShortcut", (e, arg) => {
+    console.log(arg);
+    setTimeout(function() { handleSocketMessage(arg) }, 2000)
+})

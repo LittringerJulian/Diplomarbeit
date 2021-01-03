@@ -1,52 +1,48 @@
-<div class="example-container">
-  <mat-toolbar color="primary" class="example-toolbar">
-    <div id="headerleft">
-      <button mat-icon-button color="accent" (click)="home()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-    </div>
-    
-    <!--<button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>-->
-    <a style="margin-right:1%">change Format</a>
-    <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" ></mat-slide-toggle>
+<div class="container">
+    <mat-toolbar color="primary" class="toolbar">
+        <div id="headerleft">
+            <button mat-icon-button color="accent" (click)="home()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
 
-    <div id="headerdiv">
-      <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>
-    </div>
+        <a style="margin-right:1%">change Format</a>
+        <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)"></mat-slide-toggle>
+
+        <div id="headerdiv">
+            <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>
+        </div>
 
 
     </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container" [hasBackdrop]="false">
-    <mat-sidenav #snav [mode]='side' id="sidenav" opened="true" disableClose="true">
+    <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
+        <mat-sidenav #snav [mode]='side' id="sidenav" opened="true" disableClose="true">
 
-      <div  id="buttondiv" class="sidenavcomponents"  (click)="addArray('button','')">
+            <div id="buttondiv" class="sidenavcomponents" (click)="addArray('button','')">
+                <p id="text">Button</p>
+            </div>
 
-        <p id="text">Button</p>
-    </div>
+            <div id="outer" class="sidenavcomponents" (click)="addArray('joystick','')">
+                <div id="inner"></div>
+            </div>
 
-    <div  id="outer" class="sidenavcomponents" (click)="addArray('joystick','')">
-      <div id="inner"></div>
-  </div>
-
-      <!--<div class="example-box" (click)="addArray('button','')">
+            <!--<div class="example-box" (click)="addArray('button','')">
         Button
       </div>-->
-      <!--<div class="example-box" (click)="addArray('button','E')">
+            <!--<div class="example-box" (click)="addArray('button','E')">
         Button E
       </div>
       <div class="example-box" (click)="addArray('button','W')">
         Button W
       </div>-->
-     <!--<div class="example-box" (click)="addArray('joystick','')">
+            <!--<div class="example-box" (click)="addArray('joystick','')">
         joystick
-      </div>--> 
-      <!--<div class="example-box" (click)="addArray('test','')">
+      </div>-->
+            <!--<div class="example-box" (click)="addArray('test','')">
         test
-      </div>--> 
-     
+      </div>-->
+
 
 
 
@@ -54,12 +50,13 @@
         </mat-sidenav>
 
         <mat-sidenav-content id="snavcontent">
-            <div id="scheme">
+            <div id="scheme" (click)="deselectComponent($event)">
+                <!--(click)="selectComponent($event)"-->
                 <div *ngFor="let item of array;let i = index">
-                    <app-button *ngIf="item.identifier == 'button'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
 
+                    <app-button *ngIf="item.identifier == 'button'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
                     <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-joystick>
-                    <app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>
+                    <!--<app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>-->
 
                 </div>
             </div>
@@ -69,15 +66,15 @@
 
         <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
 
-            <input matInput *ngIf="this.selectedComponent" type="text" [(ngModel)]="this.selectedComponent.specification">
-            <color-chrome *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
-
-
-
+            <form *ngIf="this.selectedComponent" autocomplete="off">
+                <input type="text" hidden autocomplete="false">
+                <mat-form-field>
+                    <input matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </form>
+            <color-chrome [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+            <button mat-button (click)="setComponentAction()">action</button>
         </mat-sidenav>
-
-
     </mat-sidenav-container>
-
 
 </div>

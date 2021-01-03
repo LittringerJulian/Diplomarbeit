@@ -48,6 +48,9 @@ import { EditSchemeComponent } from './edit-scheme/edit-scheme.component';
 import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-portrait.component';
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
+import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
+
+import {MatRadioModule} from '@angular/material/radio';
 
 
 const appRoutes: Routes = [
@@ -92,9 +95,10 @@ const appRoutes: Routes = [
     PublicSchemesComponent,
     ButtonpreviewComponent,
     EditSchemeComponent,
-    EditSchemePortraitComponent
+    EditSchemePortraitComponent,
+    SetComponentActionComponent
   ],
-  entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent],
+  entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent, SetComponentActionComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -123,10 +127,14 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     TagInputModule,
     ColorChromeModule,
+    MatRadioModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }
-    )
+    ),
+  ],
+  exports: [
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

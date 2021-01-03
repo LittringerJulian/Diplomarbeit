@@ -1,39 +1,44 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Title</title>
-  <!--<base href="/">-->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <base href="/">
+    <meta charset="utf-8">
+    <title>Title</title>
+    <!--<base href="/">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
-  <app-root></app-root>
-  <script>
-    const electron = require('electron');
-    const customTitlebar = require('custom-electron-titlebar');
-    const { remote } = require('electron')
-    const { Menu, MenuItem } = remote
-
-
-  
-
-
-    let  myTitlebar = new customTitlebar.Titlebar({
-    backgroundColor: customTitlebar.Color.fromHex('#444'),
-    icon: './assets/imperio_logo.svg'
-});
-
-const menu = new Menu();
-
-myTitlebar.updateTitle('Imperio');
-myTitlebar.updateMenu(menu)
+    <app-root></app-root>
+    <script>
+        const electron = require('electron');
+        const customTitlebar = require('custom-electron-titlebar');
+        const {
+            remote
+        } = require('electron')
+        const {
+            Menu,
+            MenuItem
+        } = remote
 
 
 
 
-</script>
+
+        let myTitlebar = new customTitlebar.Titlebar({
+            backgroundColor: customTitlebar.Color.fromHex('#444'),
+            icon: './assets/imperio_logo.svg'
+        });
+
+        const menu = new Menu();
+
+        myTitlebar.updateTitle('Imperio');
+        myTitlebar.updateMenu(menu)
+    </script>
 </body>
+
 </html>

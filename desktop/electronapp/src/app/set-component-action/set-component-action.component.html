@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Define an action</h1>
+<div mat-dialog-content>
+    <mat-radio-group aria-label="Select an option">
+        <p>
+            <mat-radio-button (change)="changeMode(true)" value="true" [checked]="shortcut[0]">Single key</mat-radio-button> &nbsp;
+            <mat-radio-button (change)="changeMode(false)" value="false" [checked]="!shortcut[0]">Shortcut</mat-radio-button>
+        </p>
+    </mat-radio-group>
+
+    <button mat-button (click)="startShortcut()">record</button>
+    <input style="pointer-events: none; width: 60%" type="text" [(ngModel)]="this.shortcut[1]">
+</div>
+<div mat-dialog-actions style="width: 100%; position: relative;">
+    <button mat-button style="position: absolute; left: 0%; background: rgb(182, 81, 81) " [mat-dialog-close]=" false ">Cancel</button>
+    <button mat-raised-button style="position: absolute; right: 5%; background: rgb(230, 197, 13) " [disabled]="shortcut.length==0 || shortcut.length==1 || shortcut.length==2 " [mat-dialog-close]="shortcut ">Save</button>
+</div>

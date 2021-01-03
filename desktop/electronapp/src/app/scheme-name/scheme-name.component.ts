@@ -17,8 +17,6 @@ export class SchemeNameComponent implements OnInit {
   save(){
     console.log(this.name);
     this.dialogRef.close(this.name);
-
-
   }
 
 
