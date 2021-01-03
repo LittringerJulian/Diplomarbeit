@@ -109,6 +109,9 @@ export class GenerateSchemeComponent implements OnInit {
         }
       })
     }
+    else{
+      this.openSnackbar("Scheme is Empty")
+    }
   }
   checkChange() {
 

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService } from './authguard.service';
@@ -51,6 +51,7 @@ import { ColorChromeModule } from 'ngx-color/chrome';
 import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
 
 import {MatRadioModule} from '@angular/material/radio';
+import { InterceptorService } from './loader/interceptor.service';
 
 
 const appRoutes: Routes = [
@@ -136,7 +137,9 @@ const appRoutes: Routes = [
   exports: [
     MatInputModule,
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true}
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

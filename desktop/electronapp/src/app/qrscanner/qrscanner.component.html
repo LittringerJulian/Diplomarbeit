@@ -19,38 +19,42 @@
 <mat-toolbar color="primary" class="example-toolbar">
   <div class="navdiv">
     <!--<button (click)="logout()" class="navbutton">logout</button>-->
-    <div (click)="logout()" class="innerdiv">logout</div>
+    <div (click)="logout()" class="innerdiv"><p>logout</p></div>
   </div>
 
   <div class="navdiv">
     <!--<button (click)="scheme()" class="navbutton">generate scheme</button>-->
-    <div (click)="scheme()" class="innerdiv">generate scheme</div>
+    <div (click)="scheme()" class="innerdiv"><p>generate scheme</p></div>
   </div>
 
   <div class="navdiv">
     <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-    <div (click)="myschemes()" class="innerdiv">my schemes</div>
+    <div (click)="myschemes()" class="innerdiv"><p>my schemes</p></div>
   </div>
 
   <div class="navdiv">
     <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
-    <div (click)="publicSchemes()" class="innerdiv">Public schemes</div>
+    <div (click)="publicSchemes()" class="innerdiv"><p>Public schemes</p></div>
   </div>
 </mat-toolbar>
 
 
 
 <div id="content" *ngIf="this.qrCodeIsSet">
-  <div id="userinfo">
-    Logged in as {{fname}} {{lname}} <br>
-    Email: {{email}} <br> <br>
-    Connected Devices:
-    <div *ngFor="let item of DataService.DeviceArary">{{item}}</div>
-  </div>
   <div id="qrcodewrapper">
     <qrcode  [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
     </qrcode>
   </div>
+  <div id="userinfo">
+    <!--Logged in as {{fname}} {{lname}} <br>
+    Email: {{email}} <br> <br>-->
+    Connected Devices:
+    <div *ngFor="let item of DataService.DeviceArary" class="conDevice">{{item}}
+      <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)>
+    </div>
+    
+  </div>
+ 
 </div>
 
 

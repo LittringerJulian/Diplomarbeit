@@ -5,6 +5,7 @@ import { HttpService } from '../http.service';
 import { Scheme } from '../scheme';
 import { Element } from '../element';
 import { Color } from 'ngx-color';
+import { ColorEvent } from 'ngx-color';
 
 @Component({
   selector: 'app-edit-scheme-portrait',
@@ -20,6 +21,7 @@ export class EditSchemePortraitComponent implements OnInit {
   elementWidth = 20;
   elementHeight = 20;
   format : String;
+  selectedComponent: Element
 
 
   ngOnInit() {
@@ -56,7 +58,19 @@ export class EditSchemePortraitComponent implements OnInit {
   }
 
   home(){
-    this.router.navigate(['/qrcode']);
+    this.router.navigate(['/myschemes']);
+  }
+
+  selectComponent(e) {
+    console.log(e)
+    this.selectedComponent = e
+  }
+
+  changeColor($event: ColorEvent) {
+
+    let color = $event.color
+    this.selectedComponent.color = $event.color
+    this.selectedComponent.rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
   }
 
   saveScheme(){
@@ -64,8 +78,7 @@ export class EditSchemePortraitComponent implements OnInit {
     this.httpService.updateScheme(this.elementArray).subscribe(data => {
 
       if(data=="updated"){
-          //this.openSnackbar("Schme Published")
-          console.log("updated")
+        this.router.navigate(['/myschemes']);
       }
       
 

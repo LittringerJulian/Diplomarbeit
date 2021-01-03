@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
+import { LoaderService } from '../loader/loader.service';
 import { Scheme } from '../scheme';
 
 @Component({
@@ -11,7 +12,7 @@ import { Scheme } from '../scheme';
 })
 export class PublicSchemesComponent implements OnInit {
   array = [];
-  constructor(private httpService: HttpService, private router: Router,private snackBar: MatSnackBar) { }
+  constructor(private httpService: HttpService, private router: Router,private snackBar: MatSnackBar,private loaderService:LoaderService) { }
 
   tempScheme :Scheme;
 

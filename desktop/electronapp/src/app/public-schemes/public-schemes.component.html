@@ -6,6 +6,8 @@
   
   
     </mat-toolbar>
+    <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
+
     <div id="content">
   <div *ngFor="let item of array;let i = index" class="card"> 
       <mat-card class="scheme-card" >

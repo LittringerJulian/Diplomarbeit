@@ -3,6 +3,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { HttpService } from '../http.service';
+import { LoaderService } from '../loader/loader.service';
 import { Scheme } from '../scheme';
 import { TagDialogComponent } from '../tag-dialog/tag-dialog.component';
 
@@ -19,7 +20,8 @@ export class MySchemesComponent implements OnInit {
   tempScheme :Scheme;
   
 
-  constructor(private httpService: HttpService,private dataService: DataService, private router: Router,public dialog: MatDialog,private snackBar: MatSnackBar) { }
+  constructor(private httpService: HttpService,private dataService: DataService, 
+    private router: Router,public dialog: MatDialog,private snackBar: MatSnackBar,public loaderService:LoaderService) { }
 
   ngOnInit() {
     this.httpService.getSchemeByUserId().subscribe(data => {

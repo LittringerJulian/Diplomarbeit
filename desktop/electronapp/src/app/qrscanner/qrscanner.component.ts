@@ -157,12 +157,22 @@ export class QrscannerComponent implements OnInit {
     console.log(this.container)
     console.log(this.container2)
 
+    /*top:50%;
+    transform:translate(-50%,-50%);
+    left:50%;*/
 
 
+    
+    this.container2.style.width = "40% " 
+    this.container2.style.top ="55%"
+    this.container2.style.left ="25%"
+    this.container2.style.transform="translate(-50%,-50%)"
+    this.container2.style.position = "absolute"
 
+  }
 
-    this.container2.style.height = "100% ";
-    this.container2.style.width = "100% ";
+  kickUser(ws){
+    electron.ipcRenderer.send("kickWs",ws);
 
   }
 
