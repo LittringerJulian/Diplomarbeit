@@ -1,0 +1,64 @@
+<mat-toolbar color="primary" class="example-toolbar">
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+        <div (click)="myschemes()" class="innerdiv">
+           <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
+           <img class="navimg" src="./assets/home.svg">
+            <p class="navtext">Home</p>
+        </div>
+    </div>
+
+
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+        <div (click)="myschemes()" class="innerdiv">
+            <p class="navtext">my schemes</p>
+        </div>
+    </div>
+
+    <div class="navdiv">
+        <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
+        <div (click)="publicSchemes()" class="innerdiv">
+            <p class="navtext">Public schemes</p>
+        </div>
+    </div>
+
+    <div class="navdiv">
+        <!--<button (click)="logout()" class="navbutton">logout</button>-->
+        <div (click)="logout()" class="innerdiv">
+            <p class="navtext">logout</p>
+        </div>
+    </div>
+</mat-toolbar>
+
+
+
+<div id="content" *ngIf="this.qrCodeIsSet">
+    <div id="qrcodewrapper">
+        <a id="qrcodetext">Ready to connect!</a>
+        <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
+        </qrcode>
+        <div id="visibility">
+            <button mat-icon-button id="eyebutton">
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+            <p id="hideqrtxt">Hide QR Code</p>
+        </div>
+    </div>
+    <div id="userinfo">
+        
+        <p id="welcometxt"> Welcome {{fname}}!</p>
+        <div id="Devicetxt"><p>Connected Devices:</p>
+            <div id="DeviceDiv">
+        <div *ngFor="let item of DataService.DeviceArary" class="conDevice">
+            <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)>
+            {{item}}
+        </div>
+    </div>
+    </div>
+    </div>
+
+</div>
+
+
+

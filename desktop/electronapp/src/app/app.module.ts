@@ -52,23 +52,24 @@ import { SetComponentActionComponent } from './set-component-action/set-componen
 import { MatRippleModule } from '@angular/material/core';
 
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { MatChipsModule } from '@angular/material/chips';
 import { InterceptorService } from './loader/interceptor.service';
 
 import { ColorCircleModule } from 'ngx-color/circle';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MainScreenComponent } from './main-screen/main-screen.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'main', component: MainScreenComponent },
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'myschemes', component: MySchemesComponent },
   { path: 'editscheme', component: EditSchemeComponent },
   { path: 'editschemeportrait', component: EditSchemePortraitComponent },
-
   { path: 'publicschemes', component: PublicSchemesComponent },
   {
     path: 'qrcode', component: QrscannerComponent,
@@ -103,7 +104,8 @@ const appRoutes: Routes = [
     ButtonpreviewComponent,
     EditSchemeComponent,
     EditSchemePortraitComponent,
-    SetComponentActionComponent
+    SetComponentActionComponent,
+    MainScreenComponent
   ],
   entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent, SetComponentActionComponent],
   imports: [

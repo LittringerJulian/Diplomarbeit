@@ -1,0 +1,183 @@
+#nav{
+    height:100%;
+    float:left; 
+}
+
+#content{
+    overflow:hidden;
+    width:100%;
+    height:90%;
+    background-color: whitesmoke;
+}
+
+/*.example-container {
+    width: 400px;
+    height: 200px;
+    margin: 12px;
+    border: 1px solid #555;
+  }
+  
+  mat-drawer-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }*/
+
+  .example-toolbar{
+    height:10%;
+    width:100%;
+    padding:0;
+  }
+
+  .navdiv{
+    height:100%;
+    width:20%;
+  }
+
+  .navbutton{
+    position: relative;
+    display: block;
+    width:50%;
+    height:50%;
+    margin:auto;
+    top:25%;
+  }
+ 
+  .innerdiv{
+    position: relative;
+    width:100%;
+    height:100%;
+    margin:auto;
+    //top:25%;
+    text-align: center;
+
+    
+    word-wrap: break-word;
+    white-space:pre-wrap;
+
+
+
+  }
+
+
+.navtext{
+  margin:0;
+  position:relative;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.5vw;
+  cursor:pointer;
+  color:white;
+  width:90%;
+  display: inline-block;
+  text-align: left;
+
+}
+
+#userinfo{
+  width:60%;
+  float: right;
+  height:100%;
+  font-size: 2vw;
+  margin-right:3%;
+  background-color: white;
+    height:90%;
+    margin-top:2.5% ;
+    border-radius: 3%;
+
+}
+
+
+
+#qrcodewrapper{
+  float:left;
+  width:30%;
+  height:90%;
+  background-color:white;
+  border-radius: 3%;
+  margin-top:2.5%;
+  margin-left:3%;
+}
+
+.conDevice{
+  padding-left:5%;
+  padding-top:2.5%;
+}
+.kickuserimg{
+  width:4%;
+}
+
+#qrcodetext{
+
+    margin-top:10%;
+    font-size :1.5vw;
+    display:block;
+    margin-left:15%;
+}
+
+#hideqrtxt{
+    margin:0;
+  position:relative;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.5vw;
+    display:inline-block;
+}
+#visibility{
+    margin-left:15%;
+    width:70%;
+}
+
+#eyebutton{
+    width:10%;
+    height:10%;
+}
+
+#welcometxt{
+    margin-left:5%;
+    font-size:3vw;
+    color:grey;
+    margin-top:5%;
+}
+
+#Devicetxt{
+    width:90%;
+    height:30%;
+    margin-left:5%;
+}
+
+#DeviceDiv{
+    background-color: whitesmoke;
+    width:100%;
+    height: 100%;
+    border-radius:2.5%/5%;
+}
+
+.icontext{
+    width:20%;
+    display:inline-block;
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+    margin:0;
+
+}
+
+.navicon{
+    
+    font-size:1.5vw;
+    color:white;
+    position:relative;
+  
+  }
+
+  .navimg{
+    width:10%;
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+    margin:0;
+    display: inline-block;
+    float:left;
+  }
