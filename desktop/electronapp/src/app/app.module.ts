@@ -46,12 +46,15 @@ import { PublicSchemesComponent } from './public-schemes/public-schemes.componen
 import { ButtonpreviewComponent } from './buttonpreview/buttonpreview.component';
 import { EditSchemeComponent } from './edit-scheme/edit-scheme.component';
 import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-portrait.component';
-import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
 import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
-import {MatRippleModule} from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { MatChipsModule } from '@angular/material/chips';
 import { InterceptorService } from './loader/interceptor.service';
 
 import { ColorCircleModule } from 'ngx-color/circle';
@@ -136,6 +139,8 @@ const appRoutes: Routes = [
     MatRadioModule,
     ColorCircleModule,
     MatRippleModule,
+    MatChipsModule,
+    MatTooltipModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }
@@ -145,7 +150,7 @@ const appRoutes: Routes = [
     MatInputModule,
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true}
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

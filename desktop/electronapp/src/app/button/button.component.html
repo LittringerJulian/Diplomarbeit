@@ -1,13 +1,35 @@
-<div *ngIf="format=='Portrait'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 9/16), 'background-color':(element.rgbaColor)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)"
-    cdkDragBoundary="#scheme">
+<div [ngStyle]="{
+    'width.%':getElementWidth(),
+    'padding-top.%':getElementHeight(), 
+    'background-color':(element.rgbaColor), 
+    'color':(getTextColor()), 
+    'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{
+        x: (resizeTranslateX ? element.posx + resizeDifferenceX_px : element.posx),
+        y:(resizeTranslateY ? element.posy + resizeDifferenceY_px : element.posy)
+    }" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="resizing">
 
-    <p id="text" *ngIf="element.specification == ''"> {{ element.shortcut[1] }} </p>
-    <p id="text" *ngIf="element.specification != ''"> {{ element.specification }}</p>
+    <p id="text"> {{ element.specification == '' ? element.shortcut[1] : element.specification}} </p>
+
+
+    <!-- REQUIRED IN EVERY COMPONENT -->
+    <div id="resizeElementsContainer" *ngIf="isSelected">
+        <div (mousedown)="resizeStart($event, true, true)" class="resizeCorner" id="resizeTopLeft"></div>
+        <div (mousedown)="resizeStart($event, false, true)" class="resizeCorner" id="resizeTopRight"></div>
+        <div (mousedown)="resizeStart($event, true, false)" class="resizeCorner" id="resizeBottomLeft"></div>
+        <div (mousedown)="resizeStart($event, false, false)" class="resizeCorner" id="resizeBottomRight"></div>
+
+        <!--
+        <div class="resizeEdge" id="resizeTop"></div>
+        <div class="resizeEdge" id="resizeLeft"></div>
+        <div class="resizeEdge" id="resizeRight"></div>
+        <div class="resizeEdge" id="resizeBottom"></div>
+    -->
+    </div>
+
 </div>
 
-<div *ngIf="format=='Landscape'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 16/9), 'background-color':(element.rgbaColor), 'color':(getTextColor())}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
-    (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
+<!-- FIAS HANDY | BITTE NED LOESCHEN DANKE -->
+<!--<div [ngStyle]="{'width.%':(element.width),'padding-top.%':(element.height), 'background-color':(element.rgbaColor), 'color':(getTextColor()), 'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
+    (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="disableDragging">
 
-    <p id="text" *ngIf="element.specification == ''"> {{ element.shortcut[1] }} </p>
-    <p id="text" *ngIf="element.specification != ''"> {{ element.specification }}</p>
-</div>
+    <p id="text"> {{ element.specification == '' ? element.shortcut[1] : element.specification}} </p>-->

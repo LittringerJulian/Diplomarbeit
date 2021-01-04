@@ -22,11 +22,13 @@ export class GenerateSchemeComponent implements OnInit {
   public isMenuOpen: boolean = false;
   formGroup: FormGroup;
   isChecked = true;
-  array = []
+  components = []
   elementWidth = 10;
   elementHeight = 10;
   format = 'Landscape';
   selectedComponent: Element
+
+  nameButtonLabelText = ""
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -39,7 +41,7 @@ export class GenerateSchemeComponent implements OnInit {
   contentHeight;
   el: HTMLElement
 
-  predefinedColors = ["#f44336", "#e91e63", "#9c27b0", "#03a9f4", "#4caf50", "#ffeb3b", "#ff9800"]
+  predefinedColors = ["#9C27B0", "#E91E63", "#f44336", "#ff9800", "#ffeb3b", "#03a9f4", "#4caf50", "#F0F0F0", "#000000"]
   customColor: SafeStyle = "FFFFFF"
   rippleColor = "rgba(0,0,0,0.2)"
 
@@ -56,7 +58,7 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   deselectComponent(e) {
-    if (e.target.id == "scheme")
+    if (e.target.id == "scheme" || e.target.id == "snavcontent")
       this.selectedComponent = null
   }
 
@@ -71,7 +73,18 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   getTextColor() {
-    return this.selectedComponent.color.hsl.l > 0.5 ? "#000000" : "#FFFFFF"
+    if (this.selectedComponent.color.rgb.a > 0.6) {
+    let hex = this.selectedComponent.color.hex
+    hex = hex.replace("#", '');
+
+    let r = parseInt(hex.substr(0, 2), 16)
+    let g = parseInt(hex.substr(2, 2), 16)
+    let b = parseInt(hex.substr(4, 2), 16)
+
+    let mean = (r + g + b) / 3
+    return mean > 155 ? "#000000" : "#FFFFFF"
+    }
+    else return "#000000"
   }
 
   changeColor($event: ColorEvent) {
@@ -86,8 +99,8 @@ export class GenerateSchemeComponent implements OnInit {
   addArray(identifier, specification) {
     let color: Color = { hex: "#FFFFFF", hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: 255, g: 255, b: 255, a: 1 }, source: "rgb" }
     let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
-    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, [true, "W"])
-    this.array.push(e)
+    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, [true, "W"], false)
+    this.components.push(e)
     this.selectComponent(e)
     /*console.log(this.contentHeight )
     this.el = document.getElementById('snavcontent');
@@ -108,8 +121,8 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   saveScheme() {
-    if (this.array.length > 0) {
-      this.newScheme.content = this.array;
+    if (this.components.length > 0) {
+      this.newScheme.content = this.components;
 
       let dialogRef = this.dialog.open(SchemeNameComponent);
 
@@ -138,7 +151,7 @@ export class GenerateSchemeComponent implements OnInit {
       this.elementHeight = 10;
       this.format = 'Landscape';
 
-      this.array = [];
+      this.components = [];
       this.el.style.width = '70%';
 
       this.el.style.paddingBottom = 'calc(70%*(9/16))';
@@ -150,7 +163,7 @@ export class GenerateSchemeComponent implements OnInit {
       this.elementHeight = 20;
       this.format = 'Portrait';
 
-      this.array = [];
+      this.components = [];
       this.el.style.width = '25%';
 
       this.el.style.paddingBottom = 'calc(25%*(16/9))';

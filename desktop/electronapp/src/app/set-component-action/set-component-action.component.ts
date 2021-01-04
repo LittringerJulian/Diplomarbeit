@@ -27,12 +27,12 @@ export class SetComponentActionComponent implements OnInit {
   }
 
   startShortcut() {
-    this.shortcut = this.shortcut.slice(0,1)
+    this.shortcut = this.shortcut.slice(0, 1)
     this.shortcut.push("")
     this.recording = true
 
     console.log(this.shortcut);
-    
+
   }
 
   recordKeypress($event) {
@@ -56,7 +56,23 @@ export class SetComponentActionComponent implements OnInit {
   stopShortcut() {
     if (this.recording) {
       for (let i = 2; i < this.shortcut.length; i++) {
-        this.shortcut[1] += this.shortcut[i]
+
+        switch (this.shortcut[i]) {
+          case "SPACEBAR":
+            this.shortcut[1] += "SPACE"
+            break;
+          case "CONTROL":
+            this.shortcut[1] += "CTRL"
+            break;
+          case "BACKSPACE":
+            this.shortcut[1] += "BACK"
+            break;
+          case "DELETE":
+            this.shortcut[1] += "DEL"
+            break;
+          default:
+            this.shortcut[1] += this.shortcut[i]
+        }
         if (i < this.shortcut.length - 1) {
           this.shortcut[1] += " + "
         }
@@ -66,7 +82,7 @@ export class SetComponentActionComponent implements OnInit {
     this.recording = false
   }
 
-  changeMode(bool){
+  changeMode(bool) {
     this.shortcut = [bool, ""]
   }
 }
