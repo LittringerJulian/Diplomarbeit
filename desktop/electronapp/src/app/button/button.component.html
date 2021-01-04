@@ -1,11 +1,11 @@
-<div *ngIf="format=='Portrait'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 9/16), 'background-color':(element.rgbaColor)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}" (cdkDragEnded)="cdkDragReleased($event, element,i)"
-    cdkDragBoundary="#scheme">
+<div *ngIf="format=='Portrait'" [ngStyle]="{'width.%':(element.width),'padding-top.%':(element.height), 'background-color':(element.rgbaColor), 'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
+    (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
 
     <p id="text" *ngIf="element.specification == ''"> {{ element.shortcut[1] }} </p>
     <p id="text" *ngIf="element.specification != ''"> {{ element.specification }}</p>
 </div>
 
-<div *ngIf="format=='Landscape'" [ngStyle]="{'width.%':(element.width),'height.%':(element.height * 16/9), 'background-color':(element.rgbaColor), 'color':(getTextColor())}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
+<div *ngIf="format=='Landscape'" [ngStyle]="{'width.%':(element.width),'padding-top.%':(element.height), 'background-color':(element.rgbaColor), 'color':(getTextColor()), 'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
     (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme">
 
     <p id="text" *ngIf="element.specification == ''"> {{ element.shortcut[1] }} </p>

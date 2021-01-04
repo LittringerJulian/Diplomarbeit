@@ -10,8 +10,8 @@ import { Element } from '../element';
 })
 export class UiElementComponent implements OnInit {
 
-  @Input() element :Element;
-  @Input() format : String;
+  @Input() element: Element;
+  @Input() format: String;
 
   contentWidth;
   contentHeight;
@@ -49,8 +49,20 @@ export class UiElementComponent implements OnInit {
     //console.log(this.array.length)
   }
 
-  getTextColor(){
-    return this.element.color.hsl.l > 0.5 ? "#000000" : "#FFFFFF"
+  getTextColor() {
+    if (this.element.color.rgb.a > 0.6) {
+      let hex = this.element.color.hex
+      hex = hex.replace("#", '');
+
+      let r = parseInt(hex.substr(0, 2), 16)
+      let g = parseInt(hex.substr(2, 2), 16)
+      let b = parseInt(hex.substr(4, 2), 16)
+
+      let mean = (r + g + b) / 3
+
+      return mean > 155 ? "#000000" : "#FFFFFF"
+    }
+    else return "#000000"
   }
 
   round(value, precision) {

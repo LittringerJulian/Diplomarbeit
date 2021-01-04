@@ -2,7 +2,7 @@
     <mat-toolbar color="primary" class="toolbar">
         <div id="headerleft">
             <button mat-icon-button color="accent" (click)="home()">
-              <mat-icon>arrow_back</mat-icon>
+                <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
 
@@ -42,22 +42,15 @@
             <!--<div class="example-box" (click)="addArray('test','')">
         test
       </div>-->
-
-
-
-
-
         </mat-sidenav>
 
-        <mat-sidenav-content id="snavcontent">
-            <div id="scheme" (click)="deselectComponent($event)">
+        <mat-sidenav-content id="snavcontent" (click)="deselectComponent($event)">
+            <div id="scheme">
                 <!--(click)="selectComponent($event)"-->
                 <div *ngFor="let item of array;let i = index">
-
                     <app-button *ngIf="item.identifier == 'button'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
                     <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-joystick>
                     <!--<app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>-->
-
                 </div>
             </div>
         </mat-sidenav-content>
@@ -65,30 +58,66 @@
         <!-- EDIT COMPONENT MENU -->
 
         <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
-            <form *ngIf="this.selectedComponent" autocomplete="off">
-                <input type="text" hidden autocomplete="false">
-                <mat-form-field style="display: flex; justify-content: center; align-items: center; margin-top: 10%">
-                    <mat-label>{{ this.selectedComponent.shortcut[1] }}</mat-label>
-                    <input matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
-                </mat-form-field>
-            </form>
-            <div *ngIf="this.selectedComponent" style="width: 80%; position: relative; margin: auto;">
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[0]" class="colorCircle" (click)="setColor(this.predefinedColors[0])"></div>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[1]" class="colorCircle" (click)="setColor(this.predefinedColors[1])"></div>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[2]" class="colorCircle" (click)="setColor(this.predefinedColors[2])"></div>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[3]" class="colorCircle" (click)="setColor(this.predefinedColors[3])"></div>
-                <br>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[4]" class="colorCircle" (click)="setColor(this.predefinedColors[4])"></div>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[5]" class="colorCircle" (click)="setColor(this.predefinedColors[5])"></div>
-                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[6]" class="colorCircle" (click)="setColor(this.predefinedColors[6])"></div>
+            <!-- COMPONENT NAME -->
+            <div *ngIf="this.selectedComponent" id="wrapperComponentName" class="wrapperComponent">
+                <mat-label style="margin-left: 5%; font-weight: 700;">Name:</mat-label>
+                <form autocomplete="off">
+                    <input type="text" hidden autocomplete="false">
+                    <button mat-button style="height: 0; position: absolute;"> <!-- disable autofocus -->
+                    </button>
+                    <mat-form-field id="componentNameInputForm" floatLabel="never">
+                        <mat-label *ngIf="this.selectedComponent.specification == ''">{{ this.selectedComponent.shortcut[1] }}</mat-label>
+                        <input #nameInput matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </form>
+            </div>
+            <!-- COMPONENT NAME END -->
+            <br>
+            <!-- COMPONENT COLOR -->
+
+            <div *ngIf="this.selectedComponent" id="wrapperComponentColor" class="wrapperComponent">
+                <mat-label style="margin-left: 2%;font-weight: 700;">Color:</mat-label>
+                <p></p>
+                <div *ngFor="let color of predefinedColors; let i = index" style="display: inline">
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="color" class="colorCircle" (click)="setColor(color)"></div>
+                </div>
+                <!--
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[0]" class="colorCircle" (click)="setColor(this.predefinedColors[0])"></div>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[1]" class="colorCircle" (click)="setColor(this.predefinedColors[1])"></div>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[2]" class="colorCircle" (click)="setColor(this.predefinedColors[2])"></div>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[3]" class="colorCircle" (click)="setColor(this.predefinedColors[3])"></div>
+                    <br>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[4]" class="colorCircle" (click)="setColor(this.predefinedColors[4])"></div>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[5]" class="colorCircle" (click)="setColor(this.predefinedColors[5])"></div>
+                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[6]" class="colorCircle" (click)="setColor(this.predefinedColors[6])"></div>
+                    -->
                 <div id="customColorCircle" [ngStyle]="{'background-color': this.selectedComponent.rgbaColor, 'color': getTextColor()}" class="colorCircle">
                     <span id="colorPickerIcon" class="material-icons">
                         colorize
-                        </span>
-                    <color-chrome [width]="200" id="colorPicker" [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+                    </span>
+                    <color-chrome id="colorPicker" [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
                 </div>
             </div>
-            <button mat-raised-button (click)="setComponentAction()">set action</button>
+            <!-- COMPONENT COLOR END -->
+            <br>
+            <!-- COMPONENT ACTION -->
+            <div *ngIf="this.selectedComponent" id="wrapperComponentAction" class="wrapperComponent">
+                <mat-label style="font-weight: 700; margin-left: 5%;">Action: &nbsp;
+                    <mat-chip-list style="display: inline-block;" matTooltip="Click to set action">
+                        <mat-chip (click)="setComponentAction()" style="cursor: pointer;">{{this.selectedComponent.shortcut[1]}}</mat-chip>
+                    </mat-chip-list>
+                </mat-label>
+
+            </div>
+            <!-- COMPONENT ACTION END -->
+            <div *ngIf="this.selectedComponent" id="wrapperComponentAction" class="wrapperComponent">
+
+                <button (click)="this.selectedComponent.circle = !this.selectedComponent.circle">toggle circle</button>
+
+                <input type="number" [(ngModel)]="this.selectedComponent.width">
+                <input type="number" [(ngModel)]="this.selectedComponent.height">
+
+            </div>
         </mat-sidenav>
     </mat-sidenav-container>
 
