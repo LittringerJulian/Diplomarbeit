@@ -49,9 +49,12 @@ import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-
 import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
 import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
+import {MatRippleModule} from '@angular/material/core';
 
 import {MatRadioModule} from '@angular/material/radio';
 import { InterceptorService } from './loader/interceptor.service';
+
+import { ColorCircleModule } from 'ngx-color/circle';
 
 
 const appRoutes: Routes = [
@@ -129,6 +132,8 @@ const appRoutes: Routes = [
     TagInputModule,
     ColorChromeModule,
     MatRadioModule,
+    ColorCircleModule,
+    MatRippleModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

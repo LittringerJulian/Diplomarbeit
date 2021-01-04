@@ -38,24 +38,18 @@ export class SetComponentActionComponent implements OnInit {
   recordKeypress($event) {
     $event.preventDefault()
     if (this.recording) {
-
       $event = $event.key.toUpperCase()
-
-
       if (!this.shortcut.includes($event)) {
-
         if ($event == ' ') {
           this.shortcut.push("SPACEBAR")
         }
         else {
           this.shortcut.push($event)
         }
-
         if (this.shortcut.length == 6 || this.shortcut[0]) {
           this.stopShortcut()
         }
       }
-
     }
   }
 
@@ -66,7 +60,6 @@ export class SetComponentActionComponent implements OnInit {
         if (i < this.shortcut.length - 1) {
           this.shortcut[1] += " + "
         }
-
       }
       //electron.ipcRenderer.send("pressShortcut", this.shortcut)
     }

@@ -65,15 +65,30 @@
         <!-- EDIT COMPONENT MENU -->
 
         <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
-
             <form *ngIf="this.selectedComponent" autocomplete="off">
                 <input type="text" hidden autocomplete="false">
-                <mat-form-field style="display: flex; justify-content: center; align-items: center;">
+                <mat-form-field style="display: flex; justify-content: center; align-items: center; margin-top: 10%">
+                    <mat-label>{{ this.selectedComponent.shortcut[1] }}</mat-label>
                     <input matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
             </form>
-            <color-chrome [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
-            <button mat-button (click)="setComponentAction()">action</button>
+            <div *ngIf="this.selectedComponent" style="width: 80%; position: relative; margin: auto;">
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[0]" class="colorCircle" (click)="setColor(this.predefinedColors[0])"></div>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[1]" class="colorCircle" (click)="setColor(this.predefinedColors[1])"></div>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[2]" class="colorCircle" (click)="setColor(this.predefinedColors[2])"></div>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[3]" class="colorCircle" (click)="setColor(this.predefinedColors[3])"></div>
+                <br>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[4]" class="colorCircle" (click)="setColor(this.predefinedColors[4])"></div>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[5]" class="colorCircle" (click)="setColor(this.predefinedColors[5])"></div>
+                <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[6]" class="colorCircle" (click)="setColor(this.predefinedColors[6])"></div>
+                <div id="customColorCircle" [ngStyle]="{'background-color': this.selectedComponent.rgbaColor, 'color': getTextColor()}" class="colorCircle">
+                    <span id="colorPickerIcon" class="material-icons">
+                        colorize
+                        </span>
+                    <color-chrome [width]="200" id="colorPicker" [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+                </div>
+            </div>
+            <button mat-raised-button (click)="setComponentAction()">set action</button>
         </mat-sidenav>
     </mat-sidenav-container>
 

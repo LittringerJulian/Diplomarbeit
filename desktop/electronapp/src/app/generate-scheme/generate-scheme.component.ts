@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ColorEvent, Color } from 'ngx-color';
 import { SetComponentActionComponent } from '../set-component-action/set-component-action.component';
+import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
 
 
 
@@ -25,7 +26,7 @@ export class GenerateSchemeComponent implements OnInit {
   elementWidth = 10;
   elementHeight = 10;
   format = 'Landscape';
-  selectedComponent
+  selectedComponent: Element
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -38,9 +39,13 @@ export class GenerateSchemeComponent implements OnInit {
   contentHeight;
   el: HTMLElement
 
+  predefinedColors = ["#f44336", "#e91e63", "#9c27b0", "#03a9f4", "#4caf50", "#ffeb3b", "#ff9800"]
+  customColor: SafeStyle = "FFFFFF"
+  rippleColor = "rgba(0,0,0,0.2)"
 
 
-  constructor(private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
+
+  constructor(private sanitizer: DomSanitizer, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
 
@@ -52,17 +57,30 @@ export class GenerateSchemeComponent implements OnInit {
 
   deselectComponent(e) {
     if (e.target.id == "scheme")
-      this.selectedComponent = false
+      this.selectedComponent = null
   }
 
   selectComponent(e) {
     this.selectedComponent = e
   }
 
+  setColor(color) {
+    let newColor = { hex: color, hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: 255, g: 255, b: 255, a: 1 }, source: "rgb" }
+    this.selectedComponent.color = newColor
+    this.selectedComponent.rgbaColor = color
+  }
+
+  getTextColor() {
+    return this.selectedComponent.color.hsl.l > 0.5 ? "#000000" : "#FFFFFF"
+  }
+
   changeColor($event: ColorEvent) {
     let color = $event.color
     this.selectedComponent.color = $event.color
     this.selectedComponent.rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
+
+    let temp = $event.color.hex
+    this.customColor = $event.color.hex
   }
 
   addArray(identifier, specification) {
@@ -109,7 +127,7 @@ export class GenerateSchemeComponent implements OnInit {
         }
       })
     }
-    else{
+    else {
       this.openSnackbar("Scheme is Empty")
     }
   }
