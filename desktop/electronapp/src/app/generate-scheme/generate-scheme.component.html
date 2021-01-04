@@ -44,11 +44,11 @@
       </div>-->
         </mat-sidenav>
 
-        <mat-sidenav-content id="snavcontent" (click)="deselectComponent($event)">
+        <mat-sidenav-content id="snavcontent" (mousedown)="deselectComponent($event)">
             <div id="scheme">
                 <!--(click)="selectComponent($event)"-->
-                <div *ngFor="let item of array;let i = index">
-                    <app-button *ngIf="item.identifier == 'button'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
+                <div *ngFor="let item of components;let i = index">
+                    <app-button *ngIf="item.identifier == 'button'" [isSelected]="(this.selectedComponent == item)" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-button>
                     <app-joystick *ngIf="item.identifier == 'joystick'" [element]="item" [format]="format" (selectComponent)="selectComponent($event)"></app-joystick>
                     <!--<app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>-->
                 </div>
