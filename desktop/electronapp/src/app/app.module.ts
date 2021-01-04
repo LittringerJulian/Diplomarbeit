@@ -55,17 +55,18 @@ import {MatRadioModule} from '@angular/material/radio';
 import { InterceptorService } from './loader/interceptor.service';
 
 import { ColorCircleModule } from 'ngx-color/circle';
+import { MainScreenComponent } from './main-screen/main-screen.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'main', component: MainScreenComponent },
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'myschemes', component: MySchemesComponent },
   { path: 'editscheme', component: EditSchemeComponent },
   { path: 'editschemeportrait', component: EditSchemePortraitComponent },
-
   { path: 'publicschemes', component: PublicSchemesComponent },
   {
     path: 'qrcode', component: QrscannerComponent,
@@ -100,7 +101,8 @@ const appRoutes: Routes = [
     ButtonpreviewComponent,
     EditSchemeComponent,
     EditSchemePortraitComponent,
-    SetComponentActionComponent
+    SetComponentActionComponent,
+    MainScreenComponent
   ],
   entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent, SetComponentActionComponent],
   imports: [
