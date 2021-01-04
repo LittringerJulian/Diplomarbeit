@@ -30,5 +30,8 @@ module.exports = app => {
     
     app.get("/findAllPublic",jsonParser,  statistics.getPublic);
     app.get("/getUserInfo",jsonParser,  statistics.getUserInformation);
+    
+    
+    app.post("/getPublicSchemeBy", jsonParser,statistics.getPublicByFilter);
 
 };
