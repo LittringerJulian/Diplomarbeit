@@ -108,22 +108,23 @@ export class GenerateSchemeComponent implements OnInit {
 
     if (this.selectedComponent) {
       let scheme = document.getElementById("scheme")
+      let fraction = scheme.offsetHeight < scheme.offsetWidth ? scheme.offsetHeight : scheme.offsetWidth
       let multiplier = this.ctrlPressed ? 10 : 100
       let newpos
       if (e.key == "ArrowUp") {
-        newpos = this.selectedComponent.posy - (scheme.offsetHeight) / multiplier
+        newpos = this.selectedComponent.posy - fraction / multiplier
         this.selectedComponent.posy = newpos > 0 ? newpos : 0
       }
       if (e.key == "ArrowLeft") {
-        newpos = this.selectedComponent.posx - (scheme.offsetWidth) / multiplier
+        newpos = this.selectedComponent.posx - fraction / multiplier
         this.selectedComponent.posx = newpos > 0 ? newpos : 0
       }
       if (e.key == "ArrowRight") {
-        newpos = this.selectedComponent.posx + (scheme.offsetWidth) / multiplier
+        newpos = this.selectedComponent.posx + fraction / multiplier
         this.selectedComponent.posx = newpos + scheme.offsetWidth * this.selectedComponent.width / 100 < scheme.offsetWidth ? newpos : scheme.offsetWidth - scheme.offsetWidth * this.selectedComponent.width / 100
       }
       if (e.key == "ArrowDown") {
-        newpos = this.selectedComponent.posy + (scheme.offsetHeight) / multiplier
+        newpos = this.selectedComponent.posy + fraction / multiplier
         this.selectedComponent.posy = newpos + scheme.offsetWidth * this.selectedComponent.height / 100 < scheme.offsetHeight ? newpos : scheme.offsetHeight - scheme.offsetWidth * this.selectedComponent.height / 100
       }
     }
