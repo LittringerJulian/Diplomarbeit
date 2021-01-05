@@ -4,8 +4,8 @@
     'background-color':(element.rgbaColor), 
     'color':(getTextColor()), 
     'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{
-        x: (resizeTranslateX ? element.posx + resizeDifferenceX_px : element.posx),
-        y:(resizeTranslateY ? element.posy + resizeDifferenceY_px : element.posy)
+        x: getElementPosX(),
+        y: getElementPosY()
     }" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="resizing">
 
     <p id="text"> {{ element.specification == '' ? element.shortcut[1] : element.specification}} </p>
