@@ -87,6 +87,68 @@ exports.getPublic = (req, res) => {
 };
 
 
+//getPublicSchemes by Filter
+exports.getPublicByFilter = (req, res) => {
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+    var i = 0;
+
+
+    console.log(req.body.format)
+
+    //var string = JSON.parse(req.body.id);
+    //var objectid=new ObjectID(req.params.id);
+
+
+    var query;
+    var formatinput = req.body.format
+    var taginput = req.body.tags
+    var formatenabled=true;
+    var tagsenabled=true;
+
+    if(formatinput==null){
+      formatenabled=false;
+      
+    }
+    if(taginput==null){
+      tagsenabled = false;
+    }
+
+    
+    
+    console.log(formatenabled,tagsenabled)
+    switch (formatenabled+" "+tagsenabled){
+
+      case "false false" :
+        query = {published :true}
+      break;
+      case "true false" :
+        query = {published :true,format:formatinput}
+      break;
+      case "false true" :
+        query={published:true,tags:{$all :req.body.tags}}
+      break;
+      case "true true" :
+        query = {published:true,format:req.body.format,tags:{$all :req.body.tags}}
+      break;
+    }
+
+    console.log(query)
+    
+
+    db.collection("Scheme")
+      .find(query)
+      .toArray(function (err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.send(result)
+      });
+  });
+};
+
+
 //insert new Scheme
 exports.insertScheme = (req, res) => {
 
