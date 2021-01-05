@@ -126,7 +126,7 @@ export class HttpService {
     return this.http.get('http://localhost:3000/getUserInfo', options);
   }
 
-  getFilteredSchemes(json) {
+    getFilteredSchemes(json) {
     let token = localStorage.getItem('token');
  
 

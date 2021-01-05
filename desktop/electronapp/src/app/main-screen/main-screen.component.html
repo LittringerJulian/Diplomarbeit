@@ -11,38 +11,45 @@
 
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+        
         <div (click)="myschemes()" class="innerdiv">
-            <p class="navtext">my schemes</p>
+            <img class="navimg" src="./assets/create.svg">
+            <p class="navtext">My schemes</p>
         </div>
     </div>
 
     <div class="navdiv">
         <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
         <div (click)="publicSchemes()" class="innerdiv">
-            <p class="navtext">Public schemes</p>
+            <img class="navimg" src="./assets/public.svg">
+            <p class="navtext">Discover</p>
         </div>
     </div>
 
-    <div class="navdiv">
+    <div class="navdivright">
         <!--<button (click)="logout()" class="navbutton">logout</button>-->
-        <div (click)="logout()" class="innerdiv">
-            <p class="navtext">logout</p>
+        <div  class="innerdivright">
+            <img id="rightimg" src="./assets/account.svg">
         </div>
     </div>
 </mat-toolbar>
 
 
-
 <div id="content" *ngIf="this.qrCodeIsSet">
+    <div id="accountdiv">
+        <p id="emailtext">Logged in as {{email}}</p>
+        <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
+        <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
+    </div>
     <div id="qrcodewrapper">
         <a id="qrcodetext">Ready to connect!</a>
         <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
         </qrcode>
         <div id="visibility">
-            <button mat-icon-button id="eyebutton">
-                <mat-icon>visibility_off</mat-icon>
-            </button>
+           
+            <img id="visibilityimg" src="./assets/visibility_off.svg">
             <p id="hideqrtxt">Hide QR Code</p>
+      
         </div>
     </div>
     <div id="userinfo">

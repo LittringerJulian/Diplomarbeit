@@ -44,7 +44,7 @@ export class LoginComponent {
     });
 
     if(localStorage.getItem('token') != "null") {
-    this.router.navigate(['/qrcode']);
+    this.router.navigate(['/main']);
     console.log("not null")
   }
   if (localStorage.getItem('token') == "null") {
