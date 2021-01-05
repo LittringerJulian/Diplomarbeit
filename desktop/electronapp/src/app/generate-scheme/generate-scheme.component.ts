@@ -27,6 +27,7 @@ export class GenerateSchemeComponent implements OnInit {
   elementHeight = 10;
   format = 'Landscape';
   selectedComponent: Element
+  copiedComponent: Element
 
   nameButtonLabelText = ""
 
@@ -45,7 +46,7 @@ export class GenerateSchemeComponent implements OnInit {
   customColor: SafeStyle = "FFFFFF"
   rippleColor = "rgba(0,0,0,0.2)"
 
-
+  ctrlPressed = false
 
   constructor(private sanitizer: DomSanitizer, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
@@ -74,17 +75,63 @@ export class GenerateSchemeComponent implements OnInit {
 
   getTextColor() {
     if (this.selectedComponent.color.rgb.a > 0.6) {
-    let hex = this.selectedComponent.color.hex
-    hex = hex.replace("#", '');
+      let hex = this.selectedComponent.color.hex
+      hex = hex.replace("#", '');
 
-    let r = parseInt(hex.substr(0, 2), 16)
-    let g = parseInt(hex.substr(2, 2), 16)
-    let b = parseInt(hex.substr(4, 2), 16)
+      let r = parseInt(hex.substr(0, 2), 16)
+      let g = parseInt(hex.substr(2, 2), 16)
+      let b = parseInt(hex.substr(4, 2), 16)
 
-    let mean = (r + g + b) / 3
-    return mean > 155 ? "#000000" : "#FFFFFF"
+      let mean = (r + g + b) / 3
+      return mean > 155 ? "#000000" : "#FFFFFF"
     }
     else return "#000000"
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  listenOnKeydown(e: KeyboardEvent) {
+    if (e.key == "Control") {
+      this.ctrlPressed = true
+    }
+
+    if (e.key == "c" && this.ctrlPressed && this.selectedComponent) {
+      this.copiedComponent = Object.create(Object.getPrototypeOf(this.selectedComponent), Object.getOwnPropertyDescriptors(this.selectedComponent));
+    }
+
+    if (e.key == "v" && this.ctrlPressed && this.copiedComponent) {
+      let newComponent: Element = Object.create(Object.getPrototypeOf(this.copiedComponent), Object.getOwnPropertyDescriptors(this.copiedComponent));
+      newComponent.posx = newComponent.posx - 10 >= 0 ? newComponent.posx - 10 : newComponent.posx + 10
+      newComponent.posy = newComponent.posy - 10 >= 0 ? newComponent.posy - 10 : newComponent.posy + 10
+      this.components.push(newComponent)
+      this.selectComponent(newComponent)
+    }
+
+    if (this.selectedComponent) {
+      let scheme = document.getElementById("scheme")
+      let multiplier = this.ctrlPressed ? 10 : 100
+      let newpos
+      if (e.key == "ArrowUp") {
+        newpos = this.selectedComponent.posy - (scheme.offsetHeight) / multiplier
+        this.selectedComponent.posy = newpos > 0 ? newpos : 0
+      }
+      if (e.key == "ArrowLeft") {
+        newpos = this.selectedComponent.posx - (scheme.offsetWidth) / multiplier
+        this.selectedComponent.posx = newpos > 0 ? newpos : 0
+      }
+      if (e.key == "ArrowRight") {
+        newpos = this.selectedComponent.posx + (scheme.offsetWidth) / multiplier
+        this.selectedComponent.posx = newpos + scheme.offsetWidth * this.selectedComponent.width / 100 < scheme.offsetWidth ? newpos : scheme.offsetWidth - scheme.offsetWidth * this.selectedComponent.width / 100
+      }
+      if (e.key == "ArrowDown") {
+        newpos = this.selectedComponent.posy + (scheme.offsetHeight) / multiplier
+        this.selectedComponent.posy = newpos + scheme.offsetWidth * this.selectedComponent.height / 100 < scheme.offsetHeight ? newpos : scheme.offsetHeight - scheme.offsetWidth * this.selectedComponent.height / 100
+      }
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  listenOnKeyup(e: KeyboardEvent) {
+    if (e.key == "Control") this.ctrlPressed = false
   }
 
   changeColor($event: ColorEvent) {
