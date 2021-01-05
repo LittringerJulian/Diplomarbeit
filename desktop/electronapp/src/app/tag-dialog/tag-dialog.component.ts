@@ -29,8 +29,13 @@ public onAdd(item) {
   this.items.push(item.value)
 }
 public onRemove(item) {
-  var length = this.items.length -1;
-  this.items.splice(length)
-  console.log(this.items)
+  this.items.forEach((element, index) => {
+    if(element==item){
+      console.log(element,index)
+      this.items.splice(index,1)
+    }
+  });
+    
+  
 }
 }

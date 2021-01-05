@@ -12,7 +12,7 @@ export class InterceptorService implements HttpInterceptor{
   constructor(public loaderService : LoaderService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       this.loaderService.isLoading.next(true)
-
+    console.log("httprequest")
       return next.handle(req).pipe(
           finalize(
             () =>{

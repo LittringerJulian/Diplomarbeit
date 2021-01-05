@@ -6,9 +6,62 @@
   
   
     </mat-toolbar>
-    <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
 
     <div id="content">
+      <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
+
+      <div id="searchdiv">
+       
+       <!-- <div id="formatinput">-->
+          <mat-form-field id="formatform">
+            <mat-label >Format</mat-label>
+            <mat-select [(ngModel)]="searchFormat">
+              <mat-option value="Landscape">Landscape</mat-option>
+              <mat-option value="Portrait">Portrait</mat-option>    
+              <mat-option value="Both">Both</mat-option>                        
+            </mat-select>
+          </mat-form-field>
+        <!--</div>-->
+          <!--<div id="tagselection">
+            <tag-input [ngModel]="items" [modelAsStrings]="true" (onAdd)="onAdd($event)" (onRemove)="onRemove($event)" > 
+                <tag-input-dropdown [autocompleteItems]="autocompleteItems" color="primary">
+                </tag-input-dropdown>
+            </tag-input>
+
+            <button mat-raised-button color="accent" (click)="Search()">Search </button>
+        </div>-->
+        <mat-form-field id="tagform">
+          <mat-label>Tags</mat-label>
+          <mat-chip-list #chipList aria-label="Tag selection">
+            <mat-chip
+              *ngFor="let tag of tags"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(tag)">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New Tag..."
+              #tagInput
+              [formControl]="tagCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredtags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent"  id="searchbutton" (click)="Search()">Search</button>
+
+        
+       
+      </div>
   <div *ngFor="let item of array;let i = index" class="card"> 
       <mat-card class="scheme-card" >
           <mat-card-header>

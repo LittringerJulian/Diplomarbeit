@@ -62,6 +62,7 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     MatTableModule,
