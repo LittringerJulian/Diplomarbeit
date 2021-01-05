@@ -59,7 +59,7 @@ import { InterceptorService } from './loader/interceptor.service';
 
 import { ColorCircleModule } from 'ngx-color/circle';
 import { MainScreenComponent } from './main-screen/main-screen.component';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -119,6 +119,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     MatTableModule,
