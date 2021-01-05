@@ -59,6 +59,9 @@ import { InterceptorService } from './loader/interceptor.service';
 
 import { ColorCircleModule } from 'ngx-color/circle';
 import { MainScreenComponent } from './main-screen/main-screen.component';
+
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const appRoutes: Routes = [
@@ -142,6 +145,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     MatChipsModule,
     MatTooltipModule,
+    MatButtonToggleModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

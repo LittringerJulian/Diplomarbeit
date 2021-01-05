@@ -5,19 +5,15 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
-
         <a style="margin-right:1%">change Format</a>
         <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)"></mat-slide-toggle>
 
         <div id="headerdiv">
             <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>
         </div>
-
-
     </mat-toolbar>
-
     <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
-        <mat-sidenav #snav [mode]='side' id="sidenav" opened="true" disableClose="true">
+        <mat-sidenav #snav [mode]='side' id="sidenav" [opened]="true">
 
             <div id="buttondiv" class="sidenavcomponents" (click)="addArray('button','')">
                 <p id="text">Button</p>
@@ -26,22 +22,6 @@
             <div id="outer" class="sidenavcomponents" (click)="addArray('joystick','')">
                 <div id="inner"></div>
             </div>
-
-            <!--<div class="example-box" (click)="addArray('button','')">
-        Button
-      </div>-->
-            <!--<div class="example-box" (click)="addArray('button','E')">
-        Button E
-      </div>
-      <div class="example-box" (click)="addArray('button','W')">
-        Button W
-      </div>-->
-            <!--<div class="example-box" (click)="addArray('joystick','')">
-        joystick
-      </div>-->
-            <!--<div class="example-box" (click)="addArray('test','')">
-        test
-      </div>-->
         </mat-sidenav>
 
         <mat-sidenav-content id="snavcontent" (mousedown)="deselectComponent($event)">
@@ -56,7 +36,6 @@
         </mat-sidenav-content>
 
         <!-- EDIT COMPONENT MENU -->
-
         <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
             <!-- COMPONENT NAME -->
             <div *ngIf="this.selectedComponent" id="wrapperComponentName" class="wrapperComponent">
@@ -73,24 +52,15 @@
             </div>
             <!-- COMPONENT NAME END -->
             <br>
+            <mat-divider></mat-divider>
+            <br>
             <!-- COMPONENT COLOR -->
-
             <div *ngIf="this.selectedComponent" id="wrapperComponentColor" class="wrapperComponent">
                 <mat-label style="margin-left: 2%;font-weight: 700;">Color:</mat-label>
                 <p></p>
                 <div *ngFor="let color of predefinedColors; let i = index" style="display: inline">
                     <div matRipple [matRippleColor]="rippleColor" [style.background]="color" class="colorCircle" (click)="setColor(color)"></div>
                 </div>
-                <!--
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[0]" class="colorCircle" (click)="setColor(this.predefinedColors[0])"></div>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[1]" class="colorCircle" (click)="setColor(this.predefinedColors[1])"></div>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[2]" class="colorCircle" (click)="setColor(this.predefinedColors[2])"></div>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[3]" class="colorCircle" (click)="setColor(this.predefinedColors[3])"></div>
-                    <br>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[4]" class="colorCircle" (click)="setColor(this.predefinedColors[4])"></div>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[5]" class="colorCircle" (click)="setColor(this.predefinedColors[5])"></div>
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="predefinedColors[6]" class="colorCircle" (click)="setColor(this.predefinedColors[6])"></div>
-                    -->
                 <div id="customColorCircle" [ngStyle]="{'background-color': this.selectedComponent.rgbaColor, 'color': getTextColor()}" class="colorCircle">
                     <span id="colorPickerIcon" class="material-icons">
                         colorize
@@ -100,25 +70,54 @@
             </div>
             <!-- COMPONENT COLOR END -->
             <br>
+            <mat-divider></mat-divider>
+            <br>
             <!-- COMPONENT ACTION -->
             <div *ngIf="this.selectedComponent" id="wrapperComponentAction" class="wrapperComponent">
                 <mat-label style="font-weight: 700; margin-left: 5%;">Action: &nbsp;
                     <mat-chip-list style="display: inline-block;" matTooltip="Click to set action">
-                        <mat-chip (click)="setComponentAction()" style="cursor: pointer;">{{this.selectedComponent.shortcut[1]}}</mat-chip>
+                        <mat-chip (click)="setComponentAction()" style="cursor: pointer;">{{ this.selectedComponent.shortcut[1] }}</mat-chip>
                     </mat-chip-list>
                 </mat-label>
 
             </div>
             <!-- COMPONENT ACTION END -->
-            <div *ngIf="this.selectedComponent" id="wrapperComponentAction" class="wrapperComponent">
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+            <!-- COMPONENT DIMENSIONS -->
+            <div *ngIf="this.selectedComponent" id="wrapperComponentDimensions" class="wrapperComponent">
+                <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
+                <div id="dimensionsFormWrapper">
+                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                        <mat-label>Pos X</mat-label>
+                        <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()">
+                    </mat-form-field>
 
-                <button (click)="this.selectedComponent.circle = !this.selectedComponent.circle">toggle circle</button>
+                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                        <mat-label>Size X</mat-label>
+                        <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(true)">
+                    </mat-form-field>
 
-                <input type="number" [(ngModel)]="this.selectedComponent.width">
-                <input type="number" [(ngModel)]="this.selectedComponent.height">
+                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                        <mat-label>Pos Y</mat-label>
+                        <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()">
+                    </mat-form-field>
 
+                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                        <mat-label>Size Y</mat-label>
+                        <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(false)">
+                    </mat-form-field>
+
+                    <button mat-button id="dimensionsChainBtn" (click)="fixedAspectRatio = !fixedAspectRatio">
+                        <span class="material-icons">
+                            {{ fixedAspectRatio ? "link_off" : "link" }}
+                        </span>
+                    </button>
+                </div>
             </div>
+            <!-- COMPONENT DIMENSIONS END -->
+            <mat-slide-toggle color="primary" *ngIf="this.selectedComponent" [(ngModel)]="this.selectedComponent.circle">Round corners</mat-slide-toggle>
         </mat-sidenav>
     </mat-sidenav-container>
-
 </div>

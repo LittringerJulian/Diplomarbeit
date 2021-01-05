@@ -47,14 +47,17 @@ $resizeElementSize: 0.5em;
     content: ' ';
     display: block;
     position: absolute;
-    background: black;
-    padding-top: 50%;
-    width: 50%;
+    background: white;
+    //background: black;
+    padding-top: $resizeElementSize;
+    width: $resizeElementSize;
     z-index: 20;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 100%;
+    //box-sizing: border-box;
+    border: 1px solid black;
 }
 
 #resizeTopLeft {
