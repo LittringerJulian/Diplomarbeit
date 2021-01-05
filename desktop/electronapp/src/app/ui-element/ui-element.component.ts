@@ -17,7 +17,7 @@ export class UiElementComponent implements OnInit {
 
   contentWidth;
   contentHeight;
-  el: HTMLElement
+  scheme: HTMLElement
 
   resizing = false
 
@@ -38,6 +38,8 @@ export class UiElementComponent implements OnInit {
 
   oldDiffX = 0
   oldDiffY = 0
+  oldPosX = 0
+  oldPosY = 0
 
   @Output() selectComponent = new EventEmitter<Element>()
 
@@ -47,10 +49,17 @@ export class UiElementComponent implements OnInit {
   reenableDragging() {
     if (this.resizing) {
 
+      let scheme = document.getElementById("scheme")
+      
       this.element.posx = this.getElementPosX()
       this.element.posy = this.getElementPosY()
       this.element.width = this.getElementWidth()
       this.element.height = this.getElementHeight()
+
+      this.checkDimensions()
+
+      this.element.percentagex = this.round(this.element.posx / scheme.offsetWidth, 2)
+      this.element.percentagey = this.round(this.element.posy / scheme.offsetHeight, 2)
 
       this.resizeDifferenceX = 0;
       this.resizeDifferenceY = 0;
@@ -88,11 +97,14 @@ export class UiElementComponent implements OnInit {
       //this.resizeDifferenceX = (e.clientX - this.resizeStartX) / scheme.offsetWidth * 100
       if (this.fixedAspectRatio) {
         let greaterValue = Math.max(this.resizeDifferenceX_px, this.resizeDifferenceY_px)
+        if (this.resizeTranslateX || this.resizeTranslateY) {
+          /*if (this.resizeTranslateX) {
+            this.resizeDifferenceX = this.resizeDifferenceY = this.round(greaterValue / scheme.offsetWidth * 100, 2)
+          }*/
 
-        if (this.resizeTranslateX != this.resizeTranslateY || (this.resizeTranslateX && this.resizeTranslateY)) {/*
 
-          if (this.resizeTranslateY) {
-            
+          /*if (this.resizeTranslateY) {
+
             if (this.resizeStartX + greaterValue >= this.resizeStartX && this.resizeStartY - greaterValue <= this.resizeStartY) {
               this.resizeDifferenceX = -Math.round(greaterValue / scheme.offsetWidth * 100 * 100) / 100
               this.resizeDifferenceY = Math.round(greaterValue / scheme.offsetWidth * 100 * 100) / 100
@@ -106,19 +118,19 @@ export class UiElementComponent implements OnInit {
             this.resizeDifferenceX = Math.round(greaterValue / scheme.offsetWidth * 100 * 100) / 100
             this.resizeDifferenceY = -Math.round(greaterValue / scheme.offsetWidth * 100 * 100) / 100
           }
-
-        */
-          this.resizeDifferenceX = Math.round(this.resizeDifferenceX_px / scheme.offsetWidth * 100 * 100) / 100
-          this.resizeDifferenceY = Math.round(this.resizeDifferenceY_px / scheme.offsetWidth * 100 * 100) / 100
+*/
+          this.resizeDifferenceX = this.round(this.resizeDifferenceX_px / scheme.offsetWidth * 100, 2)
+          this.resizeDifferenceY = this.round(this.resizeDifferenceY_px / scheme.offsetWidth * 100, 2)
           console.log("buggy buggy");
 
         } else {
-          this.resizeDifferenceX = this.resizeDifferenceY = Math.round(greaterValue / scheme.offsetWidth * 100 * 100) / 100
+          this.resizeDifferenceX = this.round(greaterValue / scheme.offsetWidth * 100, 2)
+          this.resizeDifferenceY = this.round(greaterValue / scheme.offsetWidth * 100, 2)
         }
       }
       else {
-        this.resizeDifferenceX = Math.round(this.resizeDifferenceX_px / scheme.offsetWidth * 100 * 100) / 100
-        this.resizeDifferenceY = Math.round(this.resizeDifferenceY_px / scheme.offsetWidth * 100 * 100) / 100
+        this.resizeDifferenceX = this.round(this.resizeDifferenceX_px / scheme.offsetWidth * 100, 2)
+        this.resizeDifferenceY = this.round(this.resizeDifferenceY_px / scheme.offsetWidth * 100, 2)
       }
 
 
@@ -127,45 +139,111 @@ export class UiElementComponent implements OnInit {
     }
   }
 
-  getElementWidth() {
+  checkDimensions() {
+    this.element.width = this.element.width > 5 ? this.element.width : 5
+    this.element.height = this.element.height > 5 ? this.element.height : 5
 
-    let width = (Math.round((this.resizing ? (this.resizeTranslateX ? this.element.width - this.resizeDifferenceX : this.element.width + this.resizeDifferenceX) : this.element.width) * 100) / 100)
-    return width < 5 ? 5 : width
+    this.element.width = this.element.width > 50 ? 50 : this.element.width
+    this.element.height = this.element.height > 50 ? 50 : this.element.height
+
+    if (this.element.posx + this.element.width / 100 * this.contentWidth > this.contentWidth) {
+      this.element.width = this.round((this.contentWidth - this.element.posx) / this.contentWidth * 100, 2)
+    }
+    else if (this.element.posx < 0) {
+      this.element.width = this.round((this.contentWidth * this.element.width / 100 + this.element.posx) / this.contentWidth * 100, 2)
+      this.element.posx = 0
+    }
+
+    if (this.element.posy + this.element.height / 100 * this.contentWidth > this.contentHeight) {
+      this.element.height = this.round((this.contentHeight - this.element.posy) / this.contentWidth * 100, 2)
+    }
+    else if (this.element.posy < 0) {
+      this.element.height = this.round((this.contentWidth * this.element.height / 100 + this.element.posy) / this.contentWidth * 100, 2)
+      this.element.posy = 0
+    }
+  }
+
+  getElementWidth() {
+    let width
+    if (this.resizing) {
+      if (this.resizeTranslateX) {
+        width = this.element.width - this.resizeDifferenceX
+      }
+      else {
+        width = this.element.width + this.resizeDifferenceX
+      }
+    }
+    else {
+      width = this.element.width
+    }
+    width = this.round(width, 2)
+
+    if (width < 5) width = 5
+    if (width > 50) width = 50
+    return width
   }
 
   getElementHeight() {
-    let height = Math.round((this.resizing ? (this.resizeTranslateY ? this.element.height - this.resizeDifferenceY : this.element.height + this.resizeDifferenceY) : this.element.height) * 100) / 100
+    let height
+    if (this.resizing) {
+      if (this.resizeTranslateY) {
+        height = this.element.height - this.resizeDifferenceY
+      }
+      else {
+        height = this.element.height + this.resizeDifferenceY
+      }
+    }
+    else {
+      height = this.element.height
+    }
+    height = this.round(height, 2)
 
-    return height < 5 ? 5 : height
+    if (height < 5) height = 5
+    if (height > 50) height = 50
+
+    return height
   }
 
   getElementPosX() {
-    let posx = (this.resizeTranslateX ? this.element.posx + this.resizeDifferenceX_px : this.element.posx)
-
-
-    if (this.getElementWidth() <= 5) {
-      if (this.resizeTranslateY) {
-        return this.element.posx
+    let posx
+    if (this.resizeTranslateX) {
+      if (this.getElementWidth() == 50) {
+        posx = this.oldPosX
       }
-      else{
-        return this.element.posx + this.oldDiffX * 2
+      else {
+        posx = this.element.posx + this.resizeDifferenceX_px
       }
     }
     else {
-      this.oldDiffX = this.resizeDifferenceX_px
-      return posx
+      posx = this.element.posx
     }
+    if (this.getElementWidth() == 5) {
+      posx = this.oldPosX
+    }
+    posx = this.round(posx, 2)
+    this.oldPosX = posx
+    return posx
   }
 
   getElementPosY() {
-    let posy = (this.resizeTranslateY ? this.element.posy + this.resizeDifferenceY_px : this.element.posy)
-    if (this.getElementHeight() <= 5) {
-      return this.element.posy + this.oldDiffY
+    let posy
+    if (this.resizeTranslateY) {
+      if (this.getElementHeight() == 50) {
+        posy = this.oldPosY
+      }
+      else {
+        posy = this.element.posy + this.resizeDifferenceY_px
+      }
     }
     else {
-      this.oldDiffY = this.resizeDifferenceY_px
-      return posy
+      posy = this.element.posy
     }
+    if (this.getElementHeight() <= 5) {
+      posy = this.oldPosY
+    }
+    posy = this.round(posy, 2)
+    this.oldPosY = posy
+    return posy
   }
 
   resizeStart($event: MouseEvent, translateX, translateY) {
@@ -181,41 +259,28 @@ export class UiElementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.el = document.getElementById('scheme');
-    this.contentHeight = this.el.offsetHeight;
-    this.contentWidth = this.el.offsetWidth;
+    this.scheme = document.getElementById('scheme');
+    this.contentHeight = this.scheme.offsetHeight;
+    this.contentWidth = this.scheme.offsetWidth;
   }
 
   cdkDragReleased(event, item, i) {
-    this.contentHeight = this.el.offsetHeight;
-    this.contentWidth = this.el.offsetWidth;
-
-    //item.posx=event.source.getFreeDragPosition().x;
-    //item.posy=event.source.getFreeDragPosition().y;
-
+    this.contentHeight = this.scheme.offsetHeight;
+    this.contentWidth = this.scheme.offsetWidth;
     this.element.posx = event.source.getFreeDragPosition().x;
     this.element.posy = event.source.getFreeDragPosition().y;
     this.element.percentagex = this.round((event.source.getFreeDragPosition().x) / this.contentWidth, 2);
     this.element.percentagey = this.round((event.source.getFreeDragPosition().y) / this.contentHeight, 2);
-
-
-    //console.log(this.array[i].posx);
-
-    //console.log(this.array.length)
   }
 
   getTextColor() {
-
     if (this.element.color.rgb.a > 0.6) {
       let hex = this.element.color.hex
       hex = hex.replace("#", '');
-
       let r = parseInt(hex.substr(0, 2), 16)
       let g = parseInt(hex.substr(2, 2), 16)
       let b = parseInt(hex.substr(4, 2), 16)
-
       let mean = (r + g + b) / 3
-
       return mean > 155 ? "#000000" : "#FFFFFF"
     }
     else return "#000000"
@@ -228,22 +293,12 @@ export class UiElementComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    //onsole.log(event.target.innerWidth);
-    //console.log(this.el.offsetHeight)
-    //this.contentWidth=this.el.offsetWidth;
-    this.draw(this.el.offsetHeight, this.el.offsetWidth);
+    this.draw(this.scheme.offsetWidth, this.scheme.offsetHeight);
   }
 
-  draw(height: number, width: number) {
-
-    //console.log(height);
-    this.element.posx = width * this.element.percentagex;
-    //console.log(this.array[i].posx)
-    this.element.posy = height * this.element.percentagey;
-
-    //console.log(this.array[i].posx);
-
-
+  draw(width: number, height: number) {
+    this.element.posx = this.round(width * this.element.percentagex, 2);
+    this.element.posy = this.round(height * this.element.percentagey, 2)
   }
 
 }

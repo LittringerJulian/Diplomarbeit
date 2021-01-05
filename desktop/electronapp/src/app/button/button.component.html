@@ -3,7 +3,7 @@
     'padding-top.%':getElementHeight(), 
     'background-color':(element.rgbaColor), 
     'color':(getTextColor()), 
-    'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{
+    'border-radius':(element.circle ? '2000px' : '10px')}" class="component" cdkDrag [cdkDragFreeDragPosition]="{
         x: getElementPosX(),
         y: getElementPosY()
     }" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="resizing">

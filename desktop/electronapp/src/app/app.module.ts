@@ -60,6 +60,8 @@ import { InterceptorService } from './loader/interceptor.service';
 import { ColorCircleModule } from 'ngx-color/circle';
 import { MainScreenComponent } from './main-screen/main-screen.component';
 
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -141,6 +143,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     MatChipsModule,
     MatTooltipModule,
+    MatButtonToggleModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

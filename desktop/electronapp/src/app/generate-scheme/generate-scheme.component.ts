@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Element } from '../element';
 import { HttpService } from '../http.service';
 import { Scheme } from '../scheme';
@@ -10,8 +9,6 @@ import { Router } from '@angular/router';
 import { ColorEvent, Color } from 'ngx-color';
 import { SetComponentActionComponent } from '../set-component-action/set-component-action.component';
 import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
-
-
 
 @Component({
   selector: 'app-generate-scheme',
@@ -28,8 +25,7 @@ export class GenerateSchemeComponent implements OnInit {
   format = 'Landscape';
   selectedComponent: Element
   copiedComponent: Element
-
-  nameButtonLabelText = ""
+  fixedAspectRatio = false;
 
   /*ButtonElement: Element = new Element("button", "", 250, 250);
   ButtonW: Element = new Element("button", "W", 100, 100);
@@ -40,7 +36,7 @@ export class GenerateSchemeComponent implements OnInit {
 
   contentWidth;
   contentHeight;
-  el: HTMLElement
+  scheme: HTMLElement
 
   predefinedColors = ["#9C27B0", "#E91E63", "#f44336", "#ff9800", "#ffeb3b", "#03a9f4", "#4caf50", "#F0F0F0", "#000000"]
   customColor: SafeStyle = "FFFFFF"
@@ -48,19 +44,84 @@ export class GenerateSchemeComponent implements OnInit {
 
   ctrlPressed = false
 
+  oldWidth = 0
+  oldHeight = 0
+
   constructor(private sanitizer: DomSanitizer, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
 
   ngOnInit() {
-    this.el = document.getElementById('scheme');
-    this.contentHeight = this.el.offsetHeight;
-    this.contentWidth = this.el.offsetWidth;
+    this.scheme = document.getElementById('scheme');
+    this.contentHeight = this.scheme.offsetHeight;
+    this.contentWidth = this.scheme.offsetWidth;
+  }
+
+  setDimensions(isX) {
+    if (isX) {
+      if (this.selectedComponent.posx + this.selectedComponent.width / 100 * this.contentWidth > this.contentWidth) {
+        this.selectedComponent.width = this.round((this.contentWidth - this.selectedComponent.posx) / this.contentWidth * 100, 2)
+      }
+      if (this.fixedAspectRatio) {
+        this.setHeightWithAspectRatio()
+      }
+    }
+    else {
+      if (this.selectedComponent.posy + this.selectedComponent.height / 100 * this.contentWidth > this.contentHeight) {
+        this.selectedComponent.height = this.round((this.contentHeight - this.selectedComponent.posy) / this.contentWidth * 100, 2)
+      }
+      if (this.fixedAspectRatio) {
+        this.setWidthWithAspectRatio()
+      }
+    }
+
+    this.selectedComponent.width = this.selectedComponent.width < 5 ? 5 : this.selectedComponent.width
+    this.selectedComponent.height = this.selectedComponent.height < 5 ? 5 : this.selectedComponent.height
+
+    this.selectedComponent.width = this.selectedComponent.width > 50 ? 50 : this.selectedComponent.width
+    this.selectedComponent.height = this.selectedComponent.height > 50 ? 50 : this.selectedComponent.height
+  }
+
+  setHeightWithAspectRatio() {
+    let newHeight = this.round(this.oldHeight * this.selectedComponent.width / this.oldWidth, 2)
+
+    let toobig = this.selectedComponent.posy + this.contentWidth * newHeight / 100 > this.contentHeight
+    let maxHeight = (this.contentHeight - this.selectedComponent.posy) / this.contentWidth * 100
+
+    this.selectedComponent.height = this.round(toobig ? maxHeight : newHeight, 2)
+  }
+
+  setWidthWithAspectRatio() {
+    let newWidth = this.round(this.oldWidth * this.selectedComponent.height / this.oldHeight, 2)
+    let toobig = this.selectedComponent.posx + this.contentWidth * newWidth / 100 > this.contentWidth
+    let maxWidth = (this.contentWidth - this.selectedComponent.posx) / this.contentWidth * 100
+
+    this.selectedComponent.width = this.round(toobig ? maxWidth : newWidth, 2)
+  }
+
+  checkDimensions() {
+    if (this.selectedComponent) {
+      this.selectedComponent.width = this.selectedComponent.width > 5 ? this.selectedComponent.width : 5
+      this.selectedComponent.height = this.selectedComponent.height > 5 ? this.selectedComponent.height : 5
+
+      this.selectedComponent.width = this.selectedComponent.width < 50 ? this.selectedComponent.width : 50
+      this.selectedComponent.height = this.selectedComponent.height < 50 ? this.selectedComponent.height : 50
+
+      this.selectedComponent.posx = this.round(this.scheme.offsetWidth * this.selectedComponent.percentagex, 2);
+      this.selectedComponent.posy = this.round(this.scheme.offsetHeight * this.selectedComponent.percentagey, 2);
+    }
+  }
+
+  log(e) {
+    console.log(e)
   }
 
   deselectComponent(e) {
     if (e.target.id == "scheme" || e.target.id == "snavcontent")
-      this.selectedComponent = null
+      if (this.selectedComponent) {
+        this.checkDimensions()
+        this.selectedComponent = null
+      }
   }
 
   selectComponent(e) {
@@ -88,17 +149,27 @@ export class GenerateSchemeComponent implements OnInit {
     else return "#000000"
   }
 
+  deleteSelectedComponent() {
+    if (this.selectedComponent) {
+      this.components.splice(this.components.indexOf(this.selectedComponent), 1)
+    }
+  }
+
   @HostListener('window:keydown', ['$event'])
   listenOnKeydown(e: KeyboardEvent) {
-    if (e.key == "Control") {
+    if (e.key.toLocaleLowerCase() == "control") {
       this.ctrlPressed = true
     }
 
-    if (e.key == "c" && this.ctrlPressed && this.selectedComponent) {
+    if (e.key.toLocaleLowerCase() == "delete") {
+      this.deleteSelectedComponent()
+    }
+
+    if (e.key.toLocaleLowerCase() == "c" && this.ctrlPressed && this.selectedComponent) {
       this.copiedComponent = Object.create(Object.getPrototypeOf(this.selectedComponent), Object.getOwnPropertyDescriptors(this.selectedComponent));
     }
 
-    if (e.key == "v" && this.ctrlPressed && this.copiedComponent) {
+    if (e.key.toLocaleLowerCase() == "v" && this.ctrlPressed && this.copiedComponent) {
       let newComponent: Element = Object.create(Object.getPrototypeOf(this.copiedComponent), Object.getOwnPropertyDescriptors(this.copiedComponent));
       newComponent.posx = newComponent.posx - 10 >= 0 ? newComponent.posx - 10 : newComponent.posx + 10
       newComponent.posy = newComponent.posy - 10 >= 0 ? newComponent.posy - 10 : newComponent.posy + 10
@@ -107,32 +178,31 @@ export class GenerateSchemeComponent implements OnInit {
     }
 
     if (this.selectedComponent) {
-      let scheme = document.getElementById("scheme")
-      let fraction = scheme.offsetHeight < scheme.offsetWidth ? scheme.offsetHeight : scheme.offsetWidth
+      let fraction = this.contentHeight < this.contentWidth ? this.contentHeight : this.contentWidth
       let multiplier = this.ctrlPressed ? 10 : 100
       let newpos
-      if (e.key == "ArrowUp") {
+      if (e.key.toLocaleLowerCase() == "arrowup") {
         newpos = this.selectedComponent.posy - fraction / multiplier
         this.selectedComponent.posy = newpos > 0 ? newpos : 0
       }
-      if (e.key == "ArrowLeft") {
+      if (e.key.toLocaleLowerCase() == "arrowleft") {
         newpos = this.selectedComponent.posx - fraction / multiplier
         this.selectedComponent.posx = newpos > 0 ? newpos : 0
       }
-      if (e.key == "ArrowRight") {
+      if (e.key.toLocaleLowerCase() == "arrowright") {
         newpos = this.selectedComponent.posx + fraction / multiplier
-        this.selectedComponent.posx = newpos + scheme.offsetWidth * this.selectedComponent.width / 100 < scheme.offsetWidth ? newpos : scheme.offsetWidth - scheme.offsetWidth * this.selectedComponent.width / 100
+        this.selectedComponent.posx = newpos + this.contentWidth * this.selectedComponent.width / 100 < this.contentWidth ? newpos : this.contentWidth - this.contentWidth * this.selectedComponent.width / 100
       }
-      if (e.key == "ArrowDown") {
+      if (e.key.toLocaleLowerCase() == "arrowdown") {
         newpos = this.selectedComponent.posy + fraction / multiplier
-        this.selectedComponent.posy = newpos + scheme.offsetWidth * this.selectedComponent.height / 100 < scheme.offsetHeight ? newpos : scheme.offsetHeight - scheme.offsetWidth * this.selectedComponent.height / 100
+        this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
       }
     }
   }
 
   @HostListener('window:keyup', ['$event'])
   listenOnKeyup(e: KeyboardEvent) {
-    if (e.key == "Control") this.ctrlPressed = false
+    if (e.key.toLocaleLowerCase() == "control") this.ctrlPressed = false
   }
 
   changeColor($event: ColorEvent) {
@@ -145,14 +215,22 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   addArray(identifier, specification) {
-    let color: Color = { hex: "#FFFFFF", hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: 255, g: 255, b: 255, a: 1 }, source: "rgb" }
+    let hex = this.predefinedColors[Math.floor(Math.random() * this.predefinedColors.length)]
+    hex = hex.replace("#", '');
+
+    let r = parseInt(hex.substr(0, 2), 16)
+    let g = parseInt(hex.substr(2, 2), 16)
+    let b = parseInt(hex.substr(4, 2), 16)
+
+
+    let color: Color = { hex: hex, hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: r, g: g, b: b, a: 1 }, source: "rgb" }
     let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
     let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, [true, "W"], false)
     this.components.push(e)
     this.selectComponent(e)
     /*console.log(this.contentHeight )
-    this.el = document.getElementById('snavcontent');
-    this.contentHeight=this.el.offsetHeight;
+    this.scheme = document.getElementById('snavcontent');
+    this.contentHeight=this.scheme.offsetHeight;
     console.log(this.contentHeight )*/
   }
 
@@ -200,11 +278,11 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Landscape';
 
       this.components = [];
-      this.el.style.width = '70%';
+      this.scheme.style.width = '70%';
 
-      this.el.style.paddingBottom = 'calc(70%*(9/16))';
-      this.contentHeight = this.el.offsetHeight;
-      this.contentWidth = this.el.offsetWidth;
+      this.scheme.style.paddingBottom = 'calc(70%*(9/16))';
+      this.contentHeight = this.scheme.offsetHeight;
+      this.contentWidth = this.scheme.offsetWidth;
     }
     else {
       this.elementWidth = 20;
@@ -212,16 +290,19 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Portrait';
 
       this.components = [];
-      this.el.style.width = '25%';
+      this.scheme.style.width = '25%';
 
-      this.el.style.paddingBottom = 'calc(25%*(16/9))';
+      this.scheme.style.paddingBottom = 'calc(25%*(16/9))';
 
-      this.contentHeight = this.el.offsetHeight;
-      this.contentWidth = this.el.offsetWidth;
+      this.contentHeight = this.scheme.offsetHeight;
+      this.contentWidth = this.scheme.offsetWidth;
     }
   }
 
-
+  round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+  }
 
   home() {
     this.router.navigate(['/qrcode']);
