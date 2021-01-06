@@ -1,3 +1,13 @@
-<ion-content>
-    Selected scheme: {{ scheme }}
-</ion-content>
+<div class="container">
+    <div class="rotationContainer" [ngStyle]="{
+        'transform':getContainerRotation(),
+        'width': getContainerWidth(),
+        'height': getContainerHeight()
+    }">
+        <div *ngFor="let element of scheme.content;let i = index">
+            <app-button-element *ngIf="element.identifier == 'button'" [element]="element"></app-button-element>
+            <!--<app-joystick *ngIf="element.identifier == 'joystick'" [element]="element" ></app-joystick>-->
+            <!--<app-ui-element *ngIf="item.identifier== 'test'" [element]="item" (selectComponent)="selectComponent($event)"></app-ui-element>-->
+        </div>
+    </div>
+</div>
