@@ -30,25 +30,33 @@
     <div class="navdivright">
         <!--<button (click)="logout()" class="navbutton">logout</button>-->
         <div class="innerdivright">
-            <img id="rightimg" src="./assets/account.svg">
+            <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
+           
+            <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
+                <div id="accountdiv">
+                    <p id="emailtext">Logged in as {{email}}</p>
+                    <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
+                    <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
+                </div>
+            </mat-menu>
         </div>
     </div>
 </mat-toolbar>
 
 
 <div id="content" *ngIf="this.qrCodeIsSet">
-    <div id="accountdiv">
+   <!-- <div id="accountdiv">
         <p id="emailtext">Logged in as {{email}}</p>
         <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
         <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
-    </div>
+    </div>-->
     <div id="qrcodewrapper">
         <a id="qrcodetext">Ready to connect!</a>
         <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
         </qrcode>
-        <div id="visibility">
+        <div id="visibility" (click)="hideQR()">
 
-            <img id="visibilityimg" src="./assets/visibility_off.svg">
+            <img id="visibilityimg"  src="./assets/visibility_off.svg">
             <p id="hideqrtxt">Hide QR Code</p>
 
         </div>

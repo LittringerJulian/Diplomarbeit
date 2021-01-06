@@ -215,17 +215,15 @@
     margin-left:15%;
     width:70%;
     height:5%;
+    user-select: none;
 }
 
 #accountdiv{
-  position: absolute;
-  width:30%;
-  height:10%;
-  top:7.5%;
-  left:67.5%;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+ 
   background-color:white;
-  border-radius: 8px;
+  height:10%;
+  width:100%;
+  
 }
 
 #emailtext{
@@ -246,9 +244,28 @@ padding-top:2%;
 }
 
 .accbtn{
-  width:30%;
+  
   height:50%;
   font-size:1.25vw;
-  color:white;
-  margin-top:2.5%;
+  color:white !important;
+  margin-top:1.5%;
 }
+
+#rightimg:hover{
+  cursor: pointer;
+}
+
+::ng-deep .matmenu{
+  height:auto;
+  width:auto;
+}
+
+::ng-deep .mat-menu-content{
+  width:100%;
+}
+
+#visibility:hover{
+  cursor:pointer;
+}
+
+

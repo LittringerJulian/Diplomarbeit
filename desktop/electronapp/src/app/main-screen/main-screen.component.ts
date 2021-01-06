@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef,ViewEncapsulation } from '@angular/core';
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
@@ -15,6 +15,7 @@ declare var electron: any;
   selector: 'app-main-screen',
   templateUrl: './main-screen.component.html',
   styleUrls: ['./main-screen.component.scss']
+
 })
 export class MainScreenComponent implements OnInit {
 
@@ -35,6 +36,11 @@ export class MainScreenComponent implements OnInit {
   container: HTMLCanvasElement
 
   container2: HTMLElement;
+  isvisible =true;
+  qrcodetext:HTMLElement;
+  hideimg:HTMLElement;
+
+  imgpath
 
 
 
@@ -70,7 +76,6 @@ export class MainScreenComponent implements OnInit {
 
   }
   ngOnInit() {
-
 
     this.fname = localStorage.getItem('imperiofname')
     this.lname = localStorage.getItem('imperiolname')
@@ -176,6 +181,30 @@ export class MainScreenComponent implements OnInit {
   confirmDevice() {
     if (true) {
       // this.router.navigate(['/navigation']);   
+    }
+  }
+
+
+  hideQR(){
+
+    this.qrcodetext = document.getElementById("hideqrtxt")
+    this.hideimg = document.getElementById("visibilityimg")
+
+    switch (this.isvisible){
+
+      case true :
+        this.container2.style.filter ="blur(8px)"
+        this.qrcodetext.innerHTML = "Show QR Code";
+        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility.svg';
+        this.isvisible=false;
+      break;
+      case false :
+        this.container2.style.filter ="none"
+        this.qrcodetext.innerHTML = "Hide QR Code";
+        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
+        this.isvisible=true;
+      break;
+     
     }
   }
 }
