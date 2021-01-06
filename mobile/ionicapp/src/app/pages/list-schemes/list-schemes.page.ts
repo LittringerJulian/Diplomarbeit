@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Scheme } from 'src/app/scheme';
 import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
@@ -11,27 +12,28 @@ export class ListSchemesPage implements OnInit {
 
   constructor(private socket: WebsocketService, private router: Router) { }
 
-  schemes = "nu nix"
+  schemes: Scheme[]
   refresherEvent
 
   ngOnInit() {
+
+    this.socket.sendData({ "type": "requestSchemePush", "data": "" })
+
     this.socket.receivedSchemes.subscribe(data => {
-      this.schemes = data;
+      //console.log(data)
+      this.schemes = data
 
-      if(this.refresherEvent)
-      setTimeout(() => {
-    this.refresherEvent.target.complete();
-      }, 300)
-
+      if (this.refresherEvent)
+        setTimeout(() => {
+          this.refresherEvent.target.complete();
+        }, 300)
     })
 
   }
 
   doRefresh(event) {
     this.refresherEvent = event
-    console.log('Begin async operation');
-
-    this.socket.sendData({"type": "requestSchemePush", "data": ""})
+    this.socket.sendData({ "type": "requestSchemePush", "data": "" })
   }
 
   openScheme(selectedScheme) {

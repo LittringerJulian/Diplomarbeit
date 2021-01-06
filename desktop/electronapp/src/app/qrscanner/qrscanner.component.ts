@@ -90,9 +90,9 @@ export class QrscannerComponent implements OnInit {
 
           if (result == true) {
             console.log("add to list", ws.id)
-            this.DataService.DeviceArary.push(ws.id)
+            this.DataService.deviceArray.push(ws.id)
 
-            console.log(this.DataService.DeviceArary)
+            console.log(this.DataService.deviceArray)
           }
 
         })
@@ -102,9 +102,9 @@ export class QrscannerComponent implements OnInit {
 
 
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
-      this.DataService.DeviceArary.forEach((element, index) => {
+      this.DataService.deviceArray.forEach((element, index) => {
         if (element == ws.id) {
-          this.DataService.DeviceArary.splice(index, 1)
+          this.DataService.deviceArray.splice(index, 1)
           if (!(this.cd as ViewRef).destroyed) {
             this.cd.detectChanges()
             // do other tasks
@@ -131,7 +131,7 @@ export class QrscannerComponent implements OnInit {
 
 
     //todo remove connections
-    this.DataService.DeviceArary = []
+    this.DataService.deviceArray = []
 
     electron.ipcRenderer.send("removeAllConnections");
 

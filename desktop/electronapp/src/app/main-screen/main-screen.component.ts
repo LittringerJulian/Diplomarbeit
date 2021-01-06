@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef,ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef, ViewEncapsulation } from '@angular/core';
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
 import { DataService } from '../data.service';
+import { HttpService } from '../http.service';
 
 
 
@@ -36,16 +37,16 @@ export class MainScreenComponent implements OnInit {
   container: HTMLCanvasElement
 
   container2: HTMLElement;
-  isvisible =true;
-  qrcodetext:HTMLElement;
-  hideimg:HTMLElement;
+  isvisible = true;
+  qrcodetext: HTMLElement;
+  hideimg: HTMLElement;
 
   imgpath
 
 
 
 
-  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private DataService: DataService, private ngZone: NgZone) {
+  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private http: HttpService, private dataService: DataService, private ngZone: NgZone) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
@@ -80,6 +81,15 @@ export class MainScreenComponent implements OnInit {
     this.email = localStorage.getItem('imperioemail')
 
 
+    this.http.getSchemeByUserId().subscribe(data => {
+      
+      //console.log(data);
+      this.dataService.allSchemes = JSON.parse(data);
+      console.log(this.dataService.allSchemes)
+     
+    })
+
+
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
 
       this.ngZone.run(() => {
@@ -90,30 +100,24 @@ export class MainScreenComponent implements OnInit {
 
           if (result == true) {
             console.log("add to list", ws.id)
-            this.DataService.DeviceArary.push(ws.id)
+            this.dataService.deviceArray.push(ws.id)
 
-            console.log(this.DataService.DeviceArary)
+            console.log(this.dataService.deviceArray)
           }
         })
       });
     })
 
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
-      this.DataService.DeviceArary.forEach((element, index) => {
+      this.dataService.deviceArray.forEach((element, index) => {
         if (element == ws.id) {
-          this.DataService.DeviceArary.splice(index, 1)
+          this.dataService.deviceArray.splice(index, 1)
           if (!(this.cd as ViewRef).destroyed) {
             this.cd.detectChanges()
             // do other tasks
           }
         }
       });
-    })
-
-
-
-    electron.ipcRenderer.on("requestSchemePush", (e, ws) => { 
-      electron.ipcRenderer.send("pushSchemes", ws, "test 123")
     })
   }
 
@@ -125,7 +129,7 @@ export class MainScreenComponent implements OnInit {
 
 
     //todo remove connections
-    this.DataService.DeviceArary = []
+    this.dataService.deviceArray = []
 
     electron.ipcRenderer.send("removeAllConnections");
 
@@ -176,26 +180,26 @@ export class MainScreenComponent implements OnInit {
   }
 
 
-  hideQR(){
+  hideQR() {
 
     this.qrcodetext = document.getElementById("hideqrtxt")
     this.hideimg = document.getElementById("visibilityimg")
 
-    switch (this.isvisible){
+    switch (this.isvisible) {
 
-      case true :
-        this.container2.style.filter ="blur(8px)"
+      case true:
+        this.container2.style.filter = "blur(8px)"
         this.qrcodetext.innerHTML = "Show QR Code";
         (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility.svg';
-        this.isvisible=false;
-      break;
-      case false :
-        this.container2.style.filter ="none"
+        this.isvisible = false;
+        break;
+      case false:
+        this.container2.style.filter = "none"
         this.qrcodetext.innerHTML = "Hide QR Code";
         (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
-        this.isvisible=true;
-      break;
-     
+        this.isvisible = true;
+        break;
+
     }
   }
 }
