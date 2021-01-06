@@ -7,9 +7,13 @@ declare var electron: any
   providedIn: 'root'
 })
 export class DataService {
+  public editScheme : Scheme;
+  public editFormat : String;
+  firstnameDataService;
+  lastnameDataService;
+  emailDataService
 
-  public editScheme: Scheme;
-  public editFormat: String;
+  
   deviceArray = [];
 
   allSchemes: Scheme[]

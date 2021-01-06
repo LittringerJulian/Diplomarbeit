@@ -8,6 +8,10 @@ import { Scheme } from '../scheme';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs/Observable';
 import { map, startWith } from 'rxjs/operators';
+import { DataService } from '../data.service';
+
+declare var electron: any;
+
 
 @Component({
   selector: 'app-public-schemes',
@@ -31,7 +35,8 @@ export class PublicSchemesComponent implements OnInit {
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
 
-  constructor(private fb: FormBuilder,private httpService: HttpService, private router: Router,private snackBar: MatSnackBar,private loaderService:LoaderService) { 
+  constructor(private fb: FormBuilder,private httpService: HttpService, private router: Router,private snackBar: MatSnackBar,private loaderService:LoaderService,
+    private DataService:DataService) { 
 
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -49,9 +54,7 @@ export class PublicSchemesComponent implements OnInit {
      
     })
   }
-  home(){
-    this.router.navigate(['/qrcode']);
-  }
+  
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -152,5 +155,35 @@ export class PublicSchemesComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.alltags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  logout() {
+    localStorage.setItem('token', null)
+    localStorage.setItem('imperiofname', null)
+    localStorage.setItem('imperiolname', null)
+    localStorage.setItem('imperioemail', null)
+
+
+    //todo remove connections
+    this.DataService.deviceArray = []
+
+    electron.ipcRenderer.send("removeAllConnections");
+
+
+    this.router.navigate(['/login']);
+  }
+  scheme() {
+    this.router.navigate(['/scheme']);
+  }
+  myschemes() {
+    this.router.navigate(['/myschemes']);
+  }
+  publicSchemes() {
+    this.router.navigate(['/publicschemes']);
+
+  }
+  home(){
+    this.router.navigate(['/main']);
+
   }
 }

@@ -1,14 +1,53 @@
 <mat-toolbar color="primary" class="example-toolbar">
-  
-  <button mat-icon-button color="accent" (click)="home()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+  <div class="navdiv">
+      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+      <div (click)="home()" class="innerdiv">
+          <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
+          <img class="navimg" src="./assets/home.svg">
+          <p class="navtext">Home</p>
+      </div>
+  </div>
 
 
-  </mat-toolbar>
+  <div class="navdiv">
+      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+
+      <div (click)="myschemes()" class="innerdiv">
+          <img class="navimg" src="./assets/create.svg">
+          <p class="navtext">My schemes</p>
+      </div>
+  </div>
+
+  <div class="navdiv" id="discoverdiv">
+      <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
+      <div (click)="publicSchemes()" class="innerdiv">
+          <img class="navimg" src="./assets/public.svg">
+          <p class="navtext">Discover</p>
+      </div>
+  </div>
+
+  <div class="navdivright">
+      <!--<button (click)="logout()" class="navbutton">logout</button>-->
+      <div class="innerdivright">
+          <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
+         
+          <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
+              <div id="accountdiv">
+                  <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
+                  <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
+                  <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
+              </div>
+          </mat-menu>
+      </div>
+  </div>
+</mat-toolbar>
+
     <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
 
-  <div id="content" *ngIf="array.length>0">
+
+  <div id="content" >
+    <button mat-raised-button color="primary" id="createScheme" (click)="navigate('scheme')">Create your own Scheme</button>
+
 
 <div *ngFor="let item of array;let i = index" class="card"> 
     <mat-card class="scheme-card" >

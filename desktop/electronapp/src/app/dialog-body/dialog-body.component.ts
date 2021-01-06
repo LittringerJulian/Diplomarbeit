@@ -1,7 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { MatDialogRef } from "@angular/material/dialog";
 import { Router } from '@angular/router';
-import { QrscannerComponent } from '../qrscanner/qrscanner.component';
 
 declare var electron: any;
 

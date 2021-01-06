@@ -76,9 +76,10 @@ export class MainScreenComponent implements OnInit {
   }
   ngOnInit() {
 
-    this.fname = localStorage.getItem('imperiofname')
-    this.lname = localStorage.getItem('imperiolname')
-    this.email = localStorage.getItem('imperioemail')
+ 
+    this.dataService.firstnameDataService = localStorage.getItem('imperiofname');
+    this.dataService.lastnameDataService = localStorage.getItem('imperiolname');
+    this.dataService.emailDataService = localStorage.getItem('imperioemail');
 
 
     this.http.getSchemeByUserId().subscribe(data => {
@@ -201,6 +202,11 @@ export class MainScreenComponent implements OnInit {
         break;
 
     }
+  }
+
+  home(){
+    this.router.navigate(['/main']);
+
   }
 }
 

@@ -93,7 +93,7 @@ this.newUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136
         
         
         
-              this.router.navigate(['/qrcode']);
+              this.router.navigate(['/main']);
         
             })
 
