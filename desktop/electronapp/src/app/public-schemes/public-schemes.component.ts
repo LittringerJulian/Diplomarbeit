@@ -165,7 +165,7 @@ export class PublicSchemesComponent implements OnInit {
 
 
     //todo remove connections
-    this.DataService.DeviceArray = []
+    this.DataService.deviceArray = []
 
     electron.ipcRenderer.send("removeAllConnections");
 
