@@ -217,7 +217,7 @@ export class UiElementComponent implements OnInit {
     else {
       posx = this.element.posx
     }
-    if (this.getElementWidth() == 5) {
+    if (this.resizing && this.getElementWidth() == 5) {
       posx = this.oldPosX
     }
     posx = this.round(posx, 2)
@@ -238,7 +238,7 @@ export class UiElementComponent implements OnInit {
     else {
       posy = this.element.posy
     }
-    if (this.getElementHeight() <= 5) {
+    if (this.resizing && this.getElementHeight() <= 5) {
       posy = this.oldPosY
     }
     posy = this.round(posy, 2)

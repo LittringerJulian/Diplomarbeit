@@ -1,9 +1,10 @@
 <mat-toolbar color="primary" class="example-toolbar">
+    <button (click)="scheme()">scheme</button>
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
         <div (click)="myschemes()" class="innerdiv">
-           <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
-           <img class="navimg" src="./assets/home.svg">
+            <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
+            <img class="navimg" src="./assets/home.svg">
             <p class="navtext">Home</p>
         </div>
     </div>
@@ -11,7 +12,7 @@
 
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-        
+
         <div (click)="myschemes()" class="innerdiv">
             <img class="navimg" src="./assets/create.svg">
             <p class="navtext">My schemes</p>
@@ -28,7 +29,7 @@
 
     <div class="navdivright">
         <!--<button (click)="logout()" class="navbutton">logout</button>-->
-        <div  class="innerdivright">
+        <div class="innerdivright">
             <img id="rightimg" src="./assets/account.svg">
         </div>
     </div>
@@ -46,26 +47,23 @@
         <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
         </qrcode>
         <div id="visibility">
-           
+
             <img id="visibilityimg" src="./assets/visibility_off.svg">
             <p id="hideqrtxt">Hide QR Code</p>
-      
+
         </div>
     </div>
     <div id="userinfo">
-        
+
         <p id="welcometxt"> Welcome {{fname}}!</p>
-        <div id="Devicetxt"><p>Connected Devices:</p>
+        <div id="Devicetxt">
+            <p>Connected Devices:</p>
             <div id="DeviceDiv">
-        <div *ngFor="let item of DataService.DeviceArary" class="conDevice">
-            <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)>
-            {{item}}
+                <div *ngFor="let item of DataService.DeviceArary" class="conDevice">
+                    <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)> {{item}}
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
     </div>
 
 </div>
-
-
-

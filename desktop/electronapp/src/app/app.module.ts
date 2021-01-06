@@ -50,19 +50,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
 import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
 import { MatRippleModule } from '@angular/material/core';
-
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { MatChipsModule } from '@angular/material/chips';
 import { InterceptorService } from './loader/interceptor.service';
-
 import { ColorCircleModule } from 'ngx-color/circle';
 import { MainScreenComponent } from './main-screen/main-screen.component';
-
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -146,6 +142,7 @@ const appRoutes: Routes = [
     MatChipsModule,
     MatTooltipModule,
     MatButtonToggleModule,
+    MatBadgeModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }

@@ -5,6 +5,14 @@ body {
     overflow: hidden;
 }
 
+* {
+    user-select: none;
+}
+
+input {
+    user-select: unset;
+}
+
 .container {
     height: 100%;
     overflow: hidden;
@@ -12,7 +20,7 @@ body {
 }
 
 #sidenav {
-    width: 7.5%;
+    width: 10%;
 }
 
 #sidenavright {
@@ -29,10 +37,11 @@ body {
 }
 
 mat-sidenav-content {
-    width: 100%;
+    width: 100% - 10% - 20%;
     height: 100%;
     background: whitesmoke;
     position: fixed;
+    margin-left: 10%;
 }
 
 .component {
@@ -52,11 +61,11 @@ mat-sidenav-content {
 
 #scheme {
     position: absolute;
-    width: 70%;
-    padding-bottom: calc(70%*(9/16));
+    width: 85%;
+    padding-bottom: 85%*(9/16);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     top: 50%;
-    transform: translate(-55%, -55%);
+    transform: translate(-50%, -55%);
     left: 50%;
     background: white;
     border-radius: 10px;
@@ -68,16 +77,6 @@ mat-sidenav-content {
 
 #headerleft {
     width: 90%;
-}
-
-#buttondiv {
-    box-sizing: border-box;
-    text-align: center;
-    user-select: none;
-    border: 1px black solid;
-    display: block;
-    width: 100%;
-    height: calc(7.5%*(16/9)*(10/9));
 }
 
 #outer {
@@ -103,20 +102,17 @@ mat-sidenav-content {
 }
 
 .sidenavcomponents {
-    margin-bottom: 2%;
+    width: 85%;
+    height: 10%;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    justify-items: center;
+    padding-left: 15%;
+    size: 20%;
 }
 
-#text {
-    vertical-align: middle;
-    text-align: center;
-    margin: auto;
-    width: 80%;
-    height: 25%;
-    position: relative;
-    top: 35%;
-}
-
-.colorCircle {
+.colorCircleContainer {
     display: inline-block;
     width: 15%;
     padding-top: 15%;
@@ -127,6 +123,26 @@ mat-sidenav-content {
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
+    overflow: visible;
+    color: white;
+}
+
+.colorCircle {
+    width: 100%;
+    padding-top: 100%;
+    position: absolute;
+    top: 0;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.mat-badge-content {
+    color: white;
+    pointer-events: none;
+}
+
+.mat-badge-content::before {
+    content: ""
 }
 
 .colorCircle::before {
@@ -164,15 +180,15 @@ mat-sidenav-content {
     }
 }
 
-#colorPicker {
-    position: fixed;
-    display: none;
-    transition: .5s;
-    right: 2%;
-    z-index: 100;
-    top: 25%;
-    padding: 1%;
+::ng-deep .colorPickerMenu {
+    padding: 0;
+    background: transparent;
+    margin: 0;
+    box-shadow: none !important;
+    margin-top: -5%;
 }
+
+#colorPicker {}
 
 #componentActionBtn {}
 
@@ -188,16 +204,28 @@ mat-sidenav-content {
     position: relative;
 }
 
-#wrapperComponentName {
+.wrapperComponentName {
     margin-top: 15%;
 }
 
-#wrapperComponentColor {
+.wrapperComponentColor {
     width: 80%;
     margin-left: 7%;
 }
 
-#wrapperComponentAction {}
+.wrapperComponentAction {
+    //background: red;
+    /*display: flex;
+    justify-items: center;
+    height: 5%;*/
+}
+
+.dimensionsFormWrapper {
+    width: 100%;
+    padding-top: 40%;
+    position: relative;
+    display: block;
+}
 
 .dimensionsNumberForm {
     width: 25%;
@@ -229,7 +257,7 @@ mat-sidenav-content {
     top: 0;
     right: 15%;
     &::before {
-        content: 'h:';
+        content: 'w:';
     }
 }
 
@@ -245,15 +273,8 @@ mat-sidenav-content {
     bottom: 0;
     right: 15%;
     &::before {
-        content: 'w:';
+        content: 'h:';
     }
-}
-
-#dimensionsFormWrapper {
-    width: 100%;
-    padding-top: 45%;
-    position: relative;
-    display: block;
 }
 
 #dimensionsChainBtn {
@@ -261,10 +282,20 @@ mat-sidenav-content {
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
     padding: 0;
-    right: -10%;
+    right: -5%;
 }
 
 mat-divider {
     width: 90%;
     margin: auto;
+}
+
+#fakeSideNav {
+    filter: grayscale(1);
+    cursor: not-allowed;
+    height: 90%;
+}
+
+#fakeSideNav * {
+    pointer-events: none;
 }

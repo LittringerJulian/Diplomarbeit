@@ -15,12 +15,16 @@
     <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
         <mat-sidenav #snav [mode]='side' id="sidenav" [opened]="true">
 
-            <div id="buttondiv" class="sidenavcomponents" (click)="addArray('button','')">
-                <p id="text">Button</p>
+            <div matRipple class="sidenavcomponents" (click)="addArray('button','')">
+                <span class="material-icons">
+                    extension
+                    </span> &nbsp; &nbsp; <b>Button</b>
             </div>
-
-            <div id="outer" class="sidenavcomponents" (click)="addArray('joystick','')">
-                <div id="inner"></div>
+            <mat-divider [style.width.%]="80"></mat-divider>
+            <div matRipple class="sidenavcomponents" (click)="addArray('joystick','')">
+                <span class="material-icons">
+                    explore
+                    </span> &nbsp; &nbsp; <b>Joystick</b>
             </div>
         </mat-sidenav>
 
@@ -35,89 +39,192 @@
             </div>
         </mat-sidenav-content>
 
-        <!-- EDIT COMPONENT MENU -->
-        <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="this.selectedComponent">
-            <!-- COMPONENT NAME -->
-            <div *ngIf="this.selectedComponent" id="wrapperComponentName" class="wrapperComponent">
-                <mat-label style="margin-left: 5%; font-weight: 700;">Name:</mat-label>
-                <form autocomplete="off">
-                    <input type="text" hidden autocomplete="false">
-                    <button mat-button style="height: 0; position: absolute;"> <!-- disable autofocus -->
+
+
+
+
+        <!--------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- EDIT COMPONENT MENU ---------------------------------------------------------------------------------------------------------------->
+        <!--------------------------------------------------------------------------------------------------------------------------------------->
+        <mat-sidenav #snavright [mode]='side' id="sidenavright" position="end" [opened]="true">
+            <div *ngIf="this.selectedComponent">
+                <!-- COMPONENT NAME -->
+                <div class="wrapperComponent wrapperComponentName">
+                    <mat-label style="margin-left: 5%; font-weight: 700;">Name:</mat-label>
+                    <form autocomplete="off">
+                        <input type="text" hidden autocomplete="false">
+                        <button mat-button style="height: 0; position: absolute;"> <!-- disable autofocus -->
                     </button>
-                    <mat-form-field id="componentNameInputForm" floatLabel="never">
-                        <mat-label *ngIf="this.selectedComponent.specification == ''">{{ this.selectedComponent.shortcut[1] }}</mat-label>
-                        <input #nameInput matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
-                    </mat-form-field>
-                </form>
-            </div>
-            <!-- COMPONENT NAME END -->
-            <br>
-            <mat-divider></mat-divider>
-            <br>
-            <!-- COMPONENT COLOR -->
-            <div *ngIf="this.selectedComponent" id="wrapperComponentColor" class="wrapperComponent">
-                <mat-label style="margin-left: 2%;font-weight: 700;">Color:</mat-label>
-                <p></p>
-                <div *ngFor="let color of predefinedColors; let i = index" style="display: inline">
-                    <div matRipple [matRippleColor]="rippleColor" [style.background]="color" class="colorCircle" (click)="setColor(color)"></div>
+                        <mat-form-field id="componentNameInputForm" floatLabel="never">
+                            <mat-label *ngIf="this.selectedComponent.specification == ''">{{ this.selectedComponent.shortcut[1] }}</mat-label>
+                            <input #nameInput matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                    </form>
                 </div>
-                <div id="customColorCircle" [ngStyle]="{'background-color': this.selectedComponent.rgbaColor, 'color': getTextColor()}" class="colorCircle">
-                    <span id="colorPickerIcon" class="material-icons">
+                <!-- COMPONENT NAME END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT COLOR -->
+                <div class="wrapperComponent wrapperComponentColor">
+                    <mat-label style="margin-left: 2%;font-weight: 700;">Color:</mat-label>
+                    <p></p>
+                    <div *ngFor="let color of predefinedColors; let i = index" style="display: inline">
+                        <div class="colorCircleContainer" [matBadge]="getBadgeIcon(i)" matBadgeColor="primary">
+                            <div matRipple [matRippleColor]="rippleColor" [style.background]="color" class="colorCircle" (click)="setColor(color)"></div>
+                        </div>
+                    </div>
+                    <div class="colorCircleContainer" [matBadge]="isColorPredefined()" matBadgeColor="primary">
+                        <div [matMenuTriggerFor]="colorPickerMenu" id="customColorCircle" [ngStyle]="{'background-color': this.selectedComponent.rgbaColor, 'color': getTextColor()}" class="colorCircle">
+                            <span id="colorPickerIcon" class="material-icons">
                         colorize
                     </span>
-                    <color-chrome id="colorPicker" [disableAlpha]="false" *ngIf="this.selectedComponent" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+                            <mat-menu #colorPickerMenu="matMenu" class="colorPickerMenu">
+                                <color-chrome (click)="$event.stopPropagation()" [disableAlpha]="false" [color]="this.selectedComponent.color" (onChange)="changeColor($event)"></color-chrome>
+                            </mat-menu>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- COMPONENT COLOR END -->
-            <br>
-            <mat-divider></mat-divider>
-            <br>
-            <!-- COMPONENT ACTION -->
-            <div *ngIf="this.selectedComponent" id="wrapperComponentAction" class="wrapperComponent">
-                <mat-label style="font-weight: 700; margin-left: 5%;">Action: &nbsp;
-                    <mat-chip-list style="display: inline-block;" matTooltip="Click to set action">
-                        <mat-chip (click)="setComponentAction()" style="cursor: pointer;">{{ this.selectedComponent.shortcut[1] }}</mat-chip>
-                    </mat-chip-list>
-                </mat-label>
+                <!-- COMPONENT COLOR END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT ACTION -->
+                <div class="wrapperComponent wrapperComponentAction">
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Action: &nbsp;
+                        <mat-chip-list style="display: inline-block;" matTooltip="Click to set action">
+                            <mat-chip (click)="setComponentAction()" style="cursor: pointer;">{{ this.selectedComponent.shortcut[1] }}</mat-chip>
+                        </mat-chip-list>
+                    </mat-label>
+                </div>
+                <!-- COMPONENT ACTION END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT DIMENSIONS -->
+                <div class="wrapperComponent wrapperComponentDimensions">
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
+                    <div class="dimensionsFormWrapper">
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>Pos X</mat-label>
+                            <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()">
+                        </mat-form-field>
 
-            </div>
-            <!-- COMPONENT ACTION END -->
-            <br>
-            <mat-divider></mat-divider>
-            <br>
-            <!-- COMPONENT DIMENSIONS -->
-            <div *ngIf="this.selectedComponent" id="wrapperComponentDimensions" class="wrapperComponent">
-                <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
-                <div id="dimensionsFormWrapper">
-                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                        <mat-label>Pos X</mat-label>
-                        <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()">
-                    </mat-form-field>
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>Size X</mat-label>
+                            <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(true)">
+                        </mat-form-field>
 
-                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                        <mat-label>Size X</mat-label>
-                        <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(true)">
-                    </mat-form-field>
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>Pos Y</mat-label>
+                            <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()">
+                        </mat-form-field>
 
-                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                        <mat-label>Pos Y</mat-label>
-                        <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()">
-                    </mat-form-field>
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>Size Y</mat-label>
+                            <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(false)">
+                        </mat-form-field>
 
-                    <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                        <mat-label>Size Y</mat-label>
-                        <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(false)">
-                    </mat-form-field>
-
-                    <button mat-button id="dimensionsChainBtn" (click)="fixedAspectRatio = !fixedAspectRatio">
+                        <button mat-button id="dimensionsChainBtn" (click)="fixedAspectRatio = !fixedAspectRatio">
                         <span class="material-icons">
                             {{ fixedAspectRatio ? "link_off" : "link" }}
                         </span>
                     </button>
+                    </div>
+                    <br>
+                    <mat-slide-toggle color="primary" *ngIf="this.selectedComponent" [(ngModel)]="this.selectedComponent.circle">Round corners</mat-slide-toggle>
                 </div>
+                <!-- COMPONENT DIMENSIONS END -->
             </div>
-            <!-- COMPONENT DIMENSIONS END -->
-            <mat-slide-toggle color="primary" *ngIf="this.selectedComponent" [(ngModel)]="this.selectedComponent.circle">Round corners</mat-slide-toggle>
+            <!------------------------------------------------------------------------------------------------------------------------------------------------------>
+            <!--------------------------------------------------- FAKE MENU ---------------------------------------------------------------------------------------->
+            <!------------------------------------------------------------------------------------------------------------------------------------------------------>
+            <div *ngIf="!this.selectedComponent" id="fakeSideNav">
+                <!-- COMPONENT NAME -->
+                <div class="wrapperComponent wrapperComponentName">
+                    <mat-label style="margin-left: 5%; font-weight: 700;">Name:</mat-label>
+                    <form autocomplete="off">
+                        <input type="text" hidden autocomplete="false">
+                        <button mat-button style="height: 0; position: absolute;"> <!-- disable autofocus -->
+                    </button>
+                        <mat-form-field id="componentNameInputForm" floatLabel="never">
+                            <mat-label> ..... </mat-label>
+                            <input matInput type="text">
+                        </mat-form-field>
+                    </form>
+                </div>
+                <!-- COMPONENT NAME END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT COLOR -->
+                <div class="wrapperComponent wrapperComponentColor">
+                    <mat-label style="margin-left: 2%;font-weight: 700;">Color:</mat-label>
+                    <p></p>
+                    <div *ngFor="let color of predefinedColors; let i = index" style="display: inline">
+                        <div class="colorCircleContainer">
+                            <div [style.background]="color" class="colorCircle"></div>
+                        </div>
+                    </div>
+                    <div class="colorCircleContainer">
+                        <div id="customColorCircle" [ngStyle]="{'background-color': 'red'}" class="colorCircle">
+                            <span id="colorPickerIcon" class="material-icons">
+                                colorize
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- COMPONENT COLOR END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT ACTION -->
+                <div class="wrapperComponent wrapperComponentAction">
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Action: &nbsp;
+                        <mat-chip-list style="display: inline-block;">
+                            <mat-chip style="cursor: pointer;"> ... </mat-chip>
+                        </mat-chip-list>
+                    </mat-label>
+                </div>
+                <!-- COMPONENT ACTION END -->
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <!-- COMPONENT DIMENSIONS -->
+                <div class="wrapperComponent wrapperComponentDimensions">
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
+                    <div class="dimensionsFormWrapper">
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>pos X</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>width</mat-label>
+                            <input matInput type="number ">
+                        </mat-form-field>
+
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>pos y</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="dimensionsNumberForm" floatLabel="never">
+                            <mat-label>height</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field>
+
+                        <button mat-button id="dimensionsChainBtn">
+                        <span class="material-icons ">
+                            {{ fixedAspectRatio ? "link_off " : "link " }}
+                        </span>
+                    </button>
+                    </div>
+                    <br>
+                    <mat-slide-toggle color="primary">Round corners</mat-slide-toggle>
+                </div>
+                <!-- COMPONENT DIMENSIONS END -->
+            </div>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>

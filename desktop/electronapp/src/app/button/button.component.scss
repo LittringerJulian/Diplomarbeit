@@ -5,6 +5,7 @@
     cursor: move;
     position: absolute;
     display: block;
+    transition: border-radius 0.1s;
 }
 
 #text {
@@ -29,7 +30,40 @@
     left: 0;
     box-sizing: border-box;
     border: 1px solid black;
-    color: black;
+    //
+    //ants
+    //animation: antBorder .4s infinite;
+    //transition: outline box-shadow .4s;
+    //
+    //outline: 2px dashed white;
+    //box-shadow: 0 0 0 2px black;
+}
+
+@keyframes antBorder {
+    0% {
+        outline: 2px dashed white;
+        box-shadow: 0 0 0 2px black;
+    }
+    24% {
+        outline: 2px dashed white;
+        box-shadow: 0 0 0 2px black;
+    }
+    25% {
+        outline: 2px dashed black;
+        box-shadow: 0 0 0 2px white;
+    }
+    75% {
+        outline: 2px dashed black;
+        box-shadow: 0 0 0 2px white;
+    }
+    76% {
+        outline: 2px dashed white;
+        box-shadow: 0 0 0 2px black;
+    }
+    100% {
+        outline: 2px dashed white;
+        box-shadow: 0 0 0 2px black;
+    }
 }
 
 $resizeElementSize: 0.5em;

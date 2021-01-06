@@ -47,6 +47,8 @@ export class GenerateSchemeComponent implements OnInit {
   oldWidth = 0
   oldHeight = 0
 
+  badgeContent = '<span class="material-icons">check</span>'
+
   constructor(private sanitizer: DomSanitizer, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
@@ -222,6 +224,7 @@ export class GenerateSchemeComponent implements OnInit {
     let g = parseInt(hex.substr(2, 2), 16)
     let b = parseInt(hex.substr(4, 2), 16)
 
+    hex = "#"+hex
 
     let color: Color = { hex: hex, hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: r, g: g, b: b, a: 1 }, source: "rgb" }
     let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
@@ -232,6 +235,17 @@ export class GenerateSchemeComponent implements OnInit {
     this.scheme = document.getElementById('snavcontent');
     this.contentHeight=this.scheme.offsetHeight;
     console.log(this.contentHeight )*/
+  }
+  
+  getBadgeIcon(color) {
+    return this.selectedComponent.color.hex == this.predefinedColors[color] ? '✓' : ''
+  }
+
+  isColorPredefined(){
+    for(let color of this.predefinedColors) {
+      if(color == this.selectedComponent.color.hex) return ''
+    }
+    return '✓';
   }
 
   setComponentAction() {
