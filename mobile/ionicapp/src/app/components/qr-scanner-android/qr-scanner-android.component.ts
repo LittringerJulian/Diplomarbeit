@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import jsQr from 'jsQr';
 import { WebsocketService } from "../../services/websocket.service";
 
@@ -7,7 +7,7 @@ import { WebsocketService } from "../../services/websocket.service";
   templateUrl: './qr-scanner-android.component.html',
   styleUrls: ['./qr-scanner-android.component.scss'],
 })
-export class QrScannerAndroidComponent {
+export class QrScannerAndroidComponent implements OnDestroy{
 
   qrData: any
   @ViewChild('video') video: ElementRef;
@@ -47,11 +47,11 @@ export class QrScannerAndroidComponent {
       
       this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
-      console.log(this.qrData);
+      //console.log(this.qrData);
 
 
       if(this.qrData){
-        console.log("found some data %s", this.qrData);
+        //console.log("found some data %s", this.qrData);
         this.qrData = this.qrData.data
         
         if(!this.initSocket()){
@@ -71,6 +71,12 @@ export class QrScannerAndroidComponent {
     this.canvasElement = this.canvas.nativeElement
     this.canvasContext = this.canvasElement.getContext('2d')
     this.startScan()
+  }
+
+  @HostListener('unloaded')
+  ngOnDestroy(){
+    console.log("DESTROY");
+    
   }
 
 }

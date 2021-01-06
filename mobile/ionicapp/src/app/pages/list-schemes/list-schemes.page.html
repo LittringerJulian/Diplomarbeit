@@ -1,0 +1,12 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>listSchemes</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div (click)="openScheme('asdfasdf')">{{schemes}} </div>
+</ion-content>

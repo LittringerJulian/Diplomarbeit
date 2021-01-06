@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-connect-to-desktop',
   templateUrl: './connect-to-desktop.page.html',
   styleUrls: ['./connect-to-desktop.page.scss'],
 })
-export class ConnectToDesktopPage implements OnInit {
+export class ConnectToDesktopPage implements OnInit, OnDestroy {
 
   platformIsAndroid = false;
 
@@ -13,7 +13,12 @@ export class ConnectToDesktopPage implements OnInit {
 
   ngOnInit() {
     this.platformIsAndroid = true
-
+  }
+  
+  @HostListener('unloaded')
+  ngOnDestroy(){
+    console.log("sdf");
+    
   }
 
 }

@@ -53,9 +53,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
     this.cd.detach();
-
   }
 
   ngAfterViewInit() {
@@ -96,12 +94,9 @@ export class MainScreenComponent implements OnInit {
 
             console.log(this.DataService.DeviceArary)
           }
-
         })
       });
-
     })
-
 
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
       this.DataService.DeviceArary.forEach((element, index) => {
@@ -110,20 +105,17 @@ export class MainScreenComponent implements OnInit {
           if (!(this.cd as ViewRef).destroyed) {
             this.cd.detectChanges()
             // do other tasks
-
           }
-
-
         }
       });
-
     })
 
+
+
+    electron.ipcRenderer.on("requestSchemePush", (e, ws) => { 
+      electron.ipcRenderer.send("pushSchemes", ws, "test 123")
+    })
   }
-
-
-
-
 
   logout() {
     localStorage.setItem('token', null)
@@ -137,9 +129,9 @@ export class MainScreenComponent implements OnInit {
 
     electron.ipcRenderer.send("removeAllConnections");
 
-
     this.router.navigate(['/login']);
   }
+
   scheme() {
     this.router.navigate(['/scheme']);
   }
@@ -148,7 +140,6 @@ export class MainScreenComponent implements OnInit {
   }
   publicSchemes() {
     this.router.navigate(['/publicschemes']);
-
   }
 
 
@@ -163,18 +154,18 @@ export class MainScreenComponent implements OnInit {
     left:50%;*/
 
 
-    
+
     this.container2.style.width = "100% "
     //this.container2.style.paddingLeft="5%"; 
-   /* this.container2.style.top ="55%"
-    this.container2.style.left ="25%"
-    this.container2.style.transform="translate(-50%,-50%)"
-    this.container2.style.position = "absolute"*/
+    /* this.container2.style.top ="55%"
+     this.container2.style.left ="25%"
+     this.container2.style.transform="translate(-50%,-50%)"
+     this.container2.style.position = "absolute"*/
 
   }
 
-  kickUser(ws){
-    electron.ipcRenderer.send("kickWs",ws);
+  kickUser(ws) {
+    electron.ipcRenderer.send("kickWs", ws);
 
   }
 

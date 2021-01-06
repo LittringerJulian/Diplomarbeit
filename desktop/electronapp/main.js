@@ -28,7 +28,7 @@ const emitter = new EventEmitter();
 emitter.setMaxListeners(15);
 
 
-function handleSocketMessage(msg) {
+function handleSocketMessage(msg, ws) {
     switch (msg.type) {
         case 'gyro':
             gyroPointer.moveMouse(msg.data)
@@ -64,6 +64,9 @@ function handleSocketMessage(msg) {
             break;
         case 'keyup':
             robot.keyToggle(msg.data.toLowerCase(), "up")
+            break;
+        case 'requestSchemePush':
+            mainWindow.webContents.send('requestSchemePush', ws);
             break;
     }
 }
@@ -119,7 +122,7 @@ wss.on("connection", function connection(ws, req) {
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
 
-        handleSocketMessage(JSON.parse(data))
+        handleSocketMessage(JSON.parse(data), ws)
     });
     ws.on('close', function hee() {
         mainWindow.webContents.send("removeDevice", ws);
@@ -230,28 +233,41 @@ ipcMain.on("removeAllConnections", (e) => {
     });
 })
 
-ipcMain.on("kickWs", (e,arg) => {
+ipcMain.on("kickWs", (e, arg) => {
     wss.clients.forEach(function each(ws) {
-        if(ws.id==arg){
+        if (ws.id == arg) {
             ws.terminate()
         }
-         
+
     });
+})
+
+ipcMain.on("pushSchemes", (e, ws, schemes) => {
+    console.log(schemes);
+    wss.clients.forEach(function each(client) {
+        // TODO
+        // nur an 1 client sendn
+        // client !== wss && 
+        if (client.id == ws.id && client.readyState === WebSocket.OPEN) {
+            let data = { type: "schemeList", data: schemes }
+            client.send(JSON.stringify(data))
+        }
+    })
 })
 
 /*express.get("/", cors(corsOptions), (req, res) => {
 ipcMain.on("kickWs", (e,arg) => {
-    wss.clients.forEach(function each(ws) {
-        if(ws.id==arg){
-            ws.terminate()
-        }
-         
-    });
+wss.clients.forEach(function each(ws) {
+if(ws.id==arg){
+ws.terminate()
+}
+ 
+});
 })
-
-    /*express.get("/", cors(corsOptions), (req, res) => {
-
-  res.send("requested access")
+ 
+/*express.get("/", cors(corsOptions), (req, res) => {
+ 
+res.send("requested access")
 });
 */
 

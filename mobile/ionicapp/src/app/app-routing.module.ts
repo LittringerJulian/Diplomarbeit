@@ -34,6 +34,14 @@ const routes: Routes = [
     path: 'trackpad',
     loadChildren: () => import('./pages/trackpad/trackpad.module').then( m => m.TrackpadPageModule)
   },
+  {
+    path: 'list-schemes',
+    loadChildren: () => import('./pages/list-schemes/list-schemes.module').then( m => m.ListSchemesPageModule)
+  },
+  {
+    path: 'open-scheme',
+    loadChildren: () => import('./pages/open-scheme/open-scheme.module').then( m => m.OpenSchemePageModule)
+  },
 
 
 
