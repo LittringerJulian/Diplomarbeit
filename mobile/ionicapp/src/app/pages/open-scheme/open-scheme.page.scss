@@ -8,8 +8,19 @@
     transform: translateY(-50%);
 }
 
-.rotationContainer {
-    position: relative;
-    background: red;
+.formatContainer {
+    position: absolute;
+    padding-right: 100% * 16 / 9;
+    height: 100vw;
     display: block;
+    transform: translateY(-100%) rotate(90deg);
+    transform-origin: left bottom;
 }
+
+
+/*
+
+
+
+
+*/

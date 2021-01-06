@@ -20,35 +20,10 @@ export class OpenSchemePage implements OnInit {
   }
 
   ngOnInit() {
-    // geht vllt
-    //window.screen.orientation.lock('landscape');
-  }
-
-  getContainerRotation(){
-    if(this.scheme.format.toLowerCase() == 'landscape'){
-      return 'rotate(90deg)'
-    }
-    else{
-      return 'rotate(0)'
+    if(this.scheme.format.toLowerCase() == "portrait"){
+      console.log("portrait");
+      
+      document.getElementById("container").className = ""
     }
   }
-
-  getContainerWidth(){
-    if(this.scheme.format.toLowerCase() == 'landscape'){
-      return '90 * 16 / 9'
-    }
-    else{
-      return '90'
-    }
-  }
-
-  getContainerHeight(){
-    if(this.scheme.format.toLowerCase() == 'landscape'){
-      return '90'
-    }
-    else{
-      return '90 * 16 / 9'
-    }
-  }
-
 }

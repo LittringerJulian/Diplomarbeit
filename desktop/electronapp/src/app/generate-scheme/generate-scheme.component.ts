@@ -175,6 +175,8 @@ export class GenerateSchemeComponent implements OnInit {
       let newComponent: Element = Object.create(Object.getPrototypeOf(this.copiedComponent), Object.getOwnPropertyDescriptors(this.copiedComponent));
       newComponent.posx = newComponent.posx - 10 >= 0 ? newComponent.posx - 10 : newComponent.posx + 10
       newComponent.posy = newComponent.posy - 10 >= 0 ? newComponent.posy - 10 : newComponent.posy + 10
+      newComponent.percentagex = this.round(newComponent.posx / this.scheme.offsetWidth, 2)
+      newComponent.percentagey = this.round(newComponent.posy / this.scheme.offsetHeight, 2)
       this.components.push(newComponent)
       this.selectComponent(newComponent)
     }
@@ -231,6 +233,8 @@ export class GenerateSchemeComponent implements OnInit {
     let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, [true, "W"], false)
     this.components.push(e)
     this.selectComponent(e)
+
+    this.checkDimensions()
     /*console.log(this.contentHeight )
     this.scheme = document.getElementById('snavcontent');
     this.contentHeight=this.scheme.offsetHeight;

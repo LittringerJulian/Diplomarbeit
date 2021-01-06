@@ -13,7 +13,8 @@ export class ButtonElementComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+  }
 
   getTextColor() {
     if (this.element.color.rgb.a > 0.6) {
@@ -28,4 +29,19 @@ export class ButtonElementComponent implements OnInit {
     else return "#000000"
   }
 
+  getWidth() {
+    return this.element.width
+  }
+
+  getHeight() {
+    return this.element.height
+  }
+
+  getLeft() {
+    return this.element.percentagex * 100
+  }
+
+  getTop() {
+    return this.element.percentagey * 100
+  }
 }

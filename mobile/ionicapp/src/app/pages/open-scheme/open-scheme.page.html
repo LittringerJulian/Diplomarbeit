@@ -1,9 +1,5 @@
 <div class="container">
-    <div class="rotationContainer" [ngStyle]="{
-        'transform':getContainerRotation(),
-        'width': getContainerWidth(),
-        'height': getContainerHeight()
-    }">
+    <div id="container" class="formatContainer">
         <div *ngFor="let element of scheme.content;let i = index">
             <app-button-element *ngIf="element.identifier == 'button'" [element]="element"></app-button-element>
             <!--<app-joystick *ngIf="element.identifier == 'joystick'" [element]="element" ></app-joystick>-->
