@@ -30,7 +30,7 @@
         <!--<button (click)="logout()" class="navbutton">logout</button>-->
         <div class="innerdivright">
             <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
-           
+
             <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
                 <div id="accountdiv">
                     <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
@@ -44,7 +44,7 @@
 
 
 <div id="content" *ngIf="this.qrCodeIsSet">
-   <!-- <div id="accountdiv">
+    <!-- <div id="accountdiv">
         <p id="emailtext">Logged in as {{email}}</p>
         <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
         <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
@@ -55,7 +55,7 @@
         </qrcode>
         <div id="visibility" (click)="hideQR()">
 
-            <img id="visibilityimg"  src="./assets/visibility_off.svg">
+            <img id="visibilityimg" src="./assets/visibility_off.svg">
             <p id="hideqrtxt">Hide QR Code</p>
 
         </div>
@@ -66,7 +66,7 @@
         <div id="Devicetxt">
             <p>Connected Devices:</p>
             <div id="DeviceDiv">
-                <div *ngFor="let item of DataService.DeviceArray" class="conDevice">
+                <div *ngFor="let item of dataService.deviceArray" class="conDevice">
                     <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)> {{item}}
                 </div>
             </div>

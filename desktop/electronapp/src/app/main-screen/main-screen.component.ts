@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef,ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, NgZone, OnInit, ViewRef, ViewEncapsulation } from '@angular/core';
 import { QRCodeErrorCorrectionLevel, QRCodeElementType } from 'angularx-qrcode';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
 import { DataService } from '../data.service';
+import { HttpService } from '../http.service';
 
 
 
@@ -36,16 +37,16 @@ export class MainScreenComponent implements OnInit {
   container: HTMLCanvasElement
 
   container2: HTMLElement;
-  isvisible =true;
-  qrcodetext:HTMLElement;
-  hideimg:HTMLElement;
+  isvisible = true;
+  qrcodetext: HTMLElement;
+  hideimg: HTMLElement;
 
   imgpath
 
 
 
 
-  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private DataService: DataService, private ngZone: NgZone) {
+  constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private http: HttpService, private dataService: DataService, private ngZone: NgZone) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
     this.scale = 1;
@@ -53,9 +54,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
     this.cd.detach();
-
   }
 
   ngAfterViewInit() {
@@ -78,9 +77,18 @@ export class MainScreenComponent implements OnInit {
   ngOnInit() {
 
  
-    this.DataService.firstnameDataService = localStorage.getItem('imperiofname');
-    this.DataService.lastnameDataService = localStorage.getItem('imperiolname');
-    this.DataService.emailDataService = localStorage.getItem('imperioemail');
+    this.dataService.firstnameDataService = localStorage.getItem('imperiofname');
+    this.dataService.lastnameDataService = localStorage.getItem('imperiolname');
+    this.dataService.emailDataService = localStorage.getItem('imperioemail');
+
+
+    this.http.getSchemeByUserId().subscribe(data => {
+      
+      //console.log(data);
+      this.dataService.allSchemes = JSON.parse(data);
+      console.log(this.dataService.allSchemes)
+     
+    })
 
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
@@ -93,38 +101,26 @@ export class MainScreenComponent implements OnInit {
 
           if (result == true) {
             console.log("add to list", ws.id)
-            this.DataService.DeviceArray.push(ws.id)
+            this.dataService.deviceArray.push(ws.id)
 
-            console.log(this.DataService.DeviceArray)
+            console.log(this.dataService.deviceArray)
           }
-
         })
       });
-
     })
 
-
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
-      this.DataService.DeviceArray.forEach((element, index) => {
+      this.dataService.deviceArray.forEach((element, index) => {
         if (element == ws.id) {
-          this.DataService.DeviceArray.splice(index, 1)
+          this.dataService.deviceArray.splice(index, 1)
           if (!(this.cd as ViewRef).destroyed) {
             this.cd.detectChanges()
             // do other tasks
-
           }
-
-
         }
       });
-
     })
-
   }
-
-
-
-
 
   logout() {
     localStorage.setItem('token', null)
@@ -134,13 +130,13 @@ export class MainScreenComponent implements OnInit {
 
 
     //todo remove connections
-    this.DataService.DeviceArray = []
+    this.dataService.deviceArray = []
 
     electron.ipcRenderer.send("removeAllConnections");
 
-
     this.router.navigate(['/login']);
   }
+
   scheme() {
     this.router.navigate(['/scheme']);
   }
@@ -149,7 +145,6 @@ export class MainScreenComponent implements OnInit {
   }
   publicSchemes() {
     this.router.navigate(['/publicschemes']);
-
   }
 
 
@@ -164,18 +159,18 @@ export class MainScreenComponent implements OnInit {
     left:50%;*/
 
 
-    
+
     this.container2.style.width = "100% "
     //this.container2.style.paddingLeft="5%"; 
-   /* this.container2.style.top ="55%"
-    this.container2.style.left ="25%"
-    this.container2.style.transform="translate(-50%,-50%)"
-    this.container2.style.position = "absolute"*/
+    /* this.container2.style.top ="55%"
+     this.container2.style.left ="25%"
+     this.container2.style.transform="translate(-50%,-50%)"
+     this.container2.style.position = "absolute"*/
 
   }
 
-  kickUser(ws){
-    electron.ipcRenderer.send("kickWs",ws);
+  kickUser(ws) {
+    electron.ipcRenderer.send("kickWs", ws);
 
   }
 
@@ -186,26 +181,26 @@ export class MainScreenComponent implements OnInit {
   }
 
 
-  hideQR(){
+  hideQR() {
 
     this.qrcodetext = document.getElementById("hideqrtxt")
     this.hideimg = document.getElementById("visibilityimg")
 
-    switch (this.isvisible){
+    switch (this.isvisible) {
 
-      case true :
-        this.container2.style.filter ="blur(8px)"
+      case true:
+        this.container2.style.filter = "blur(8px)"
         this.qrcodetext.innerHTML = "Show QR Code";
         (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility.svg';
-        this.isvisible=false;
-      break;
-      case false :
-        this.container2.style.filter ="none"
+        this.isvisible = false;
+        break;
+      case false:
+        this.container2.style.filter = "none"
         this.qrcodetext.innerHTML = "Hide QR Code";
         (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
-        this.isvisible=true;
-      break;
-     
+        this.isvisible = true;
+        break;
+
     }
   }
 
