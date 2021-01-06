@@ -103,25 +103,26 @@
                 <br>
                 <!-- COMPONENT DIMENSIONS -->
                 <div class="wrapperComponent wrapperComponentDimensions">
-                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label>
+                    <p></p>
                     <div class="dimensionsFormWrapper">
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                            <mat-label>Pos X</mat-label>
+                            <mat-label>pos x</mat-label>
                             <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                            <mat-label>Size X</mat-label>
+                            <mat-label>width</mat-label>
                             <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(true)">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                            <mat-label>Pos Y</mat-label>
+                            <mat-label>pos y</mat-label>
                             <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                            <mat-label>Size Y</mat-label>
+                            <mat-label>height</mat-label>
                             <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(false)">
                         </mat-form-field>
 
@@ -148,7 +149,7 @@
                         <button mat-button style="height: 0; position: absolute;"> <!-- disable autofocus -->
                     </button>
                         <mat-form-field id="componentNameInputForm" floatLabel="never">
-                            <mat-label> ..... </mat-label>
+                            <mat-label> ... </mat-label>
                             <input matInput type="text">
                         </mat-form-field>
                     </form>
@@ -192,10 +193,11 @@
                 <br>
                 <!-- COMPONENT DIMENSIONS -->
                 <div class="wrapperComponent wrapperComponentDimensions">
-                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label><br>
+                    <mat-label style="font-weight: 700; margin-left: 5%;">Advanced:</mat-label>
+                    <p></p>
                     <div class="dimensionsFormWrapper">
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
-                            <mat-label>pos X</mat-label>
+                            <mat-label>pos x</mat-label>
                             <input matInput type="number">
                         </mat-form-field>
 
