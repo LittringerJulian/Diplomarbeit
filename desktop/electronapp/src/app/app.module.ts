@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { QrscannerComponent } from './qrscanner/qrscanner.component';
 import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -70,10 +69,6 @@ const appRoutes: Routes = [
   { path: 'editscheme', component: EditSchemeComponent },
   { path: 'editschemeportrait', component: EditSchemePortraitComponent },
   { path: 'publicschemes', component: PublicSchemesComponent },
-  {
-    path: 'qrcode', component: QrscannerComponent,
-    canActivate: [AuthGuardService]
-  },
   { path: 'navigation', component: NavigationComponent },
   {
     path: '**'
@@ -86,7 +81,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    QrscannerComponent,
     LoginComponent,
     NavigationComponent,
     DialogBodyComponent,

@@ -7,9 +7,11 @@ import { Scheme } from './scheme';
 export class DataService {
   public editScheme : Scheme;
   public editFormat : String;
-  DeviceArary =[];
+  DeviceArray =[];
+  firstnameDataService;
+  lastnameDataService;
+  emailDataService
 
-  
   constructor() { }
 
   

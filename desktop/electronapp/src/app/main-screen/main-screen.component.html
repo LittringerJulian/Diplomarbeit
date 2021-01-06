@@ -1,8 +1,7 @@
 <mat-toolbar color="primary" class="example-toolbar">
-    <button (click)="scheme()">scheme</button>
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-        <div (click)="myschemes()" class="innerdiv">
+        <div (click)="home()" class="innerdiv">
             <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
             <img class="navimg" src="./assets/home.svg">
             <p class="navtext">Home</p>
@@ -19,7 +18,7 @@
         </div>
     </div>
 
-    <div class="navdiv">
+    <div class="navdiv" id="discoverdiv">
         <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
         <div (click)="publicSchemes()" class="innerdiv">
             <img class="navimg" src="./assets/public.svg">
@@ -34,7 +33,7 @@
            
             <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
                 <div id="accountdiv">
-                    <p id="emailtext">Logged in as {{email}}</p>
+                    <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
                     <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
                     <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
                 </div>
@@ -63,11 +62,11 @@
     </div>
     <div id="userinfo">
 
-        <p id="welcometxt"> Welcome {{fname}}!</p>
+        <p id="welcometxt"> Welcome {{DataService.firstnameDataService}}!</p>
         <div id="Devicetxt">
             <p>Connected Devices:</p>
             <div id="DeviceDiv">
-                <div *ngFor="let item of DataService.DeviceArary" class="conDevice">
+                <div *ngFor="let item of DataService.DeviceArray" class="conDevice">
                     <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)> {{item}}
                 </div>
             </div>

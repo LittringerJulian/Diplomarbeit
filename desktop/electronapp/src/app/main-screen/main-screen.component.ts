@@ -77,9 +77,10 @@ export class MainScreenComponent implements OnInit {
   }
   ngOnInit() {
 
-    this.fname = localStorage.getItem('imperiofname')
-    this.lname = localStorage.getItem('imperiolname')
-    this.email = localStorage.getItem('imperioemail')
+ 
+    this.DataService.firstnameDataService = localStorage.getItem('imperiofname');
+    this.DataService.lastnameDataService = localStorage.getItem('imperiolname');
+    this.DataService.emailDataService = localStorage.getItem('imperioemail');
 
 
     electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
@@ -92,9 +93,9 @@ export class MainScreenComponent implements OnInit {
 
           if (result == true) {
             console.log("add to list", ws.id)
-            this.DataService.DeviceArary.push(ws.id)
+            this.DataService.DeviceArray.push(ws.id)
 
-            console.log(this.DataService.DeviceArary)
+            console.log(this.DataService.DeviceArray)
           }
 
         })
@@ -104,9 +105,9 @@ export class MainScreenComponent implements OnInit {
 
 
     electron.ipcRenderer.on("removeDevice", (e, ws) => {
-      this.DataService.DeviceArary.forEach((element, index) => {
+      this.DataService.DeviceArray.forEach((element, index) => {
         if (element == ws.id) {
-          this.DataService.DeviceArary.splice(index, 1)
+          this.DataService.DeviceArray.splice(index, 1)
           if (!(this.cd as ViewRef).destroyed) {
             this.cd.detectChanges()
             // do other tasks
@@ -133,7 +134,7 @@ export class MainScreenComponent implements OnInit {
 
 
     //todo remove connections
-    this.DataService.DeviceArary = []
+    this.DataService.DeviceArray = []
 
     electron.ipcRenderer.send("removeAllConnections");
 
@@ -206,6 +207,11 @@ export class MainScreenComponent implements OnInit {
       break;
      
     }
+  }
+
+  home(){
+    this.router.navigate(['/main']);
+
   }
 }
 

@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
               localStorage.setItem('imperiolname', this.userinfo.lastname)
               localStorage.setItem('imperioemail', this.userinfo.email)
 
-              this.router.navigate(['/qrcode']);
+              this.router.navigate(['/main']);
 
             })
 
