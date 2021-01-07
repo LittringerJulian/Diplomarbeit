@@ -1,0 +1,26 @@
+.container {
+    width: 100vw;
+    height: 100vw * 16 / 9;
+    background: white;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.formatContainer {
+    position: absolute;
+    padding-right: 100% * 16 / 9;
+    height: 100vw;
+    display: block;
+    transform: translateY(-100%) rotate(90deg);
+    transform-origin: left bottom;
+}
+
+
+/*
+
+
+
+
+*/

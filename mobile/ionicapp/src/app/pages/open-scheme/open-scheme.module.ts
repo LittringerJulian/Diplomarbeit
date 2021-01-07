@@ -8,12 +8,16 @@ import { OpenSchemePageRoutingModule } from './open-scheme-routing.module';
 
 import { OpenSchemePage } from './open-scheme.page';
 
+
+import { ComponentsModule } from '../../components/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    OpenSchemePageRoutingModule
+    OpenSchemePageRoutingModule,
+    ComponentsModule
   ],
   declarations: [OpenSchemePage]
 })

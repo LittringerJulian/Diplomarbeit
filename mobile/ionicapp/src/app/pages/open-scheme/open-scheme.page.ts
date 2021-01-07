@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Scheme } from 'src/app/scheme';
 
 @Component({
   selector: 'app-open-scheme',
@@ -8,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class OpenSchemePage implements OnInit {
 
-  scheme
+  scheme: Scheme
 
   constructor(private route: ActivatedRoute, private router: Router) { 
     this.route.queryParams.subscribe(params => {
@@ -19,8 +20,10 @@ export class OpenSchemePage implements OnInit {
   }
 
   ngOnInit() {
-    // geht vllt
-    //window.screen.orientation.lock('landscape');
+    if(this.scheme.format.toLowerCase() == "portrait"){
+      console.log("portrait");
+      
+      document.getElementById("container").className = ""
+    }
   }
-
 }
