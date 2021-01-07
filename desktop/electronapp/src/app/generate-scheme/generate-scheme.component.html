@@ -57,7 +57,7 @@
                     </button>
                         <mat-form-field id="componentNameInputForm" floatLabel="never">
                             <mat-label *ngIf="this.selectedComponent.specification == ''">{{ this.selectedComponent.shortcut[1] }}</mat-label>
-                            <input #nameInput matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}">
+                            <input #nameInput matInput type="text" [(ngModel)]="this.selectedComponent.specification" [ngModelOptions]="{standalone: true}" (focus)="this.shortcutsEnabled = false;" (blur)="this.shortcutsEnabled = true;">
                         </mat-form-field>
                     </form>
                 </div>
@@ -108,22 +108,24 @@
                     <div class="dimensionsFormWrapper">
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
                             <mat-label>pos x</mat-label>
-                            <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()">
+                            <input matInput #xInput type="number" [ngModel]="this.round(this.selectedComponent.percentagex * 100, 2)" (focus)="this.shortcutsEnabled = false;" (change)="this.selectedComponent.percentagex = this.round(xInput.value / 100,2); this.checkDimensions()"
+                                (blur)="this.shortcutsEnabled = true;">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
                             <mat-label>width</mat-label>
-                            <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(true)">
+                            <input matInput type="number" [(ngModel)]="this.selectedComponent.width" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height; this.shortcutsEnabled = false;" (change)="setDimensions(true)" (blur)="this.shortcutsEnabled = true;">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
                             <mat-label>pos y</mat-label>
-                            <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()">
+                            <input matInput #yInput type="number" [ngModel]="this.round(this.selectedComponent.percentagey * 100, 2)" (focus)="this.shortcutsEnabled = false;" (change)="this.selectedComponent.percentagey = this.round(yInput.value / 100,2); this.checkDimensions()"
+                                (blur)="this.shortcutsEnabled = true;">
                         </mat-form-field>
 
                         <mat-form-field class="dimensionsNumberForm" floatLabel="never">
                             <mat-label>height</mat-label>
-                            <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height" (change)="setDimensions(false)">
+                            <input matInput type="number" [(ngModel)]="this.selectedComponent.height" (focus)="oldWidth=this.selectedComponent.width;oldHeight=this.selectedComponent.height; this.shortcutsEnabled = false;" (change)="setDimensions(false)" (blur)="this.shortcutsEnabled = true;">
                         </mat-form-field>
 
                         <button mat-button id="dimensionsChainBtn" (click)="fixedAspectRatio = !fixedAspectRatio">
@@ -136,6 +138,13 @@
                     <mat-slide-toggle color="primary" *ngIf="this.selectedComponent" [(ngModel)]="this.selectedComponent.circle">Round corners</mat-slide-toggle>
                 </div>
                 <!-- COMPONENT DIMENSIONS END -->
+
+                <div id="delBtn" class="wrapperComponent">
+                    <button mat-button (click)="deleteSelectedComponent()"><span class="material-icons">
+                        delete
+                        </span></button>
+                </div>
+
             </div>
             <!------------------------------------------------------------------------------------------------------------------------------------------------------>
             <!--------------------------------------------------- FAKE MENU ---------------------------------------------------------------------------------------->

@@ -112,7 +112,7 @@ export class QrScannerComponent {
                     this.qrData = this.qrData.data
                     
                     console.log(this.qrData + " init socket")
-                    if(this.initSocket()){
+                    if(this.initSocket() == null){
                         this.router.navigate(["/", "home"])
                         this.cameraPreview.stopCamera()
                     }

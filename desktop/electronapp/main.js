@@ -6,8 +6,7 @@ const ip = require("node-local-ipv4")();
 const cors = require("cors");
 const { v4: uuidv4 } = require('uuid');
 const { EventEmitter } = require('events')
-
-let permission = false;
+const WebSocket = require("ws");
 
 // robot and affiliated calculation modules
 var robot = require("robotjs")
@@ -23,6 +22,13 @@ emitter.setMaxListeners(15);
 
 function handleSocketMessage(msg, ws) {
     switch (msg.type) {
+
+        case 'newConnection':
+            mainWindow.webContents.send("sendDeviceAccess", ws, msg.data);
+            break;
+        case 'requestSchemePush':
+            mainWindow.webContents.send('requestSchemePush', ws);
+            break;
         case 'gyro':
             gyroPointer.moveMouse(msg.data)
             break;
@@ -65,9 +71,6 @@ function handleSocketMessage(msg, ws) {
             console.log(msg.data[1]);
             robot.keyToggle(msg.data[1].toLowerCase(), "up")
             break;
-        case 'requestSchemePush':
-            mainWindow.webContents.send('requestSchemePush', ws);
-            break;
     }
 }
 
@@ -88,7 +91,7 @@ const corsOptions = {
         }
     },
 };
-
+/*
 const express = require("express")();
 const server = require("http").createServer(express);
 const port = 1411;
@@ -101,23 +104,21 @@ express.get("/", cors(corsOptions), (req, res) => {
     res.send("es geht JAAAAAA");
 });
 express.options("*", cors(corsOptions));
-const WebSocket = require("ws");
 const { windowsStore } = require("process");
 const { filter } = require("rxjs-compat/operator/filter");
 const { createEnumDeclaration } = require("typescript");
+*/
 const wsport = process.env.PORT || 80;
 const wss = new WebSocket.Server({ port: wsport, host: "0.0.0.0" });
 
 wss.on("connection", function connection(ws, req) {
-
-    //clipboardManager.copyText("hallo test electon copy")
 
     console.log("new connection: " + req.socket.remoteAddress);
     ws.id = uuidv4();
     ws.access = false;
     ws.kick = false;
 
-    mainWindow.webContents.send("sendDeviceAccess", ws);
+
 
     ws.on("pong", heartbeat);
     ws.on("message", function incoming(data) {
@@ -131,16 +132,13 @@ wss.on("connection", function connection(ws, req) {
 
 ipcMain.on("WebSocketAccess", (e, ws2, bool) => {
     wss.clients.forEach(function each(ws) {
-
         if (ws.id == ws2.id) {
-            //console.log("inner1");
+
             if (bool) {
                 ws.access = true;
+                ws.send(JSON.stringify({ type: "allowConnection", data: true }))
             } else {
-                //console.log("inner2");
-
                 ws.kick = true;
-
             }
         }
     })

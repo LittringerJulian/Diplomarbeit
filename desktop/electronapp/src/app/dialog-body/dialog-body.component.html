@@ -1,6 +1,7 @@
-<h1 mat-dialog-title>A new Device wants to connect!</h1>
+<h1 mat-dialog-title>{{deviceName}} wants to connect!</h1>
 <div mat-dialog-content></div>
-<div mat-dialog-actions>
-    <button mat-button (click)="allow(true)">Accept</button>
-    <button mat-button (click)="allow(false)">Deny</button>
+<div mat-dialog-actions style="display: flex; justify-content: flex-end; margin-top: 5%;">
+    <button mat-button style="color: black" color="accent" [mat-dialog-close]="false">Deny</button>
+    <button mat-raised-button style="color: white" color="primary" [mat-dialog-close]="true ">Accept</button>
+
 </div>

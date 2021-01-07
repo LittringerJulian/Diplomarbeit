@@ -15,9 +15,10 @@ import { WebsocketService } from './services/websocket.service';
 import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native/gyroscope/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device-motion/ngx';
+
+import { Device } from '@ionic-native/device/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device
         DeviceMotion,
         WebsocketService,
         HttpService,
+        Device,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

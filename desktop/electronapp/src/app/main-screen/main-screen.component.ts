@@ -43,9 +43,6 @@ export class MainScreenComponent implements OnInit {
 
   imgpath
 
-
-
-
   constructor(public cd: ChangeDetectorRef, private router: Router, public dialog: MatDialog, private http: HttpService, private dataService: DataService, private ngZone: NgZone) {
     this.elementType = QRCodeElementType.img;
     this.level = QRCodeErrorCorrectionLevel.M;
@@ -53,9 +50,6 @@ export class MainScreenComponent implements OnInit {
     this.width = 500;
   }
 
-  ngOnDestroy() {
-    this.cd.detach();
-  }
 
   ngAfterViewInit() {
     this.cd.markForCheck();
@@ -66,60 +60,24 @@ export class MainScreenComponent implements OnInit {
       this.qrCodeIsSet = true;
       if (!(this.cd as ViewRef).destroyed) {
         this.cd.detectChanges()
-        // do other tasks
-
       }
 
     })
     setTimeout(() => this.getQrCode(), 0)
 
   }
-  ngOnInit() {
 
- 
+  ngOnInit() {
     this.dataService.firstnameDataService = localStorage.getItem('imperiofname');
     this.dataService.lastnameDataService = localStorage.getItem('imperiolname');
     this.dataService.emailDataService = localStorage.getItem('imperioemail');
 
-
     this.http.getSchemeByUserId().subscribe(data => {
-      
-      //console.log(data);
       this.dataService.allSchemes = JSON.parse(data);
       console.log(this.dataService.allSchemes)
-     
     })
 
 
-    electron.ipcRenderer.on("sendDeviceAccess", (e, ws) => {
-
-      this.ngZone.run(() => {
-        console.log(ws);
-        let ref = this.dialog.open(DialogBodyComponent, ws.id);
-        ref.afterClosed().subscribe(result => {
-          electron.ipcRenderer.send("WebSocketAccess", ws, result);
-
-          if (result == true) {
-            console.log("add to list", ws.id)
-            this.dataService.deviceArray.push(ws.id)
-
-            console.log(this.dataService.deviceArray)
-          }
-        })
-      });
-    })
-
-    electron.ipcRenderer.on("removeDevice", (e, ws) => {
-      this.dataService.deviceArray.forEach((element, index) => {
-        if (element == ws.id) {
-          this.dataService.deviceArray.splice(index, 1)
-          if (!(this.cd as ViewRef).destroyed) {
-            this.cd.detectChanges()
-            // do other tasks
-          }
-        }
-      });
-    })
   }
 
   logout() {
@@ -200,13 +158,16 @@ export class MainScreenComponent implements OnInit {
         (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
         this.isvisible = true;
         break;
-
     }
   }
 
-  home(){
+  home() {
     this.router.navigate(['/main']);
+  }
 
+
+  ngOnDestroy() {
+    this.cd.detach();
   }
 }
 

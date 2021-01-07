@@ -21,9 +21,12 @@ export class SetComponentActionComponent implements OnInit {
   // 2-5: keys
   shortcut = []
 
+  deviceName
+
   constructor(public dialogRef: MatDialogRef<SetComponentActionComponent>) { }
 
   ngOnInit() {
+    this.deviceName = this.dialogRef.componentInstance.deviceName
   }
 
   startShortcut() {

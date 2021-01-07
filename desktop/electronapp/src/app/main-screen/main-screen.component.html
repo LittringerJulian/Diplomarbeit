@@ -67,7 +67,7 @@
             <p>Connected Devices:</p>
             <div id="DeviceDiv">
                 <div *ngFor="let item of dataService.deviceArray" class="conDevice">
-                    <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item)> {{item}}
+                    <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item.id)> {{item.name}}
                 </div>
             </div>
         </div>

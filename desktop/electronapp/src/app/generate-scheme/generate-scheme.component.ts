@@ -44,6 +44,7 @@ export class GenerateSchemeComponent implements OnInit {
   rippleColor = "rgba(0,0,0,0.2)"
 
   ctrlPressed = false
+  shortcutsEnabled = true
 
   oldWidth = 0
   oldHeight = 0
@@ -160,47 +161,49 @@ export class GenerateSchemeComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   listenOnKeydown(e: KeyboardEvent) {
-    if (e.key.toLocaleLowerCase() == "control") {
-      this.ctrlPressed = true
-    }
-
-    if (e.key.toLocaleLowerCase() == "delete") {
-      this.deleteSelectedComponent()
-    }
-
-    if (e.key.toLocaleLowerCase() == "c" && this.ctrlPressed && this.selectedComponent) {
-      this.copiedComponent = Object.create(Object.getPrototypeOf(this.selectedComponent), Object.getOwnPropertyDescriptors(this.selectedComponent));
-    }
-
-    if (e.key.toLocaleLowerCase() == "v" && this.ctrlPressed && this.copiedComponent) {
-      let newComponent: Element = Object.create(Object.getPrototypeOf(this.copiedComponent), Object.getOwnPropertyDescriptors(this.copiedComponent));
-      newComponent.posx = newComponent.posx - 10 >= 0 ? newComponent.posx - 10 : newComponent.posx + 10
-      newComponent.posy = newComponent.posy - 10 >= 0 ? newComponent.posy - 10 : newComponent.posy + 10
-      newComponent.percentagex = this.round(newComponent.posx / this.scheme.offsetWidth, 2)
-      newComponent.percentagey = this.round(newComponent.posy / this.scheme.offsetHeight, 2)
-      this.components.push(newComponent)
-      this.selectComponent(newComponent)
-    }
-
-    if (this.selectedComponent) {
-      let fraction = this.contentHeight < this.contentWidth ? this.contentHeight : this.contentWidth
-      let multiplier = this.ctrlPressed ? 10 : 100
-      let newpos
-      if (e.key.toLocaleLowerCase() == "arrowup") {
-        newpos = this.selectedComponent.posy - fraction / multiplier
-        this.selectedComponent.posy = newpos > 0 ? newpos : 0
+    if (this.shortcutsEnabled) {
+      if (e.key.toLocaleLowerCase() == "control") {
+        this.ctrlPressed = true
       }
-      if (e.key.toLocaleLowerCase() == "arrowleft") {
-        newpos = this.selectedComponent.posx - fraction / multiplier
-        this.selectedComponent.posx = newpos > 0 ? newpos : 0
+
+      if (e.key.toLocaleLowerCase() == "delete") {
+        this.deleteSelectedComponent()
       }
-      if (e.key.toLocaleLowerCase() == "arrowright") {
-        newpos = this.selectedComponent.posx + fraction / multiplier
-        this.selectedComponent.posx = newpos + this.contentWidth * this.selectedComponent.width / 100 < this.contentWidth ? newpos : this.contentWidth - this.contentWidth * this.selectedComponent.width / 100
+
+      if (e.key.toLocaleLowerCase() == "c" && this.ctrlPressed && this.selectedComponent) {
+        this.copiedComponent = Object.create(Object.getPrototypeOf(this.selectedComponent), Object.getOwnPropertyDescriptors(this.selectedComponent));
       }
-      if (e.key.toLocaleLowerCase() == "arrowdown") {
-        newpos = this.selectedComponent.posy + fraction / multiplier
-        this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
+
+      if (e.key.toLocaleLowerCase() == "v" && this.ctrlPressed && this.copiedComponent) {
+        let newComponent: Element = Object.create(Object.getPrototypeOf(this.copiedComponent), Object.getOwnPropertyDescriptors(this.copiedComponent));
+        newComponent.posx = newComponent.posx - 10 >= 0 ? newComponent.posx - 10 : newComponent.posx + 10
+        newComponent.posy = newComponent.posy - 10 >= 0 ? newComponent.posy - 10 : newComponent.posy + 10
+        newComponent.percentagex = this.round(newComponent.posx / this.scheme.offsetWidth, 2)
+        newComponent.percentagey = this.round(newComponent.posy / this.scheme.offsetHeight, 2)
+        this.components.push(newComponent)
+        this.selectComponent(newComponent)
+      }
+
+      if (this.selectedComponent) {
+        let fraction = this.contentHeight < this.contentWidth ? this.contentHeight : this.contentWidth
+        let multiplier = this.ctrlPressed ? 10 : 100
+        let newpos
+        if (e.key.toLocaleLowerCase() == "arrowup") {
+          newpos = this.selectedComponent.posy - fraction / multiplier
+          this.selectedComponent.posy = newpos > 0 ? newpos : 0
+        }
+        if (e.key.toLocaleLowerCase() == "arrowleft") {
+          newpos = this.selectedComponent.posx - fraction / multiplier
+          this.selectedComponent.posx = newpos > 0 ? newpos : 0
+        }
+        if (e.key.toLocaleLowerCase() == "arrowright") {
+          newpos = this.selectedComponent.posx + fraction / multiplier
+          this.selectedComponent.posx = newpos + this.contentWidth * this.selectedComponent.width / 100 < this.contentWidth ? newpos : this.contentWidth - this.contentWidth * this.selectedComponent.width / 100
+        }
+        if (e.key.toLocaleLowerCase() == "arrowdown") {
+          newpos = this.selectedComponent.posy + fraction / multiplier
+          this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
+        }
       }
     }
   }
@@ -227,7 +230,7 @@ export class GenerateSchemeComponent implements OnInit {
     let g = parseInt(hex.substr(2, 2), 16)
     let b = parseInt(hex.substr(4, 2), 16)
 
-    hex = "#"+hex
+    hex = "#" + hex
 
     let color: Color = { hex: hex, hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: r, g: g, b: b, a: 1 }, source: "rgb" }
     let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
@@ -241,31 +244,35 @@ export class GenerateSchemeComponent implements OnInit {
     this.contentHeight=this.scheme.offsetHeight;
     console.log(this.contentHeight )*/
   }
-  
+
   getBadgeIcon(color) {
     return this.selectedComponent.color.hex == this.predefinedColors[color] ? '✓' : ''
   }
 
-  isColorPredefined(){
-    for(let color of this.predefinedColors) {
-      if(color == this.selectedComponent.color.hex) return ''
+  isColorPredefined() {
+    for (let color of this.predefinedColors) {
+      if (color == this.selectedComponent.color.hex) return ''
     }
     return '✓';
   }
 
   setComponentAction() {
+    this.shortcutsEnabled = false
+
     let dialogRef = this.dialog.open(SetComponentActionComponent)
     dialogRef.componentInstance.shortcut = this.selectedComponent.shortcut
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
 
-      if (res)
+      if (res){
         this.selectedComponent.shortcut = res
-
+      }
+      this.shortcutsEnabled = true
     })
   }
 
   saveScheme() {
+    this.shortcutsEnabled = false
     if (this.components.length > 0) {
       this.newScheme.content = this.components;
 
@@ -273,6 +280,7 @@ export class GenerateSchemeComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         console.log(result)
+        this.shortcutsEnabled = true
         if (result != undefined) {
           this.newScheme.name = result;
           this.newScheme.format = this.format;
@@ -285,10 +293,10 @@ export class GenerateSchemeComponent implements OnInit {
 
             // pull schemes
             this.httpService.getSchemeByUserId().subscribe(data => {
-      
+
               //console.log(data);
               this.dataService.allSchemes = JSON.parse(data);
-             
+
             })
 
 

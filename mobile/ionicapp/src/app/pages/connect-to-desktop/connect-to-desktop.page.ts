@@ -1,4 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Device } from '@ionic-native/device/ngx';
 
 @Component({
   selector: 'app-connect-to-desktop',
@@ -7,18 +8,17 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 })
 export class ConnectToDesktopPage implements OnInit, OnDestroy {
 
-  platformIsAndroid = false;
+  platformIsAndroid
 
-  constructor() { }
+  constructor(private device: Device) { }
 
   ngOnInit() {
-    this.platformIsAndroid = true
+    this.platformIsAndroid = (this.device.platform.toLowerCase() == "android")
   }
   
   @HostListener('unloaded')
   ngOnDestroy(){
-    console.log("sdf");
-    
+    console.log("DESTROY");
   }
 
 }

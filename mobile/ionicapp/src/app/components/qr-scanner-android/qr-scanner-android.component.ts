@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import jsQr from 'jsQr';
 import { WebsocketService } from "../../services/websocket.service";
 
@@ -7,20 +8,40 @@ import { WebsocketService } from "../../services/websocket.service";
   templateUrl: './qr-scanner-android.component.html',
   styleUrls: ['./qr-scanner-android.component.scss'],
 })
-export class QrScannerAndroidComponent implements OnDestroy{
+export class QrScannerAndroidComponent implements OnDestroy {
 
   qrData: any
   @ViewChild('video') video: ElementRef;
   @ViewChild('canvas') canvas: ElementRef;
-  videoElement : any
+  videoElement: any
   canvasElement: any
   canvasContext: any
 
   videoReady = false;
 
-  constructor(private socket: WebsocketService) { }
+  canTryConnection = true
 
-  async startScan(){
+  constructor(private socket: WebsocketService, private router: Router) { }
+
+  ngAfterViewInit() {
+    this.videoElement = this.video.nativeElement
+    this.canvasElement = this.canvas.nativeElement
+    this.canvasContext = this.canvasElement.getContext('2d')
+    this.startScan()
+
+    this.socket.canConnect.subscribe(res => {
+      if (res) {
+        this.router.navigate(["/", "home"])
+      }
+      else {
+        this.canTryConnection = true
+        this.qrData = null
+        this.scan()
+      }
+    })
+  }
+
+  async startScan() {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { width: window.innerHeight, height: window.innerWidth, facingMode: "environment" }
     })
@@ -31,52 +52,41 @@ export class QrScannerAndroidComponent implements OnDestroy{
     requestAnimationFrame(this.scan.bind(this))
   }
 
-  initSocket() {
-    return this.socket.connect(this.qrData);
-  }
-
-  scan(){
-    if(this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA){
+  scan() {
+    if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA && this.canTryConnection) {
       this.videoReady = true
-      
+
       this.canvasElement.height = this.videoElement.height
       this.canvasElement.width = this.videoElement.width
 
       this.canvasContext.drawImage(this.videoElement, 0, 0, this.canvasElement.width, this.canvasElement.height)
       let imageData = this.canvasContext.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height)
-      
+
       this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
       //console.log(this.qrData);
-
-
-      if(this.qrData){
+      if (this.qrData) {
         //console.log("found some data %s", this.qrData);
+        this.canTryConnection = false
         this.qrData = this.qrData.data
-        
-        if(this.initSocket()){
-          this.qrData = null
-        }
+        this.initSocket()
       }
-      else{
+      else {
         requestAnimationFrame(this.scan.bind(this))
       }
-    }else{
+    } else {
       requestAnimationFrame(this.scan.bind(this))
     }
   }
 
-  ngAfterViewInit(){
-    this.videoElement = this.video.nativeElement
-    this.canvasElement = this.canvas.nativeElement
-    this.canvasContext = this.canvasElement.getContext('2d')
-    this.startScan()
+  initSocket() {
+    this.socket.connect(this.qrData);
   }
 
   @HostListener('unloaded')
-  ngOnDestroy(){
+  ngOnDestroy() {
     console.log("DESTROY");
-    
+
   }
 
 }
