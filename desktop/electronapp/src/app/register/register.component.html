@@ -1,43 +1,43 @@
 <div>
     <form [formGroup]="form" (ngSubmit)="registerBefore()">
-      <h2>Register</h2>
-      <mat-error *ngIf="loginInvalid">
-        Email already exists!
-      </mat-error>
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="firstname" formControlName="first" required >
-        <mat-error>
-          Please enter a valid Firstname 
+        <h2>Register</h2>
+        <mat-error *ngIf="loginInvalid">
+            Email already exists!
         </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="lastname" formControlName="last" required >
-        <mat-error>
-          Please enter a valid Lastname 
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <mat-label >Gender</mat-label>
-        <mat-select [formControl]="genderControl"  required>
-          <mat-option value="M">Male</mat-option>
-          <mat-option value="F">Female</mat-option>
-          <mat-option value="O">Other</mat-option>
-          
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <input matInput placeholder="Email" formControlName="email" required >
-        <mat-error>
-          Please enter a valid email address
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <input matInput type="password" placeholder="Password" formControlName="password" required >
-        <mat-error>
-          Please enter a valid password
-        </mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="primary">Register</button>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="firstname" formControlName="first" required>
+            <mat-error>
+                Please enter a valid Firstname
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="lastname" formControlName="last" required>
+            <mat-error>
+                Please enter a valid Lastname
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <mat-label>Gender</mat-label>
+            <mat-select [formControl]="genderControl" required>
+                <mat-option value="M">Male</mat-option>
+                <mat-option value="F">Female</mat-option>
+                <mat-option value="O">Other</mat-option>
+
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput placeholder="Email" formControlName="email" required>
+            <mat-error>
+                Please enter a valid email address
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput type="password" placeholder="Password" formControlName="password" required>
+            <mat-error>
+                Please enter a valid password
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" style="color: white">Register</button>
     </form>
     <div id="loginText" (click)="goToLogin()">Back to Login</div>
 
