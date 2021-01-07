@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ColorEvent, Color } from 'ngx-color';
 import { SetComponentActionComponent } from '../set-component-action/set-component-action.component';
 import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-generate-scheme',
@@ -49,7 +50,7 @@ export class GenerateSchemeComponent implements OnInit {
 
   badgeContent = '<span class="material-icons">check</span>'
 
-  constructor(private sanitizer: DomSanitizer, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private sanitizer: DomSanitizer, private dataService: DataService, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
 
@@ -280,6 +281,18 @@ export class GenerateSchemeComponent implements OnInit {
             if (data == "Scheme inserted") {
               this.openSnackbar("Saved Scheme")
             }
+
+
+            // pull schemes
+            this.httpService.getSchemeByUserId().subscribe(data => {
+      
+              //console.log(data);
+              this.dataService.allSchemes = JSON.parse(data);
+             
+            })
+
+
+
           })
         }
       })

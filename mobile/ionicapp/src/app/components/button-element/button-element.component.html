@@ -5,7 +5,7 @@
   'top.%': getTop(),
   'background-color':element.rgbaColor, 
   'color':getTextColor(), 
-  'border-radius':(element.circle ? '2000px' : '10px') }" class="component">
+  'border-radius':(element.circle ? '2000px' : '10px') }" (touchstart)="actionStart()" (touchend)="actionEnd()" class="component">
 
     <p id="text"> {{ element.specification == '' ? element.shortcut[1] : element.specification}} </p>
 </div>

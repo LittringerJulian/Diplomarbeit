@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 import { Element } from '../../element';
 
@@ -11,7 +12,7 @@ export class ButtonElementComponent implements OnInit {
 
   @Input() element: Element;
 
-  constructor() { }
+  constructor(private socket: WebsocketService) { }
 
   ngOnInit() { 
   }
@@ -43,5 +44,23 @@ export class ButtonElementComponent implements OnInit {
 
   getTop() {
     return this.element.percentagey * 100
+  }
+
+  actionStart(){
+    if(this.element.shortcut[0]){
+      let data = {type: "keydown", data: this.element.shortcut}
+      this.socket.sendData(data)
+    }
+    else{
+      let data = {type: "shortcut", data: this.element.shortcut}
+      this.socket.sendData(data)
+    }
+  }
+
+  actionEnd(){
+    if(this.element.shortcut[0]){
+      let data = {type: "keyup", data: this.element.shortcut}
+      this.socket.sendData(data)
+    }
   }
 }

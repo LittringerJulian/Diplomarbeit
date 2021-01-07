@@ -11,7 +11,6 @@ let permission = false;
 
 // robot and affiliated calculation modules
 var robot = require("robotjs")
-
 const Gyropointer = require("./gyropointer.js")
 const AccelerometerMouse = require("./accelerometerMouse.js")
 const ClipboardManager = require("./clipboardManager.js")
@@ -19,14 +18,8 @@ var gyroPointer = new Gyropointer()
 var accelerometerMouse = new AccelerometerMouse()
 var clipboardManager = new ClipboardManager()
 
-//const cmd = require('node-cmd')
-
 const emitter = new EventEmitter();
-
-
-
 emitter.setMaxListeners(15);
-
 
 function handleSocketMessage(msg, ws) {
     switch (msg.type) {
@@ -52,18 +45,25 @@ function handleSocketMessage(msg, ws) {
             robot.mouseClick(msg.data)
             break;
         case 'shortcut':
-            for (let i = 0; i < msg.data.length; i++) {
+            console.log("shortcut: ");
+            console.log(msg.data[1]);
+
+            for (let i = 2; i < msg.data.length; i++) {
                 robot.keyToggle(msg.data[i].toLowerCase(), "down")
             }
-            for (let i = 0; i < msg.data.length; i++) {
+            for (let i = 2; i < msg.data.length; i++) {
                 robot.keyToggle(msg.data[i].toLowerCase(), "up")
             }
             break;
         case 'keydown':
-            robot.keyToggle(msg.data.toLowerCase(), "down")
+            console.log("keydown: ");
+            console.log(msg.data[1]);
+            robot.keyToggle(msg.data[1].toLowerCase(), "down")
             break;
         case 'keyup':
-            robot.keyToggle(msg.data.toLowerCase(), "up")
+            console.log("keyup: ");
+            console.log(msg.data[1]);
+            robot.keyToggle(msg.data[1].toLowerCase(), "up")
             break;
         case 'requestSchemePush':
             mainWindow.webContents.send('requestSchemePush', ws);

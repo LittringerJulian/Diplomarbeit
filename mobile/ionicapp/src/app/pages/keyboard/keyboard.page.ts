@@ -11,10 +11,11 @@ export class KeyboardPage {
   constructor(private socket: WebsocketService) { }
 
   @ViewChild('inputfield') inputfield
-  listener
+  listenerKeyup
+  listenerTouchend
 
   ngAfterViewInit() {
-    window.addEventListener("keyup", this.listener = (e) => {
+    window.addEventListener("keyup", this.listenerKeyup = (e) => {
 
       let keystring
 
@@ -52,9 +53,8 @@ export class KeyboardPage {
       this.inputfield.nativeElement.select()
     }, 100)
 
-    window.addEventListener("touchend", this.listener = (e) => {
-      this.inputfield.nativeElement.focus()
-      this.inputfield.nativeElement.select()
+    window.addEventListener("touchend", this.listenerTouchend = (e) => {
+      e.preventDefault()
       setTimeout(() => {
         this.inputfield.nativeElement.focus()
         this.inputfield.nativeElement.select()
@@ -69,7 +69,8 @@ export class KeyboardPage {
   }
 
   ngOnDestroy() {
-    window.removeEventListener("deviceorientation", this.listener)
+    window.removeEventListener("keyup", this.listenerKeyup)
+    window.removeEventListener("keyup", this.listenerTouchend)
   }
 
 

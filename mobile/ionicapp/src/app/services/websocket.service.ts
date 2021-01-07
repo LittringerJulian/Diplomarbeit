@@ -15,7 +15,6 @@ export class WebsocketService {
   receivedSchemes = new BehaviorSubject<Scheme[]>(null)
 
   constructor(private router: Router) {
-    this.connect("localhost")
   }
 
   connect(socketUri) {
@@ -35,11 +34,11 @@ export class WebsocketService {
         err => {
           console.log(err);
           this.close()
+          this.router.navigate(["/", "connectToDesktop"])
         })
-      //this.router.navigate(["/", "home"])
+      this.router.navigate(["/", "home"])
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

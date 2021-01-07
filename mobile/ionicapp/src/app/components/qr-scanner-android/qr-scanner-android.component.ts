@@ -54,7 +54,7 @@ export class QrScannerAndroidComponent implements OnDestroy{
         //console.log("found some data %s", this.qrData);
         this.qrData = this.qrData.data
         
-        if(!this.initSocket()){
+        if(this.initSocket()){
           this.qrData = null
         }
       }

@@ -21,8 +21,6 @@ export class OpenSchemePage implements OnInit {
 
   ngOnInit() {
     if(this.scheme.format.toLowerCase() == "portrait"){
-      console.log("portrait");
-      
       document.getElementById("container").className = ""
     }
   }

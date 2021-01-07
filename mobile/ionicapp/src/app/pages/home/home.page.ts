@@ -13,9 +13,8 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-
-  enterPage(arg){
-    this.router.navigate(["/", arg])
+  enterPage(page){
+    this.router.navigate(["/", page])
   }
 
 }
