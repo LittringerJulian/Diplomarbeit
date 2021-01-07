@@ -34,7 +34,7 @@
             <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
                 <div id="accountdiv">
                     <p id="emailtext">Logged in as {{dataService.emailDataService}}</p>
-                    <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
+                    <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
                     <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
                 </div>
             </mat-menu>
