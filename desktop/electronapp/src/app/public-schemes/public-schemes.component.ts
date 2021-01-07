@@ -29,6 +29,7 @@ export class PublicSchemesComponent implements OnInit {
   tags: string[] = [];
   alltags: string[] = ['Gaming', 'Work', 'Art'];
   searchFormat;
+  formattedTags = []
 
 
   @ViewChild('tagInput', {static: true}) tagInput: ElementRef<HTMLInputElement>;
@@ -57,11 +58,14 @@ export class PublicSchemesComponent implements OnInit {
   
 
   add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+     var input = event.input;
+     var value = event.value;
 
     console.log(value)
     console.log(input)
+
+    value =  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+    
 
     
     if ((value || '').trim()) {
@@ -86,9 +90,12 @@ export class PublicSchemesComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
+    console.log(event.option.viewValue)
+    if(!this.tags.includes(event.option.viewValue)){
+      this.tags.push(event.option.viewValue);
+    }
+   this.tagInput.nativeElement.value = '';
+   this.tagCtrl.setValue(null);
   }
 
 
@@ -140,8 +147,10 @@ export class PublicSchemesComponent implements OnInit {
       "format":filterFormat,
       "tags":filterTag
     }
+    //this.formattedTags = this.tags.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
 
-    console.log(json)
+    console.log(this.tags);
+    
  
     this.array = []
     this.httpService.getFilteredSchemes(json).subscribe(data =>{
