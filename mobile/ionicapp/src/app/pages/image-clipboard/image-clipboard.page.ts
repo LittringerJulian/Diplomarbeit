@@ -64,4 +64,5 @@ export class ImageClipboardPage {
   flipCamera() {
     CameraPreview.flip();
   }
+  
 }

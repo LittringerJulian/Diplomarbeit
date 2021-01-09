@@ -45,4 +45,8 @@ export class ListSchemesPage implements OnInit {
     this.router.navigate(['open-scheme'], schemeState);
   }
 
+  enterPage(page){
+    this.router.navigate(["/", page])
+  }
+
 }

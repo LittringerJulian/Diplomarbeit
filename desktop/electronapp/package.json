@@ -45,7 +45,7 @@
     "node-powershell": "^4.0.0",
     "npm": "^6.14.8",
     "path": "^0.12.7",
-    "robotjs": "^0.6.0",
+    "robotjs": "git+https://github.com/octalmage/robotjs.git",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.6.3",
     "socket.io-client": "^2.3.0",

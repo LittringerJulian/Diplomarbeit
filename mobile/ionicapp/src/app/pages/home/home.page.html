@@ -1,50 +1,73 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>home</ion-title>
+        <ion-title>Home</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <!--<ion-button (click)='enterPage("laserpointer")'>
-        laser
-    </ion-button>
-    <ion-button (click)='enterPage("accelerometer-mouse")'>
-        accelerometer
-    </ion-button>
-    <ion-button (click)='enterPage("image-clipboard")'>
-        image-clipboard
-    </ion-button>
-    <ion-button (click)='enterPage("keyboard")'>
-        keyboard
-    </ion-button>
-    <ion-button (click)='enterPage("trackpad")'>
-        trackpad
-    </ion-button>-->
-
     <div id="home-menu-wrapper">
+        <!--
         <ion-icon name="calculator-outline" (click)='enterPage("keyboard")'></ion-icon>
         <ion-icon name="camera-outline" (click)='enterPage("image-clipboard")'></ion-icon>
         <ion-icon name="browsers-outline" (click)='enterPage("trackpad")'></ion-icon>
         <ion-icon name="color-wand-outline" (click)='enterPage("laserpointer")'></ion-icon>
-        <ion-icon name="pencil-outline" (click)='enterPage("list-schemes")'></ion-icon>
+-->
+
+        <div class="gridElement" (click)='enterPage("keyboard")'>
+            <span class="material-icons">
+            keyboard
+            </span>
+        </div>
+        <div class="gridElement" (click)='enterPage("image-clipboard")'>
+            <span class="material-icons">
+            camera
+            </span>
+        </div>
+        <div class="gridElement" (click)='enterPage("trackpad")'>
+            <span class="material-icons">
+            fingerprint
+            </span>
+        </div>
+        <div class="gridElement" (click)='enterPage("laserpointer")'>
+            <span class="material-icons">
+            create
+            </span>
+        </div>
+        <div class="gridElement" (click)='enterPage("media-controls")'>
+            <span class="material-icons">
+            playlist_play
+            </span>
+        </div>
+        <div class="gridElement" (click)='enterPage("presentation")'>
+            <span class="material-icons">
+            slideshow
+            </span>
+        </div>
     </div>
 
+    <div class="tabs">
+        <div class="tab" (click)='enterPage("home")'>
+            <ion-icon class="tabicon" name="grid"></ion-icon>
+        </div>
 
-    <!-----------
+        <div class="tab" (click)='enterPage("list-schemes")'>
+            <ion-icon class="tabicon" name="create-outline"></ion-icon>
+        </div>
+    </div>
 
+</ion-content>
+<!--
 <ion-tabs>
     <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home">
+        <ion-tab-button (click)='enterPage("home")'>
             <ion-icon name="home"></ion-icon>
             <ion-label>Home</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="schemes">
-            <ion-icon name="planet"></ion-icon>
-            <ion-label>Schemes</ion-label>
-            <ion-badge>6</ion-badge>
+        <ion-tab-button (click)='enterPage("list-schemes")'>
+            <ion-icon name="pencil"></ion-icon>
+            <ion-label>My Schemes</ion-label>
         </ion-tab-button>
     </ion-tab-bar>
 </ion-tabs>
-    ------------------------>
-</ion-content>
+ -->

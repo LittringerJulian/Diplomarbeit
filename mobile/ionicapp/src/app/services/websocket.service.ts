@@ -42,7 +42,6 @@ export class WebsocketService {
         err => {
           console.log(err);
           this.close()
-          this.router.navigate(["/", "connectToDesktop"])
           this.canConnect.next(false)
         });
       this.sendData({ type: "newConnection", data: this.device.model });
@@ -59,6 +58,7 @@ export class WebsocketService {
 
   close() {
     this.websocket.complete()
+    this.router.navigate(["/", "connectToDesktop"])
   }
 
 

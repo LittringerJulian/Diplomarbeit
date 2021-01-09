@@ -21,8 +21,8 @@ const emitter = new EventEmitter();
 emitter.setMaxListeners(15);
 
 function handleSocketMessage(msg, ws) {
+    console.log(msg.type);
     switch (msg.type) {
-
         case 'newConnection':
             mainWindow.webContents.send("sendDeviceAccess", ws, msg.data);
             break;
@@ -42,13 +42,29 @@ function handleSocketMessage(msg, ws) {
             robot.keyTap(msg.data)
             break;
         case 'keytype':
-            robot.typeString(msg.data)
+            /*
+            if(msg.data.toUpperCase() == msg.data){
+                robot.keyDown('shift', 'down')
+                robot.keyTap(msg.data)
+                robot.keyDown('shift', 'up')
+            }
+            else{
+                robot.keyTap(msg.data)
+            }
+            */
+            robot.typeStringDelayed(msg.data, 0)
             break;
         case 'moveMouse':
             robot.moveMouse(robot.getMousePos().x + msg.data.x, robot.getMousePos().y + msg.data.y)
             break;
         case 'clickMouse':
             robot.mouseClick(msg.data)
+            break;
+        case 'toggleMouse':
+            robot.mouseToggle(msg.data)
+            break;
+        case 'scrollMouse':
+            robot.scrollMouse(msg.data.x, msg.data.y)
             break;
         case 'shortcut':
             console.log("shortcut: ");

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +9,14 @@ import { Router } from '@angular/router'
 })
 export class HomePage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private socket: WebsocketService) { }
 
   ngOnInit() {
+    //this.socket.connect("localhost")
   }
 
   enterPage(page){
-    this.router.navigate(["/", page])
+    this.router.navigateByUrl("/" + page)
   }
 
 }

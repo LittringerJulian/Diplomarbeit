@@ -14,4 +14,29 @@
             <ion-label>{{scheme.name}}</ion-label>
         </ion-item>
     </ion-list>
+
+    <div class="tabs">
+        <div class="tab" (click)='enterPage("home")'>
+            <ion-icon class="tabicon" name="grid-outline"></ion-icon>
+        </div>
+
+        <div class="tab" matRipple (click)='enterPage("list-schemes")'>
+            <ion-icon class="tabicon" name="create"></ion-icon>
+        </div>
+    </div>
 </ion-content>
+<!--
+<ion-tabs>
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button (click)='enterPage("home")'>
+            <ion-icon name="home"></ion-icon>
+            <ion-label>Home</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)='enterPage("list-schemes")'>
+            <ion-icon name="pencil"></ion-icon>
+            <ion-label>My Schemes</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>
+ -->
