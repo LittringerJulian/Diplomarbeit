@@ -24,6 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+
 import { HammerGestureConfig, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 declare var Hammer: any
 
@@ -67,6 +69,7 @@ export class GestureConfig extends HammerGestureConfig {
         WebsocketService,
         HttpService,
         Device,
+        ImagePicker,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }
 

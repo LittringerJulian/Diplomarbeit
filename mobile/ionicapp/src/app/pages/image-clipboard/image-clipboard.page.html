@@ -1,10 +1,13 @@
 <ion-content id="#image-clipboard-ion-content">
 
+    <ion-icon class="btnGallery" (click)="openGallery()" name="image-outline"></ion-icon>
+
     <div id="cameraControls">
 
-        <ion-button id="btnFlip" (click)="flipCamera()">flip</ion-button>
-
-        <ion-button id="btnPhoto" (click)="takePhoto()">takePhoto</ion-button>
+        <ion-icon name="camera-reverse-outline" class="btnFlip" (click)="flipCamera()"></ion-icon>
+        <div class="btnPhoto" (click)="takePhoto()"></div>
+        <ion-icon *ngIf="!flashEnabled" name="flash-outline" class="btnFlash" (click)="setFlashMode(true)"></ion-icon>
+        <ion-icon *ngIf="flashEnabled" name="flash-off-outline" class="btnFlash" (click)="setFlashMode(false)"></ion-icon>
 
     </div>
 </ion-content>

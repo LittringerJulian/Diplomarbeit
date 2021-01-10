@@ -70,7 +70,7 @@ export class KeyboardPage {
 
   ngOnDestroy() {
     window.removeEventListener("keyup", this.listenerKeyup)
-    window.removeEventListener("keyup", this.listenerTouchend)
+    window.removeEventListener("touchend", this.listenerTouchend)
   }
 
 

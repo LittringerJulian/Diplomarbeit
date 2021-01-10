@@ -19,7 +19,13 @@ module.exports = class ClipboardManager {
 
     copyImage(img) {
 
-        let b64 = JSON.parse(JSON.stringify(img)).value
+        let b64
+        if (JSON.stringify(img).charAt(0) == "{") {
+            b64 = JSON.parse(JSON.stringify(img)).value
+        } else {
+            b64 = img
+        }
+
 
         ps.addCommand('$b64 = "' + b64 + '"')
         ps.addCommand('$filename = "' + imagepath + '"')

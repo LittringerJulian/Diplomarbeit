@@ -8,18 +8,55 @@
     transform: translateX(-50%);
 }
 
-ion-button {
+.btnGallery {
+    position: absolute;
+    top: .5em;
+    right: .5em;
+    font-size: 3em;
+    color: white;
+}
+
+.btnFlip {
     position: absolute;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
+    left: 10%;
+    font-size: 3em;
+    color: white;
 }
 
-#btnFlip {
-    left: 20%;
-}
-
-#btnPhoto {
+.btnPhoto {
+    position: absolute;
+    display: block;
+    width: 5em;
+    height: 5em;
     left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 0.2em solid white;
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+    }
+}
+
+.btnFlash {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10%;
+    font-size: 3em;
+    color: white;
 }
 
 ion-content {

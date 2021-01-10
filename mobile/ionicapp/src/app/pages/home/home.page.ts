@@ -16,7 +16,11 @@ export class HomePage implements OnInit {
   }
 
   enterPage(page){
-    this.router.navigateByUrl("/" + page)
+    this.router.navigate(['/', page])
+  }
+
+  log(){
+    console.log("lol")
   }
 
 }
