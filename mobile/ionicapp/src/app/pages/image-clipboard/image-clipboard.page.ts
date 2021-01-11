@@ -55,7 +55,9 @@ export class ImageClipboardPage {
       console.log(window.screen.width, window.screen.height);
 
       this.sendData(base64data)
-      this.presentToast()
+      this.presentToast('Copied image to clipboard.')
+    }, (err) => { 
+      this.presentToast('Something went wrong. Please try again.')
     });
   }
 
@@ -75,19 +77,17 @@ export class ImageClipboardPage {
   setFlashMode(bool) {
     this.flashEnabled = bool
     if (this.flashEnabled) {
-      const CameraPreviewFlashMode: CameraPreviewFlashMode = 'on';
-      CameraPreview.setFlashMode(CameraPreviewFlashMode)
+      CameraPreview.setFlashMode({flashMode: 'on'})
     }
     else {
-      const CameraPreviewFlashMode: CameraPreviewFlashMode = 'off';
-      CameraPreview.setFlashMode(CameraPreviewFlashMode)
+      CameraPreview.setFlashMode({flashMode: 'off'})
     }
   }
 
-  async presentToast() {
+  async presentToast(text) {
     const toast = await this.toastController.create({
       position: 'top',
-      message: 'Photo captured.',
+      message: text,
       duration: 2000
     });
     toast.present();
@@ -100,9 +100,11 @@ export class ImageClipboardPage {
     this.imagePicker.getPictures(options).then((results) => {
       for (var i = 0; i < results.length; i++) {
         this.sendData(results[i]);
-        console.log('Image URI: ' + results[i]);
+        this.presentToast('Copied to clipboard.')
       }
-    }, (err) => { });
+    }, (err) => { 
+      this.presentToast('Something went wrong. Please try again.')
+    });
   }
 
 }
