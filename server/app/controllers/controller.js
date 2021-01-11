@@ -109,8 +109,13 @@ exports.getPublicByFilter = (req, res) => {
     var query;
     var formatinput = req.body.format
     var taginput = req.body.tags
+    var nameinput = req.body.name
+
+
     var formatenabled=true;
     var tagsenabled=true;
+    var nameenabled=true;
+
 
     if(formatinput==null){
       formatenabled=false;
@@ -119,11 +124,14 @@ exports.getPublicByFilter = (req, res) => {
     if(taginput==null){
       tagsenabled = false;
     }
+    if(nameinput==null){
+      nameenabled = false;
+    }
 
     
     
-    console.log(formatenabled,tagsenabled)
-    switch (formatenabled+" "+tagsenabled){
+    console.log(formatenabled,tagsenabled,nameenabled)
+    /*switch (formatenabled+" "+tagsenabled){
 
       case "false false" :
         query = {published :true}
@@ -136,6 +144,33 @@ exports.getPublicByFilter = (req, res) => {
       break;
       case "true true" :
         query = {published:true,format:req.body.format,tags:{$all :req.body.tags}}
+      break;
+    }*/
+    switch (formatenabled+" "+tagsenabled+" "+nameenabled){
+
+      case "false false false" :
+        query = {published :true}
+      break;
+      case "true false false" :
+        query = {published :true,format:formatinput}
+      break;
+      case "false true false" :
+        query={published:true,tags:{$all :req.body.tags}}
+      break;
+      case "true true false" :
+        query = {published:true,format:req.body.format,tags:{$all :req.body.tags}}
+      break;
+      case "true true true" :
+        query = {published:true,name:req.body.name,format:req.body.format,tags:{$all :req.body.tags}}
+      break;
+      case "false true true" :
+        query = {published:true,name:req.body.name,tags:{$all :req.body.tags}}
+      break;
+      case "false false true" :
+        query = {published:true,name:req.body.name}
+      break;
+      case "true false true" :
+        query = {published:true,format:req.body.format,name:req.body.name}
       break;
     }
 
