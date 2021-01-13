@@ -30,7 +30,7 @@ export class PublicSchemesComponent implements OnInit {
   alltags: string[] = ['Gaming', 'Work', 'Art'];
   searchFormat;
   formattedTags = []
-
+  nameinput
 
   @ViewChild('tagInput', {static: true}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -121,35 +121,52 @@ export class PublicSchemesComponent implements OnInit {
     })
   }
 
+   isEmpty(str){
+    return str === null || str.match(/^ *$/) !== null;
+}
+
 
   Search(){
 
+
+    //this.nameinput = this.nameinput.trim()
     var filterFormat
     var filterTag
+    var filterName = this.nameinput.trim()
+
 
    
-
+    console.log(this.isEmpty(this.nameinput.trim()))
     filterTag = this.tags
     filterFormat=this.searchFormat
+    filterName = this.nameinput.trim()
     
     if(this.searchFormat==null){
-      filterFormat = null;
+      filterFormat = null
     }
     if(this.searchFormat=='Both'){
-      filterFormat = null;
+      filterFormat = null
     }
+    if(this.isEmpty(this.nameinput.trim()) == true){
+        filterName=null
+    }
+   
+    console.log(filterName)
+
+    
 
     if(this.tags.length==0){
       filterTag= null
     }
 
     var json = {
+      "name":filterName,
       "format":filterFormat,
       "tags":filterTag
     }
     //this.formattedTags = this.tags.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
 
-    console.log(this.tags);
+    console.log(json);
     
  
     this.array = []
