@@ -1,6 +1,14 @@
 #home-menu-grid {
     display: inline-grid;
     grid-template-columns: 50% 50%;
+    position: relative;
+    top: 0;
+    width: 100%;
+}
+
+#logoimg {
+    height: 2.5em;
+    margin: 1em;
 }
 
 .gridElement {
@@ -22,7 +30,7 @@
     justify-content: space-around;
     position: fixed;
     bottom: 0;
-    color: rgba(0, 0, 0, 0.7)
+    color: rgba(0, 0, 0, 0.7);
 }
 
 .tab {
@@ -31,9 +39,24 @@
     justify-content: center;
     align-items: center;
     width: 50%;
+    border-bottom: 0.4em solid #FFF;
+}
+
+.tab:nth-child(1) {
+    border-bottom: 0.4em solid #1a2a49;
+    color: #1a2a49;
+    ;
 }
 
 .tabicon {
     position: absolute;
     font-size: 180%;
+}
+
+.home-clipboard-camera {
+    background-image: url('../../../assets/home/clipboard-camera.svg');
+    width: 1em;
+    height: 1em;
+    background-repeat: no-repeat;
+    display: block;
 }
