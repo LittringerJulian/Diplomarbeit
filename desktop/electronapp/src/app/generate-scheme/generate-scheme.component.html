@@ -5,8 +5,8 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
-        <a style="margin-right:1%">change Format</a>
-        <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)"></mat-slide-toggle>
+        <a style="margin-right:1%" *ngIf="dataService.isEditing==false">change Format</a>
+        <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" *ngIf="dataService.isEditing==false"></mat-slide-toggle>
 
         <div id="headerdiv">
             <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>

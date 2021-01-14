@@ -17,6 +17,7 @@ import { DataService } from '../data.service';
   styleUrls: ['./generate-scheme.component.scss']
 })
 export class GenerateSchemeComponent implements OnInit {
+ 
   public isMenuOpen: boolean = false;
   formGroup: FormGroup;
   isChecked = true;
@@ -59,6 +60,45 @@ export class GenerateSchemeComponent implements OnInit {
     this.scheme = document.getElementById('scheme');
     this.contentHeight = this.scheme.offsetHeight;
     this.contentWidth = this.scheme.offsetWidth;
+
+    if(this.dataService.isEditing==true){
+      if(this.dataService.editFormat=="Landscape"){
+      this.elementWidth = 10;
+      this.elementHeight = 10;
+      this.format = 'Landscape';
+
+      this.components=this.dataService.editScheme
+      this.scheme.style.width = '70%';
+
+      this.scheme.style.paddingBottom = 'calc(70%*(9/16))';
+      this.contentHeight = this.scheme.offsetHeight;
+      this.contentWidth = this.scheme.offsetWidth;
+
+     
+    }
+    if(this.dataService.editFormat=="Portrait"){
+
+      this.elementWidth = 20;
+      this.elementHeight = 20;
+      this.format = 'Portrait';
+
+      this.components=this.dataService.editScheme
+      this.scheme.style.width = '25%';
+
+      this.scheme.style.paddingBottom = 'calc(25%*(16/9))';
+
+      this.contentHeight = this.scheme.offsetHeight;
+      this.contentWidth = this.scheme.offsetWidth;
+
+      
+    }
+    for(let i=0;i<this.components.length;i++){
+      this.components[i].posx=this.components[i].percentagex*this.contentWidth;
+      this.components[i].posy=this.components[i].percentagey*this.contentHeight;
+     }
+    }
+    //this.contentHeight = this.scheme.offsetHeight;
+    //this.contentWidth = this.scheme.offsetWidth;
   }
 
   setDimensions(isX) {
@@ -273,6 +313,9 @@ export class GenerateSchemeComponent implements OnInit {
 
   saveScheme() {
     this.shortcutsEnabled = false
+    if(this.dataService.isEditing==false){
+      console.log("isNotEditing")
+
     if (this.components.length > 0) {
       this.newScheme.content = this.components;
 
@@ -287,6 +330,7 @@ export class GenerateSchemeComponent implements OnInit {
           this.httpService.saveScheme(this.newScheme).subscribe(data => {
 
             if (data == "Scheme inserted") {
+              this.dataService.isEditing=false
               this.openSnackbar("Saved Scheme")
             }
 
@@ -308,6 +352,27 @@ export class GenerateSchemeComponent implements OnInit {
     else {
       this.openSnackbar("Scheme is Empty")
     }
+  }
+  if(this.dataService.isEditing==true){
+    console.log("isEditing")
+
+  
+    var scheme = {
+      "_id": this.dataService.editingId,
+      "content":this.components
+    }
+
+    this.httpService.updateScheme(scheme).subscribe(data => {
+
+      if(data=="updated"){
+        this.dataService.isEditing=false
+        this.router.navigate(['/myschemes']);
+      }
+      
+
+    })
+    
+  }
   }
   checkChange() {
 
@@ -344,6 +409,7 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   home() {
+    this.dataService.isEditing=false
     this.router.navigate(['/qrcode']);
   }
 
