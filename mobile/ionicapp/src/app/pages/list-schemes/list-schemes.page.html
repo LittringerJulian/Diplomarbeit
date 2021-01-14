@@ -1,7 +1,5 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>listSchemes</ion-title>
-    </ion-toolbar>
+    <img id="logoimg" src="./../../assets/logowithtext.png">
 </ion-header>
 
 <ion-content>
@@ -14,17 +12,17 @@
             <ion-label>{{scheme.name}}</ion-label>
         </ion-item>
     </ion-list>
-
-    <div class="tabs">
-        <div class="tab" (click)='enterPage("home")'>
-            <ion-icon class="tabicon" name="grid-outline"></ion-icon>
-        </div>
-
-        <div class="tab" matRipple (click)='enterPage("list-schemes")'>
-            <ion-icon class="tabicon" name="create"></ion-icon>
-        </div>
-    </div>
 </ion-content>
+
+<div class="tabs">
+    <div class="tab" (click)='enterPage("home")'>
+        <ion-icon class="tabicon" name="grid-outline"></ion-icon>
+    </div>
+
+    <div class="tab" (click)='enterPage("list-schemes")'>
+        <ion-icon class="tabicon" name="create"></ion-icon>
+    </div>
+</div>
 <!--
 <ion-tabs>
     <ion-tab-bar slot="bottom">

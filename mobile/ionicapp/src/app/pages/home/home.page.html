@@ -1,10 +1,8 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>Home</ion-title>
-    </ion-toolbar>
+    <img id="logoimg" src="./../../assets/logowithtext.png">
 </ion-header>
 
-<ion-content (click)="log()">
+<ion-fixed>
     <div id="home-menu-wrapper">
         <!--
         <ion-icon name="calculator-outline" (click)='enterPage("keyboard")'></ion-icon>
@@ -19,8 +17,8 @@
             </span>
         </div>
         <div class="gridElement" (click)='enterPage("image-clipboard")'>
-            <span class="material-icons">
-            camera
+            <span class="home-clipboard-camera">
+
             </span>
         </div>
         <div class="gridElement" (click)='enterPage("trackpad")'>
@@ -40,34 +38,18 @@
         </div>
         <div class="gridElement" (click)='enterPage("presentation")'>
             <span class="material-icons">
-            slideshow
+                support_agent
             </span>
         </div>
     </div>
+</ion-fixed>
 
-    <div class="tabs">
-        <div class="tab" (click)='enterPage("home")'>
-            <ion-icon class="tabicon" name="grid"></ion-icon>
-        </div>
-
-        <div class="tab" (click)='enterPage("list-schemes")'>
-            <ion-icon class="tabicon" name="create-outline"></ion-icon>
-        </div>
+<div class="tabs">
+    <div class="tab" (click)='enterPage("home")'>
+        <ion-icon class="tabicon" name="grid"></ion-icon>
     </div>
 
-</ion-content>
-<!--
-<ion-tabs>
-    <ion-tab-bar slot="bottom">
-        <ion-tab-button (click)='enterPage("home")'>
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Home</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)='enterPage("list-schemes")'>
-            <ion-icon name="pencil"></ion-icon>
-            <ion-label>My Schemes</ion-label>
-        </ion-tab-button>
-    </ion-tab-bar>
-</ion-tabs>
- -->
+    <div class="tab" (click)='enterPage("list-schemes")'>
+        <ion-icon class="tabicon" name="create-outline"></ion-icon>
+    </div>
+</div>
