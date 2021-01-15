@@ -73,19 +73,18 @@ export class MySchemesComponent implements OnInit {
     
     
   
-    editScheme(item){
-      this.dataService.editScheme = item;
-      this.dataService.editFormat = "Landscape"
+    editScheme(item,editformat){
+      console.log(item)
+      
+      this.dataService.editScheme = item.content;
+      this.dataService.editFormat = editformat
+      this.dataService.isEditing = true;
+      this.dataService.editingId = item._id
       //console.log(this.dataService.editScheme)
-      this.router.navigate(['/editscheme']);
+      this.router.navigate(['/scheme']);
 
     }
-    editSchemePortrait(item){
-      this.dataService.editScheme = item;
-      this.dataService.editFormat = "Portrait"
-      //console.log(this.dataService.editScheme)
-      this.router.navigate(['/editschemeportrait']);
-    }
+  
 
     logout() {
       localStorage.setItem('token', null)

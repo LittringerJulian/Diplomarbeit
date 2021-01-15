@@ -505,15 +505,11 @@ exports.updateScheme = (req, res) => {
 
     console.log(req.body._id)
     var myquery = { _id: ObjectID(req.body._id) };
-    var newScheme = new Scheme();
-    newScheme.content = req.body.content;
-    newScheme.name = req.body.name;
-    newScheme.format = req.body.format;
-    newScheme.userid = ObjectID(payload);
-    newScheme.published=req.body.published;
-    newScheme.tags=req.body.tags;
+   
 
-    var newvalues = { $set: newScheme };
+  
+
+    var newvalues = { $set: {"content":req.body.content}};
 
     db.collection("Scheme").updateOne(myquery, newvalues, function (err, result) {
       if (err) throw err;

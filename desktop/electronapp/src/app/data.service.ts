@@ -9,12 +9,13 @@ declare var electron: any
   providedIn: 'root'
 })
 export class DataService {
-  public editScheme: Scheme;
+  public editScheme = []
   public editFormat: String;
   firstnameDataService;
   lastnameDataService;
   emailDataService
-
+  isEditing = false
+  editingId
 
   deviceArray = [];
 

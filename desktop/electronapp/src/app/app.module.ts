@@ -43,8 +43,6 @@ import { TagInputModule } from 'ngx-chips';
 import { MatSnackBarModule } from "@angular/material";
 import { PublicSchemesComponent } from './public-schemes/public-schemes.component';
 import { ButtonpreviewComponent } from './buttonpreview/buttonpreview.component';
-import { EditSchemeComponent } from './edit-scheme/edit-scheme.component';
-import { EditSchemePortraitComponent } from './edit-scheme-portrait/edit-scheme-portrait.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorChromeModule } from 'ngx-color/chrome';
 import { SetComponentActionComponent } from './set-component-action/set-component-action.component';
@@ -66,14 +64,15 @@ const appRoutes: Routes = [
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'myschemes', component: MySchemesComponent },
-  { path: 'editscheme', component: EditSchemeComponent },
-  { path: 'editschemeportrait', component: EditSchemePortraitComponent },
+  /*{ path: 'editscheme', component: EditSchemeComponent },
+  { path: 'editschemeportrait', component: EditSchemePortraitComponent },*/
   { path: 'publicschemes', component: PublicSchemesComponent },
   { path: 'navigation', component: NavigationComponent },
   {
     path: '**'
     , redirectTo: 'login'
   }
+  
 ]
 
 
@@ -95,8 +94,6 @@ const appRoutes: Routes = [
     TagDialogComponent,
     PublicSchemesComponent,
     ButtonpreviewComponent,
-    EditSchemeComponent,
-    EditSchemePortraitComponent,
     SetComponentActionComponent,
     MainScreenComponent
   ],

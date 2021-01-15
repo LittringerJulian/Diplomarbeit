@@ -80,8 +80,8 @@
         </mat-card-content>
         <mat-card-actions>
           <button id="button" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
-          <button *ngIf="item.format == 'Landscape'" id="button" mat-raised-button color="accent" (click)="editScheme(item)">Bearbeiten</button>
-          <button *ngIf="item.format == 'Portrait'" id="button" mat-raised-button color="accent" (click)="editSchemePortrait(item)">Bearbeiten</button>
+          <button *ngIf="item.format == 'Landscape'" id="button" mat-raised-button color="accent" (click)="editScheme(item,'Landscape')">Bearbeiten</button>
+          <button *ngIf="item.format == 'Portrait'" id="button" mat-raised-button color="accent" (click)="editScheme(item,'Portrait')">Bearbeiten</button>
 
         </mat-card-actions>
       </mat-card>
