@@ -1,8 +1,8 @@
-<ion-header>
+<ion-header class="header">
     <img id="logoimg" src="./../../assets/logowithtext.png">
 </ion-header>
 
-<ion-fixed>
+<ion-content [scrollY]="false">
     <div id="home-menu-wrapper">
         <!--
         <ion-icon name="calculator-outline" (click)='enterPage("keyboard")'></ion-icon>
@@ -12,37 +12,31 @@
 -->
 
         <div class="gridElement" (click)='enterPage("keyboard")'>
-            <span class="material-icons">
-            keyboard
-            </span>
+            <span class="gridElementIcon iconKeyboard"></span>
         </div>
         <div class="gridElement" (click)='enterPage("image-clipboard")'>
-            <span class="home-clipboard-camera">
-
-            </span>
+            <span class="gridElementIcon iconCamera"></span>
         </div>
         <div class="gridElement" (click)='enterPage("trackpad")'>
-            <span class="material-icons">
-            fingerprint
+            <span class="gridElementIcon iconTrackpad">
             </span>
         </div>
         <div class="gridElement" (click)='enterPage("laserpointer")'>
-            <span class="material-icons">
-            create
-            </span>
+            <span class="gridElementIcon iconLaserPointer"></span>
         </div>
         <div class="gridElement" (click)='enterPage("media-controls")'>
-            <span class="material-icons">
-            playlist_play
+            <span class="gridElementIcon iconMediaControls">
+
             </span>
         </div>
         <div class="gridElement" (click)='enterPage("presentation")'>
             <span class="material-icons">
-                support_agent
+            slideshow
             </span>
         </div>
     </div>
-</ion-fixed>
+</ion-content>
+
 
 <div class="tabs">
     <div class="tab" (click)='enterPage("home")'>

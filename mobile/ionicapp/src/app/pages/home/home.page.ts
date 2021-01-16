@@ -12,7 +12,7 @@ export class HomePage implements OnInit {
   constructor(private router: Router, private socket: WebsocketService) { }
 
   ngOnInit() {
-    this.socket.connect("localhost")
+    //this.socket.connect("localhost")
   }
 
   enterPage(page){

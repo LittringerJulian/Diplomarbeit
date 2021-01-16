@@ -42,16 +42,6 @@ function handleSocketMessage(msg, ws) {
             robot.keyTap(msg.data)
             break;
         case 'keytype':
-            /*
-            if(msg.data.toUpperCase() == msg.data){
-                robot.keyDown('shift', 'down')
-                robot.keyTap(msg.data)
-                robot.keyDown('shift', 'up')
-            }
-            else{
-                robot.keyTap(msg.data)
-            }
-            */
             robot.typeStringDelayed(msg.data, 0)
             break;
         case 'moveMouse':
