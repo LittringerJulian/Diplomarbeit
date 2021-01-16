@@ -137,4 +137,13 @@ export class HttpService {
 
     return this.http.post('http://localhost:3000/getPublicSchemeBy',json, options);
   }
+
+  getFilteredSchemesByUser(json) {
+    let token = localStorage.getItem('token');
+    const options = {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`),
+      responseType: 'text' as 'text'
+    };
+    return this.http.post('http://localhost:3000/getSchemeBy',json, options);
+  }
 }

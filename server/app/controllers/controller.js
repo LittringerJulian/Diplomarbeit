@@ -77,7 +77,7 @@ exports.getPublic = (req, res) => {
     //var objectid=new ObjectID(req.params.id);
 
     db.collection("Scheme")
-      .find({ published:true  })
+      .find({ published: true })
       .toArray(function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -92,18 +92,11 @@ exports.getPublicByFilter = (req, res) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (token == null) return res.sendStatus(401)
-  
+
   mongoUtil.connectToServer(function (err, client) {
     if (err) console.log(err);
 
     const db = mongoUtil.getDB();
-    var i = 0;
-
-
-    console.log(req.body.format)
-
-    //var string = JSON.parse(req.body.id);
-    //var objectid=new ObjectID(req.params.id);
 
 
     var query;
@@ -112,70 +105,121 @@ exports.getPublicByFilter = (req, res) => {
     var nameinput = req.body.name
 
 
-    var formatenabled=true;
-    var tagsenabled=true;
-    var nameenabled=true;
+    var formatenabled = true;
+    var tagsenabled = true;
+    var nameenabled = true;
 
 
-    if(formatinput==null){
-      formatenabled=false;
-      
+    if (formatinput == null) {
+      formatenabled = false;
+
     }
-    if(taginput==null){
+    if (taginput == null) {
       tagsenabled = false;
     }
-    if(nameinput==null){
+    if (nameinput == null) {
       nameenabled = false;
     }
 
-    
-    
-    console.log(formatenabled,tagsenabled,nameenabled)
-    /*switch (formatenabled+" "+tagsenabled){
 
-      case "false false" :
-        query = {published :true}
-      break;
-      case "true false" :
-        query = {published :true,format:formatinput}
-      break;
-      case "false true" :
-        query={published:true,tags:{$all :req.body.tags}}
-      break;
-      case "true true" :
-        query = {published:true,format:req.body.format,tags:{$all :req.body.tags}}
-      break;
-    }*/
-    switch (formatenabled+" "+tagsenabled+" "+nameenabled){
 
-      case "false false false" :
-        query = {published :true}
-      break;
-      case "true false false" :
-        query = {published :true,format:formatinput}
-      break;
-      case "false true false" :
-        query={published:true,tags:{$all :req.body.tags}}
-      break;
-      case "true true false" :
-        query = {published:true,format:req.body.format,tags:{$all :req.body.tags}}
-      break;
-      case "true true true" :
-        query = {published:true,name:req.body.name,format:req.body.format,tags:{$all :req.body.tags}}
-      break;
-      case "false true true" :
-        query = {published:true,name:req.body.name,tags:{$all :req.body.tags}}
-      break;
-      case "false false true" :
-        query = {published:true,name:req.body.name}
-      break;
-      case "true false true" :
-        query = {published:true,format:req.body.format,name:req.body.name}
-      break;
+
+    switch (formatenabled + " " + tagsenabled + " " + nameenabled) {
+
+      case "false false false":
+        query = { published: true }
+        break;
+      case "true false false":
+        query = { published: true, format: formatinput }
+        break;
+      case "false true false":
+        query = { published: true, tags: { $all: req.body.tags } }
+        break;
+      case "true true false":
+        query = { published: true, format: req.body.format, tags: { $all: req.body.tags } }
+        break;
+      case "true true true":
+        query = { published: true, name:{$regex : ".*"+req.body.name+".*",$options: 'i'}, format: req.body.format, tags: { $all: req.body.tags } }
+        break;
+      case "false true true":
+        query = { published: true, name:{$regex : ".*"+req.body.name+".*",$options: 'i'}, tags: { $all: req.body.tags } }
+        break;
+      case "false false true":
+        query = { published: true, name:{$regex : ".*"+req.body.name+".*",$options: 'i'} }
+        break;
+      case "true false true":
+        query = { published: true, format: req.body.format, name:{$regex : ".*"+req.body.name+".*",$options: 'i'} }
+        break;
     }
 
     console.log(query)
+
+
+    db.collection("Scheme")
+      .find(query)
+      .toArray(function (err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.send(result)
+      });
+  });
+};
+
+//getSchemes by Filter
+exports.getSchemesByFilter = (req, res) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  mongoUtil.connectToServer(function (err, client) {
+    if (err) console.log(err);
+
+    const db = mongoUtil.getDB();
+
+    let payload;
+    payload = jwt.verify(token, process.env.TOKEN_SECRET)
+    console.log(payload)
+
+    var uid = ObjectID(payload);
+
+
+
+    var query;
+    var formatinput = req.body.format
+    var nameinput = req.body.name
+
+
+    var formatenabled = true;
+    var nameenabled = true;
+
+
+    if (formatinput == null) {
+      formatenabled = false;
+
+    }
     
+    if (nameinput == null) {
+      nameenabled = false;
+    }
+
+    switch (formatenabled + " " + nameenabled) {
+
+      case "false false":
+        query = { userid:  uid}
+        break;
+      case "true false":
+        query = { userid:  uid, format: formatinput }
+        break;
+      case "true true":
+        query = { userid:  uid, format: formatinput , name:{$regex : ".*"+req.body.name+".*",$options: 'i'} }
+        break;
+      case "false true":
+        query = { userid:  uid, name:{$regex : ".*"+req.body.name+".*",$options: 'i'}}
+        break;
+    }
+
+    console.log(query)
+
 
     db.collection("Scheme")
       .find(query)
@@ -208,8 +252,8 @@ exports.insertScheme = (req, res) => {
     newScheme.name = req.body.name;
     newScheme.format = req.body.format;
     newScheme.userid = ObjectID(payload);
-    newScheme.published=req.body.published;
-    newScheme.tags=req.body.tags;
+    newScheme.published = req.body.published;
+    newScheme.tags = req.body.tags;
 
 
 
@@ -505,11 +549,11 @@ exports.updateScheme = (req, res) => {
 
     console.log(req.body._id)
     var myquery = { _id: ObjectID(req.body._id) };
-   
 
-  
 
-    var newvalues = { $set: {"content":req.body.content}};
+
+
+    var newvalues = { $set: { "content": req.body.content } };
 
     db.collection("Scheme").updateOne(myquery, newvalues, function (err, result) {
       if (err) throw err;
@@ -577,7 +621,7 @@ exports.getUserInformation = (req, res) => {
 
   console.log(payload)
   db.collection("User")
-    .find({ _id:userid })
+    .find({ _id: userid })
     .toArray(function (err, result) {
       var json = {
         "firstname": result[0].firstname,

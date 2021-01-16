@@ -132,14 +132,20 @@ export class PublicSchemesComponent implements OnInit {
     //this.nameinput = this.nameinput.trim()
     var filterFormat
     var filterTag
-    var filterName = this.nameinput.trim()
+    var filterName 
 
+    var filterName
+    if(this.nameinput==null){
+       filterName = null
+    }
+    else{
+       filterName = this.nameinput.trim()
+
+    }
 
    
-    console.log(this.isEmpty(this.nameinput.trim()))
     filterTag = this.tags
     filterFormat=this.searchFormat
-    filterName = this.nameinput.trim()
     
     if(this.searchFormat==null){
       filterFormat = null
@@ -147,9 +153,11 @@ export class PublicSchemesComponent implements OnInit {
     if(this.searchFormat=='Both'){
       filterFormat = null
     }
-    if(this.isEmpty(this.nameinput.trim()) == true){
-        filterName=null
-    }
+    if(this.nameinput!=null){
+      if (this.isEmpty(this.nameinput.trim()) == true) {
+        filterName = null
+      }   
+     }
    
     console.log(filterName)
 

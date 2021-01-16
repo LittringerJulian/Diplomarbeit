@@ -33,5 +33,6 @@ module.exports = app => {
     
     
     app.post("/getPublicSchemeBy", jsonParser,statistics.getPublicByFilter);
+    app.post("/getSchemeBy", jsonParser,statistics.getSchemesByFilter);
 
 };
