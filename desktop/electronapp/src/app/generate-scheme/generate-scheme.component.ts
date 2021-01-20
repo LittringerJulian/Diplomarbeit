@@ -231,6 +231,7 @@ export class GenerateSchemeComponent implements OnInit {
         if (e.key.toLocaleLowerCase() == "arrowup") {
           newpos = this.selectedComponent.posy - fraction / multiplier
           this.selectedComponent.posy = newpos > 0 ? newpos : 0
+          
         }
         if (e.key.toLocaleLowerCase() == "arrowleft") {
           newpos = this.selectedComponent.posx - fraction / multiplier
@@ -244,6 +245,7 @@ export class GenerateSchemeComponent implements OnInit {
           newpos = this.selectedComponent.posy + fraction / multiplier
           this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
         }
+      
       }
     }
   }
