@@ -2,7 +2,8 @@
 <input  [(ngModel)]="newUser.password"  placeholder="password" value="">
 <button  (click)="login()">Login</button>
 <div>{{loginText}}</div> -->
-<div>
+<div id="all">
+<div id="content">
     <form [formGroup]="form" (ngSubmit)="login()">
         <h2>Log In</h2>
         <mat-error *ngIf="loginInvalid">
@@ -23,4 +24,5 @@
         <button mat-raised-button color="primary" style="color: white">Login</button>
     </form>
     <div id="registerText" (click)="goToRegister()">I Dont have an Account!</div>
+</div>
 </div>

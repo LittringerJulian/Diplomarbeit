@@ -1,4 +1,5 @@
-<div>
+<div id="all">
+<div id="content">
     <form [formGroup]="form" (ngSubmit)="registerBefore()">
         <h2>Register</h2>
         <mat-error *ngIf="loginInvalid">
@@ -37,7 +38,14 @@
                 Please enter a valid password
             </mat-error>
         </mat-form-field>
+        <mat-form-field class="full-width-input">
+            <input matInput type="password" placeholder="Retype Password" formControlName="password2" required>
+            <mat-error>
+                Passwords must match!
+            </mat-error>
+        </mat-form-field>
         <button mat-raised-button color="primary" style="color: white">Register</button>
     </form>
     <div id="loginText" (click)="goToLogin()">Back to Login</div>
+</div>
 </div>

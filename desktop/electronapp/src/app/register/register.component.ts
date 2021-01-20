@@ -6,6 +6,7 @@ import { User_id } from '../user_withoutid';
 import { User_new } from '../user_new';
 //import {sha256} from 'crypto-js/sha256';
 import { HmacSHA256 } from 'crypto-js'
+import { ValidatorService } from '../validator.service';
 
 
 
@@ -33,12 +34,17 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      first: ['', Validators.required],
-      last: ['', Validators.required],
+      first: ['', Validators.compose([Validators.minLength(3), Validators.pattern('[A-Za-z0-9 \-_.äÄöÖüÜß]*')])],
+      last: ['', Validators.compose([Validators.minLength(3), Validators.pattern('[A-Za-z0-9 \-_.äÄöÖüÜß]*')])],
       email: ['', Validators.email],
-      password: ['', Validators.required]
-    });
+      password: ['', Validators.compose([Validators.required]), (control => ValidatorService.confirmPassword(control, this.form, 'password2'))],
+      password2: ['',Validators.compose([Validators.required]), (control => ValidatorService.confirmPassword(control, this.form, 'password'))]
+
+    }
+    ,{ updateOn: 'blur' });
   }
+
+ 
 
   register() {
     this.tempUser.firstname = this.form.get('first').value;
