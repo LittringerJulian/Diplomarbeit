@@ -244,6 +244,9 @@ export class GenerateSchemeComponent implements OnInit {
           newpos = this.selectedComponent.posy + fraction / multiplier
           this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
         }
+
+        this.selectedComponent.percentagex = this.round(this.selectedComponent.posx / this.scheme.offsetWidth, 2)
+        this.selectedComponent.percentagey = this.round(this.selectedComponent.posy / this.scheme.offsetHeight, 2)
       }
     }
   }
