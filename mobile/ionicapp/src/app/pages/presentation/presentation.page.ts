@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
-  selector: 'app-laserpointer',
-  templateUrl: './laserpointer.page.html',
-  styleUrls: ['./laserpointer.page.scss'],
+  selector: 'app-presentation',
+  templateUrl: './presentation.page.html',
+  styleUrls: ['./presentation.page.scss'],
 })
-export class LaserpointerPage {
+export class PresentationPage implements OnInit{
 
   constructor(private socket: WebsocketService) { }
 
@@ -19,6 +19,17 @@ export class LaserpointerPage {
   listener
   throttle = false;
   throttletickrate = 60;
+
+  gyroActive = false
+
+  ngOnInit(){
+    document.getElementById('gyroToggle').addEventListener('touchstart', () => {
+      this.gyroActive = true
+    })
+    document.getElementById('gyroToggle').addEventListener('touchend', () => {
+      this.gyroActive = false
+    })
+  }
 
   ngAfterViewInit() {
     this.startGyro()
@@ -40,8 +51,15 @@ export class LaserpointerPage {
   }
 
   sendGyroData() {
-    let data = { type: "gyro", data: this.gyro }
-    this.socket.sendData(data)
+    if (this.gyroActive) {
+      let data = { type: "gyro", data: this.gyro }
+      this.socket.sendData(data)
+    }
+  }
+
+  sendData(key){
+      let data = { type: "keypress", data: key }
+      this.socket.sendData(data)
   }
 
   ngOnDestroy() {

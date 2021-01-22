@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'media-controls',
     loadChildren: () => import('./pages/media-controls/media-controls.module').then( m => m.MediaControlsPageModule)
   },
+  {
+    path: 'presentation',
+    loadChildren: () => import('./pages/presentation/presentation.module').then( m => m.PresentationPageModule)
+  },
 
 
 

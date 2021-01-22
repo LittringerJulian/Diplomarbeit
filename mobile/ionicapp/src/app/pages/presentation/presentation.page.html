@@ -1,0 +1,13 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>presentation</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="height: 20%; position: absolute; bottom: 0;">
+        <ion-button id="gyroToggle">gyros</ion-button>
+        <ion-button (click)="this.sendData('left')">prev</ion-button>
+        <ion-button (click)="this.sendData('right')">next</ion-button>
+    </div>
+</ion-content>
