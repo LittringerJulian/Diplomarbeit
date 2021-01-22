@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket.service';
 
-declare var Hammer: any
-
 @Component({
   selector: 'app-trackpad',
   templateUrl: './trackpad.page.html',
@@ -16,123 +14,102 @@ export class TrackpadPage implements OnInit {
   listenerTouchStart
   listenerTouchMove
   listenerTouchEnd
-  
+  listenerClick
 
-  lastPos = {
-    x: -1,
-    y: -1
-  }
-  timeofTouch = [-1, -1]
-  multiTouch = false
+  lastX = -1
+  lastY = -1
+  delay = 200
+  lastClick = -1
   scrollingMode = 0
-  allowedDelay = 200
 
-  mayDrag = false
-  dragging = false
-  canMove = true
+  drag = false
   canClick = true
-  justRightclicked = false
+  trackpad: HTMLElement
 
   ngOnInit() {
-    window.addEventListener('touchstart', this.listenerTouchStart = (e) => {
+    this.trackpad = document.getElementById("trackpad")
 
-      if (e.touches[0]) {
-          if (this.timeofTouch[0] != -1 && e.timeStamp - this.timeofTouch[0] < this.allowedDelay * 2) {
-            this.mayDrag = true
-            this.canMove = true
-            this.sendData("plslog", "testtest")
-          }
-
-          this.timeofTouch[0] = e.timeStamp
+    this.trackpad.addEventListener('touchstart', (e) => {
+      if (this.lastClick != -1 && e.timeStamp - this.lastClick < this.delay * 2 && e.touches.length == 1) {
+        this.drag = true
+        this.sendData('toggleMouse', 'down')
       }
-      if (e.touches[1]) {
-        this.timeofTouch[1] = e.timeStamp
-        this.multiTouch = true
-      }
-      this.lastPos.x = e.touches[0].screenX
-      this.lastPos.y = e.touches[0].screenY
-  })
-  window.addEventListener('touchend', this.listenerTouchEnd = (e) => {
+      this.lastClick = e.timeStamp
+    })
 
-      if (this.canClick && e.timeStamp - this.timeofTouch[1] < this.allowedDelay) {
-        this.sendData('clickMouse', 'right')
-        this.justRightclicked = true
-          setTimeout(() => {
-              this.justRightclicked = false
-          }, this.allowedDelay)
-      } else if (!this.justRightclicked && !this.dragging && this.canClick && this.timeofTouch[0] != -1 && e.timeStamp - this.timeofTouch[0] < this.allowedDelay) {
-          if (!this.dragging)
-          this.sendData('clickMouse', 'left')
-      }
-      setTimeout(() => {
-        this.timeofTouch[0] = -1
-      }, this.allowedDelay * 2)
-      this.timeofTouch[1] = -1
-
-      if (this.dragging) {
+    this.trackpad.addEventListener('touchend', (e) => {
+      if (this.drag) {
+        this.drag = false
         this.sendData('toggleMouse', 'up')
-      }
-
-
-      this.scrollingMode = 0
-      this.lastPos.x = -1
-      this.lastPos.y = -1
-      this.mayDrag = false
-      this.dragging = false
-      this.multiTouch = false
-      this.canClick = true
-  })
-  window.addEventListener('touchmove', this.listenerTouchMove = (e) => {
-      if (this.lastPos.x != -1) {
-        this.canClick = false
-          if (e.touches.length == 1) {
-              if (this.mayDrag) {
-                this.mayDrag = false
-                this.dragging = true
-                this.sendData('toggleMouse', 'down')
-              }
-              this.sendData('moveMouse', {
-                  x: Math.floor(e.touches[0].screenX - this.lastPos.x),
-                  y: Math.floor(e.touches[0].screenY - this.lastPos.y)
-              });
+      } else if (this.canClick) {
+        if (e.timeStamp - this.lastClick < this.delay) {
+          if (e.touches.length == 0) {
+            this.sendData('clickMouse', 'left')
           } else {
-              if (this.scrollingMode == 0) {
-                  let scrollX, scrollY
-                  scrollX = Math.abs(Math.floor(e.touches[0].screenX - this.lastPos.x))
-                  scrollY = Math.abs(Math.floor(e.touches[0].screenY - this.lastPos.y))
-                  this.scrollingMode = scrollX > scrollY ? 1 : 2
-                  this.canMove = false
-              }
-              if (this.scrollingMode == 1) {
-                this.sendData('scrollMouse', {
-                      x: Math.floor(e.touches[0].screenX - this.lastPos.x),
-                      y: 0
-                  });
-              }
-              if (this.scrollingMode == 2) {
-                this.sendData('scrollMouse', {
-                      x: 0,
-                      y: Math.floor(e.touches[0].screenY - this.lastPos.y)
-                  });
-              }
-
+            this.sendData('clickMouse', 'right')
           }
+          this.canClick = false
+        }
       }
-      this.lastPos.x = e.touches[0].screenX
-      this.lastPos.y = e.touches[0].screenY
-  })
+
+      if (e.touches.length == 0) {
+        this.canClick = true
+      }
+
+      this.lastX = -1
+      this.lastY = -1
+      this.scrollingMode = 0
+    })
+
+    this.trackpad.addEventListener('touchmove', (e) => {
+      if (this.lastX != -1) {
+        this.canClick = false
+        // move
+        if (e.touches.length == 1) {
+          this.sendData('moveMouse', {
+            x: Math.floor(e.touches[0].screenX - this.lastX),
+            y: Math.floor(e.touches[0].screenY - this.lastY)
+          });
+        }
+        // scroll
+        else {
+          if (this.scrollingMode == 0) {
+            this.scrollingMode = (e.touches[0].screenX - this.lastX) > (e.touches[0].screenY - this.lastY) ? 1 : 2
+            //canMove = false
+          }
+          if (this.scrollingMode == 1) {
+            this.sendData('scrollMouse', {
+              x: Math.floor(e.touches[0].screenX - this.lastX),
+              y: 0
+            });
+          }
+          if (this.scrollingMode == 2) {
+            this.sendData('scrollMouse', {
+              x: 0,
+              y: Math.floor(e.touches[0].screenY - this.lastY)
+            });
+          }
+        }
+      }
+      this.lastX = e.touches[0].screenX
+      this.lastY = e.touches[0].screenY
+    })
   }
+
+
+
   sendData(type, input) {
     let data = { type: type, data: input }
     console.log(data);
-
+    
     this.socket.sendData(data)
   }
 
   ngOnDestroy() {
-    window.removeEventListener("touchstart", this.listenerTouchStart)
-    window.removeEventListener("touchmove", this.listenerTouchMove)
-    window.removeEventListener("touchend", this.listenerTouchEnd)
+    //window.removeEventListener("touchstart", this.listenerTouchStart)
+    //window.removeEventListener("touchmove", this.listenerTouchMove)
+    //window.removeEventListener("touchend", this.listenerTouchEnd)
+    window.removeEventListener("touchend", this.listenerClick)
   }
 
 }

@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'open-scheme',
     loadChildren: () => import('./pages/open-scheme/open-scheme.module').then( m => m.OpenSchemePageModule)
   },
+  {
+    path: 'media-controls',
+    loadChildren: () => import('./pages/media-controls/media-controls.module').then( m => m.MediaControlsPageModule)
+  },
 
 
 

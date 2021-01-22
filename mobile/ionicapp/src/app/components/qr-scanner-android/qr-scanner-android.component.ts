@@ -50,11 +50,12 @@ export class QrScannerAndroidComponent implements OnDestroy {
     this.videoElement.setAttribute('playsinline', true)
     this.videoElement.play()
     requestAnimationFrame(this.scan.bind(this))
+    this.videoReady = true
   }
 
   scan() {
     if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA && this.canTryConnection) {
-      this.videoReady = true
+
 
       this.canvasElement.height = this.videoElement.height
       this.canvasElement.width = this.videoElement.width
