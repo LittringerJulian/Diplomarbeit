@@ -54,7 +54,7 @@ function handleSocketMessage(msg, ws) {
             robot.mouseToggle(msg.data)
             break;
         case 'scrollMouse':
-            robot.scrollMouse(msg.data.x, msg.data.y)
+            robot.scrollMouse(msg.data.x * 10, msg.data.y * 10)
             break;
         case 'shortcut':
             console.log("shortcut: ");

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import jsQr from 'jsQr';
 import { WebsocketService } from "../../services/websocket.service";
@@ -18,16 +18,16 @@ export class QrScannerAndroidComponent implements OnDestroy {
   canvasContext: any
 
   videoReady = false;
-
   canTryConnection = true
 
-  constructor(private socket: WebsocketService, private router: Router) { }
+  constructor(private socket: WebsocketService, private router: Router, private zone: NgZone) { }
 
   ngAfterViewInit() {
     this.videoElement = this.video.nativeElement
     this.canvasElement = this.canvas.nativeElement
     this.canvasContext = this.canvasElement.getContext('2d')
     this.startScan()
+
 
     this.socket.canConnect.subscribe(res => {
       if (res) {
@@ -45,7 +45,7 @@ export class QrScannerAndroidComponent implements OnDestroy {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { width: window.innerHeight, height: window.innerWidth, facingMode: "environment" }
     })
-
+    
     this.videoElement.srcObject = stream
     this.videoElement.setAttribute('playsinline', true)
     this.videoElement.play()
@@ -53,8 +53,11 @@ export class QrScannerAndroidComponent implements OnDestroy {
   }
 
   scan() {
+    //console.log(this.videoReady);
+    
     if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA && this.canTryConnection) {
-      this.videoReady = true
+        this.videoReady = true
+
 
       this.canvasElement.height = this.videoElement.height
       this.canvasElement.width = this.videoElement.width
@@ -64,9 +67,7 @@ export class QrScannerAndroidComponent implements OnDestroy {
 
       this.qrData = jsQr(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
 
-      //console.log(this.qrData);
       if (this.qrData) {
-        //console.log("found some data %s", this.qrData);
         this.canTryConnection = false
         this.qrData = this.qrData.data
         this.initSocket()
@@ -86,7 +87,6 @@ export class QrScannerAndroidComponent implements OnDestroy {
   @HostListener('unloaded')
   ngOnDestroy() {
     console.log("DESTROY");
-
   }
 
 }

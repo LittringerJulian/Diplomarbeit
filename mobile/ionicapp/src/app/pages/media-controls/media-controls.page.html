@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>mediaControls</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-button (click)="this.sendData('audio_prev')">
+        <ion-icon name="play-skip-back-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button (click)="this.sendData('audio_play')">
+        <ion-icon name="play-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button (click)="this.sendData('audio_next')">
+        <ion-icon name="play-skip-forward-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button (click)="this.sendData('audio_mute')">
+        <ion-icon name="volume-mute-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button id="volDown">
+        <ion-icon name="remove-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button id="volUp">
+        <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
+</ion-content>
