@@ -3,26 +3,31 @@
 <button  (click)="login()">Login</button>
 <div>{{loginText}}</div> -->
 <div id="all">
+    <div id="imgdiv">
+        <img id="imperiologo" src="./assets/logowithtext.png">
+    </div>
 <div id="content">
+    <div id="innercontent">
     <form [formGroup]="form" (ngSubmit)="login()">
-        <h2>Log In</h2>
+        <!--<h2>Log In</h2>-->
         <mat-error *ngIf="loginInvalid">
             Wrong credentials!
         </mat-error>
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" appearance="outline">
             <input matInput placeholder="Email" formControlName="email" required>
             <mat-error>
                 Please enter a valid email address
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="full-width-input">
+        <mat-form-field class="full-width-input" appearance="outline">
             <input matInput type="password" placeholder="Password" formControlName="password" required>
             <mat-error>
                 Please enter a valid password
             </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary" style="color: white">Login</button>
+        <button mat-raised-button color="primary" style="color: white;width:100%">Login</button>
     </form>
     <div id="registerText" (click)="goToRegister()">I Dont have an Account!</div>
+</div>
 </div>
 </div>
