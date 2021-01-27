@@ -2,12 +2,17 @@
 
     <ion-icon class="btnGallery" (click)="openGallery()" name="image-outline"></ion-icon>
 
-    <div id="cameraControls">
+    <ion-icon *ngIf="!colorPickerEnabled" class="btnColorPicker" name="color-palette-outline" (click)="enableColorPicker(true)"></ion-icon>
+    <ion-icon *ngIf="colorPickerEnabled" class="btnColorPicker" name="color-palette" (click)="enableColorPicker(false)"></ion-icon>
+    <div *ngIf="colorPickerEnabled" id="colorPickerCrosshairVertical"></div>
+    <div *ngIf="colorPickerEnabled" id="colorPickerCrosshairHorizontal"></div>
 
+
+    <div id="cameraControls">
         <ion-icon name="camera-reverse-outline" class="btnFlip" (click)="flipCamera()"></ion-icon>
         <div class="btnPhoto" (click)="takePhoto()"></div>
         <ion-icon *ngIf="!flashEnabled" name="flash-outline" class="btnFlash" (click)="setFlashMode(true)"></ion-icon>
-        <ion-icon *ngIf="flashEnabled" name="flash-off-outline" class="btnFlash" (click)="setFlashMode(false)"></ion-icon>
-
+        <!--<ion-icon *ngIf="flashEnabled" name="flash-off-outline" class="btnFlash" (click)="setFlashMode(false)"></ion-icon>-->
+        <ion-icon *ngIf="flashEnabled" name="flash" class="btnFlash" (click)="setFlashMode(false)"></ion-icon>
     </div>
 </ion-content>

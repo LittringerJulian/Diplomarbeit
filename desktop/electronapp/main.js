@@ -38,6 +38,9 @@ function handleSocketMessage(msg, ws) {
         case 'copyimage':
             clipboardManager.copyImage(msg.data)
             break;
+        case 'copycolor':
+            clipboardManager.copyColor(msg.data)
+            break;
         case 'keypress':
             robot.keyTap(msg.data)
             break;

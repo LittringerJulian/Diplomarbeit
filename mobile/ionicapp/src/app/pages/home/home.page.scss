@@ -1,9 +1,8 @@
-#home-menu-grid {
-    display: inline-grid;
-    grid-template-columns: 50% 50%;
+#home-menu-wrapper {
     position: fixed;
-    top: 2.5em;
+    display: inline-block;
     width: 100%;
+    top: 6em;
 }
 
 #logoimg {
@@ -12,42 +11,28 @@
 }
 
 .gridElement {
-    width: 50%;
-    text-align: center;
+    width: 33.3%;
+    padding-top: 33.3%;
     display: inline-block;
-    margin-top: 5em;
-    span {
-        font-size: 500%;
-    }
+    position: relative;
+    margin-top: 2em;
 }
 
-.gridElementIcon {
-    width: 1em;
-    height: 1em;
-    background-repeat: no-repeat;
-    display: block;
-    margin: auto;
-    background-position: center;
+.icon {
+    width: 50%;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.iconKeyboard {
-    background-image: url('../../../assets/home/keyboard.svg');
-}
-
-.iconCamera {
-    background-image: url('../../../assets/home/clipboard-camera.svg');
-}
-
-.iconTrackpad {
-    background-image: url('../../../assets/home/trackpad.svg');
-}
-
-.iconLaserPointer {
-    background-image: url('../../../assets/home/laserpointer.svg');
-}
-
-.iconMediaControls {
-    background-image: url('../../../assets/home/mediacontrols.svg');
+.iconlabel {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    font-weight: 700;
 }
 
 .tabs {
@@ -67,16 +52,25 @@
     justify-content: center;
     align-items: center;
     width: 50%;
-    border-bottom: 0.4em solid #FFF;
+    border-bottom: 0.4em solid transparent;
+    padding-top: 0.4em;
 }
 
-.tab:nth-child(1) {
+.tab:nth-of-type(1) {
     border-bottom: 0.4em solid #1a2a49;
     color: #1a2a49;
-    ;
 }
 
 .tabicon {
     position: absolute;
     font-size: 180%;
+}
+
+.ripple-parent {
+    position: relative;
+    overflow: hidden;
+}
+
+.header-md::after {
+    display: none;
 }

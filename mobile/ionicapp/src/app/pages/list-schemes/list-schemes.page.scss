@@ -20,15 +20,26 @@
     justify-content: center;
     align-items: center;
     width: 50%;
-    border-bottom: 0.4em solid #FFF;
+    padding-bottom: 0.4em;
+    padding-top: 0.4em;
 }
 
 .tab:nth-child(2) {
     border-bottom: 0.4em solid #1a2a49;
     color: #1a2a49;
+    padding-bottom: 0;
 }
 
 .tabicon {
     position: absolute;
     font-size: 180%;
+}
+
+.ripple-parent {
+    position: relative;
+    overflow: hidden;
+}
+
+.header-md::after {
+    display: none;
 }

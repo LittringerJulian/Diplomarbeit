@@ -18,6 +18,7 @@ export class ImageClipboardPage {
   cameraSizeY
   imgQuality
   flashEnabled
+  colorPickerEnabled = false
 
   constructor(private socket: WebsocketService, public toastController: ToastController, private imagePicker: ImagePicker) {
   }
@@ -55,14 +56,22 @@ export class ImageClipboardPage {
       console.log(window.screen.width, window.screen.height);
 
       this.sendData(base64data)
-      this.presentToast('Copied image to clipboard.')
+      let toastString
+        if(this.colorPickerEnabled){
+          toastString = 'Copied color to clipboard.'
+        }
+        else{
+          toastString = 'Copied image to clipboard.'
+        }
+        this.presentToast(toastString)
     }, (err) => { 
       this.presentToast('Something went wrong. Please try again.')
     });
   }
 
   sendData(img) {
-    let data = { type: "copyimage", data: img }
+    let type = this.colorPickerEnabled ? "copycolor" : "copyimage"
+    let data = { type: type, data: img }
     this.socket.sendData(data)
   }
 
@@ -84,6 +93,10 @@ export class ImageClipboardPage {
     }
   }
 
+  enableColorPicker(bool){
+    this.colorPickerEnabled = bool
+  }
+
   async presentToast(text) {
     const toast = await this.toastController.create({
       position: 'top',
@@ -100,7 +113,7 @@ export class ImageClipboardPage {
     this.imagePicker.getPictures(options).then((results) => {
       for (var i = 0; i < results.length; i++) {
         this.sendData(results[i]);
-        this.presentToast('Copied to clipboard.')
+        this.presentToast('Copied image to clipboard.')
       }
     }, (err) => { 
       this.presentToast('Something went wrong. Please try again.')
