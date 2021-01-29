@@ -108,6 +108,7 @@ export class ImageClipboardPage {
 
 
   openGallery() {
+    this.colorPickerEnabled = false
     let options: ImagePickerOptions = { maximumImagesCount: 1, outputType: 1}
 
     this.imagePicker.getPictures(options).then((results) => {
