@@ -19,7 +19,6 @@ export class RegisterComponent implements OnInit {
 
   form: FormGroup;
   private formSubmitAttempt: boolean;
-  genderControl = new FormControl('M');
   tempUser: User_id = new User_id();
   test = null;
   authUser: User_new = new User_new();
@@ -50,7 +49,6 @@ export class RegisterComponent implements OnInit {
     this.tempUser.firstname = this.form.get('first').value;
     this.tempUser.lastname = this.form.get('last').value;
     this.tempUser.email = this.form.get('email').value;
-    this.tempUser.sex = this.genderControl.value;
     this.tempUser.password = HmacSHA256(this.form.get('password').value,"88cecbe58136f4c5fb3cf1988e46a3b177902911d7ea7833465eaaae05e14a82").toString();
 
     //rypto.HmacSHA256("Test124.","secretkey").toString()

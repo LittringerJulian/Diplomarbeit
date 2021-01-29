@@ -551,9 +551,9 @@ exports.updateScheme = (req, res) => {
     var myquery = { _id: ObjectID(req.body._id) };
 
 
+    console.log(req.body.published)
 
-
-    var newvalues = { $set: { "content": req.body.content } };
+    var newvalues = { $set: { "content": req.body.content,"published":req.body.published,"tags":req.body.tags }};
 
     db.collection("Scheme").updateOne(myquery, newvalues, function (err, result) {
       if (err) throw err;
