@@ -102,7 +102,7 @@
 
         </mat-card-content>
         <mat-card-actions>
-          <button class="button" id="publishButton" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
+          <button *ngIf="item.published != true" class="button" id="publishButton" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
           <button *ngIf="item.format == 'Landscape'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Landscape')">Bearbeiten</button>
           <button *ngIf="item.format == 'Portrait'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Portrait')">Bearbeiten</button>
 

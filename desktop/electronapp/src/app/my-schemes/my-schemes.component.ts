@@ -38,9 +38,13 @@ export class MySchemesComponent implements OnInit {
   }
 
   openTagDialog(item) {
+    
+
     let dialogRef = this.dialog.open(TagDialogComponent, {
       width: '40%'
     });
+  
+
 
     dialogRef.afterClosed().subscribe(result => {
 
@@ -63,6 +67,7 @@ export class MySchemesComponent implements OnInit {
       }
 
     })
+  
   }
 
   openSnackbar(Message) {
