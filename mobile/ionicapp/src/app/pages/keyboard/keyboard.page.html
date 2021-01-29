@@ -1,12 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>keyboard</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content id="hammerContent">
+<ion-content [scrollY]="false">
+    <div id="trackpad" style="display: block; height: 100%; width: 100%;"></div>
     <input type="text" id="keyinput" style="position: absolute; opacity: 0; pointer-events: none;" #inputfield>
-
-    <div style="position: absolute; bottom: 10%; left: 50%; transform: translatex(-50%); text-align: center;">Tap anywhere to open the keyboard!</div>
-
 </ion-content>

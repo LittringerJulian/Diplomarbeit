@@ -15,26 +15,13 @@
 </ion-content>
 
 <div class="tabs">
-    <div class="tab" (click)='enterPage("home")'>
-        <ion-icon class="tabicon" name="grid-outline"></ion-icon>
+    <div class="tab ion-activatable ripple-parent" (click)='enterPage("home")'>
+        <ion-icon class="tabicon" name="grid"></ion-icon>
+        <ion-ripple-effect></ion-ripple-effect>
     </div>
 
-    <div class="tab" (click)='enterPage("list-schemes")'>
-        <ion-icon class="tabicon" name="create"></ion-icon>
+    <div class="tab ion-activatable ripple-parent" (click)='enterPage("list-schemes")'>
+        <ion-icon class="tabicon" name="create-outline"></ion-icon>
+        <ion-ripple-effect></ion-ripple-effect>
     </div>
 </div>
-<!--
-<ion-tabs>
-    <ion-tab-bar slot="bottom">
-        <ion-tab-button (click)='enterPage("home")'>
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Home</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)='enterPage("list-schemes")'>
-            <ion-icon name="pencil"></ion-icon>
-            <ion-label>My Schemes</ion-label>
-        </ion-tab-button>
-    </ion-tab-bar>
-</ion-tabs>
- -->

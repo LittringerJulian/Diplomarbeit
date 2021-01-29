@@ -14,7 +14,6 @@ export class TrackpadPage implements OnInit {
   listenerTouchStart
   listenerTouchMove
   listenerTouchEnd
-  listenerClick
 
   lastX = -1
   lastY = -1
@@ -29,7 +28,7 @@ export class TrackpadPage implements OnInit {
   ngOnInit() {
     this.trackpad = document.getElementById("trackpad")
 
-    this.trackpad.addEventListener('touchstart', (e) => {
+    this.trackpad.addEventListener('touchstart', this.listenerTouchStart = (e) => {
       if (this.lastClick != -1 && e.timeStamp - this.lastClick < this.delay * 2 && e.touches.length == 1) {
         this.drag = true
         this.sendData('toggleMouse', 'down')
@@ -61,7 +60,7 @@ export class TrackpadPage implements OnInit {
       this.scrollingMode = 0
     })
 
-    this.trackpad.addEventListener('touchmove', (e) => {
+    this.trackpad.addEventListener('touchmove', this.listenerTouchMove = (e) => {
       if (this.lastX != -1) {
         this.canClick = false
         // move
@@ -74,7 +73,7 @@ export class TrackpadPage implements OnInit {
         // scroll
         else {
           if (this.scrollingMode == 0) {
-            this.scrollingMode = (e.touches[0].screenX - this.lastX) > (e.touches[0].screenY - this.lastY) ? 1 : 2
+            this.scrollingMode = (e.touches[0].screenX - this.lastX) > (e.touches[0].screenY - this.lastY) * 2 ? 1 : 2
             //canMove = false
           }
           if (this.scrollingMode == 1) {
@@ -96,8 +95,6 @@ export class TrackpadPage implements OnInit {
     })
   }
 
-
-
   sendData(type, input) {
     let data = { type: type, data: input }
     console.log(data);
@@ -106,10 +103,9 @@ export class TrackpadPage implements OnInit {
   }
 
   ngOnDestroy() {
-    //window.removeEventListener("touchstart", this.listenerTouchStart)
-    //window.removeEventListener("touchmove", this.listenerTouchMove)
-    //window.removeEventListener("touchend", this.listenerTouchEnd)
-    window.removeEventListener("touchend", this.listenerClick)
+    this.trackpad.removeEventListener("touchstart", this.listenerTouchStart)
+    this.trackpad.removeEventListener("touchmove", this.listenerTouchMove)
+    this.trackpad.removeEventListener("touchend", this.listenerTouchEnd)
   }
 
 }

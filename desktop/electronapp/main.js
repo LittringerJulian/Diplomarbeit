@@ -21,7 +21,7 @@ const emitter = new EventEmitter();
 emitter.setMaxListeners(15);
 
 function handleSocketMessage(msg, ws) {
-    console.log(msg.type);
+    //console.log(msg.type);
     switch (msg.type) {
         case 'newConnection':
             mainWindow.webContents.send("sendDeviceAccess", ws, msg.data);
@@ -37,6 +37,9 @@ function handleSocketMessage(msg, ws) {
             break;
         case 'copyimage':
             clipboardManager.copyImage(msg.data)
+            break;
+        case 'copycolor':
+            clipboardManager.copyColor(msg.data)
             break;
         case 'keypress':
             robot.keyTap(msg.data)
@@ -54,6 +57,7 @@ function handleSocketMessage(msg, ws) {
             robot.mouseToggle(msg.data)
             break;
         case 'scrollMouse':
+            console.log(msg.data);
             robot.scrollMouse(msg.data.x * 10, msg.data.y * 10)
             break;
         case 'shortcut':
