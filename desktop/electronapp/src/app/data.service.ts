@@ -22,13 +22,21 @@ export class DataService {
   allSchemes: Scheme[]
 
   constructor(private ngZone: NgZone, public dialog: MatDialog) {
-    electron.ipcRenderer.on("requestSchemePush", (e, ws) => {
+    electron.ipcRenderer.on("requestSchemePush", (e, data) => {
+      data = JSON.parse(data)
+      let ws = data.ws
       electron.ipcRenderer.send("pushSchemes", ws, this.allSchemes)
     })
 
-    electron.ipcRenderer.on("sendDeviceAccess", (e, ws, deviceName) => {
+    electron.ipcRenderer.on("sendDeviceAccess", (e, data) => {
+
+      data = JSON.parse(data)
+      console.log(data);
+      
+      let ws = data.ws
+      let deviceName = data.data
       this.ngZone.run(() => {
-        console.log(ws);
+
         let ref = this.dialog.open(DialogBodyComponent);
         ref.componentInstance.deviceName = deviceName
         ref.afterClosed().subscribe(result => {
@@ -42,7 +50,9 @@ export class DataService {
       });
     })
 
-    electron.ipcRenderer.on("removeDevice", (e, ws) => {
+    electron.ipcRenderer.on("removeDevice", (e, data) => {
+      data = JSON.parse(data)
+      let ws = data.ws
       this.ngZone.run(() => {
         this.deviceArray.forEach((element, index) => {
           if (element.id == ws.id) {

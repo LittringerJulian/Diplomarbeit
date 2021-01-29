@@ -128,8 +128,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   kickUser(ws) {
-    electron.ipcRenderer.send("kickWs", ws);
-
+    electron.ipcRenderer.send("kickWs", JSON.stringify({ws: ws}));
   }
 
   confirmDevice() {

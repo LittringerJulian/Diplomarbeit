@@ -20,14 +20,55 @@ var clipboardManager = new ClipboardManager()
 const emitter = new EventEmitter();
 emitter.setMaxListeners(15);
 
+
+let mainWindow;
+
+function createWindow() {
+    mainWindow = new BrowserWindow({
+
+        width: 1280,
+        height: 720,
+        minHeight: 720,
+        minWidth: 1280,
+
+        titleBarStyle: "hidden",
+        resizable: true,
+        autoHideMenuBar: true,
+        frame: false,
+        webPreferences: {
+            nodeIntegration: true,
+        },
+    });
+
+    mainWindow.loadURL(
+        url.format({
+            pathname: path.join(__dirname, `/dist/index.html`),
+            protocol: "file:",
+            slashes: true,
+        })
+    );
+
+    mainWindow.on('resize', function() {
+
+        var size = mainWindow.getSize();
+        mainWindow.setSize(size[0], parseInt(size[0] * 9 / 16));
+
+    });
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+    mainWindow.on("closed", function() {
+        mainWindow = null;
+    });
+}
+
 function handleSocketMessage(msg, ws) {
     //console.log(msg.type);
     switch (msg.type) {
         case 'newConnection':
-            mainWindow.webContents.send("sendDeviceAccess", ws, msg.data);
+            mainWindow.webContents.send("sendDeviceAccess", JSON.stringify({ ws: ws, data: msg.data }));
             break;
         case 'requestSchemePush':
-            mainWindow.webContents.send('requestSchemePush', ws);
+            mainWindow.webContents.send('requestSchemePush', JSON.stringify({ ws: ws }));
             break;
         case 'gyro':
             gyroPointer.moveMouse(msg.data)
@@ -136,7 +177,7 @@ wss.on("connection", function connection(ws, req) {
         handleSocketMessage(JSON.parse(data), ws)
     });
     ws.on('close', function hee() {
-        mainWindow.webContents.send("removeDevice", ws);
+        mainWindow.webContents.send("removeDevice", JSON.stringify({ ws: ws }));
     });
 });
 
@@ -177,45 +218,6 @@ const interval = setInterval(function ping() {
 
 
 
-let mainWindow;
-
-function createWindow() {
-    mainWindow = new BrowserWindow({
-
-        width: 1280,
-        height: 720,
-        minHeight: 720,
-        minWidth: 1280,
-
-        titleBarStyle: "hidden",
-        resizable: true,
-        autoHideMenuBar: true,
-        frame: false,
-        webPreferences: {
-            nodeIntegration: true,
-        },
-    });
-
-    mainWindow.loadURL(
-        url.format({
-            pathname: path.join(__dirname, `/dist/index.html`),
-            protocol: "file:",
-            slashes: true,
-        })
-    );
-
-    mainWindow.on('resize', function() {
-
-        var size = mainWindow.getSize();
-        mainWindow.setSize(size[0], parseInt(size[0] * 9 / 16));
-
-    });
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-    mainWindow.on("closed", function() {
-        mainWindow = null;
-    });
-}
 
 app.on("ready", createWindow);
 
