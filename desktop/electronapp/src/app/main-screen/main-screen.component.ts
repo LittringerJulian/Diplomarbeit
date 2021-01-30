@@ -74,7 +74,6 @@ export class MainScreenComponent implements OnInit {
 
     this.http.getSchemeByUserId().subscribe(data => {
       this.dataService.allSchemes = JSON.parse(data);
-      console.log(this.dataService.allSchemes)
     })
 
 

@@ -8,9 +8,9 @@
   
     user-select: none;
     text-align: center;
-    width:46%;
+    width:610px;
+    height:690px;
 
-    padding:2%;
   
     float:right;
     position: relative;
@@ -54,38 +54,12 @@
 
 }
 
-/*::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end,
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
-    border-width: 1px !important;
-    border-color: #707070 !important;
-    color: #1A2A49 !important;
-    border-radius: 0px !important;     
-    background-color: white;
-     height:8vh !important;
 
-}
-
-
-
-
-
-::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0px !important;
-  margin-bottom: 4vh !important;
-  margin-top: 0px !important;
-  
-}
-
-::ng-deep .mat-form-field-label-wrapper {
-  padding-top: 0px !important;
-
-}
-*/
 
 
 #imgdiv{
-  width:50%;
-  height:100%;
+  width:610px;
+  height:690px;
   float:left;
 }
 
@@ -110,9 +84,9 @@
 }
 #middlediv{
   position: absolute;
-  width:0.3%;
+  width:3px;
   border-radius:5px;
-  height:60%;
+  height:500px;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
@@ -122,8 +96,19 @@
 #loginbutton{
   color: white;
   width:100%;
-  height:8vh;
-  border-radius: 0px;
-  font-size: 4vh;
+  height:58px;
+  border-radius: 2px;
+  font-size: 2.5em;
 
 }
+#secondall{
+  width:1220px;
+  height:690px;
+  margin:auto;
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+
+}
+
+

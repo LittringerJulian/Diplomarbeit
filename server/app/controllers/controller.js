@@ -535,6 +535,10 @@ exports.authenticateJWT = (req, res) => {
 };
 
 exports.updateScheme = (req, res) => {
+
+  var nulltags = false;
+  var nullpublished = false;
+
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (token == null) return res.sendStatus(401)
@@ -551,9 +555,29 @@ exports.updateScheme = (req, res) => {
     var myquery = { _id: ObjectID(req.body._id) };
 
 
-    console.log(req.body.published)
+    console.log("published:"+req.body.published)    
+    console.log("tags:"+req.body.tags)
 
-    var newvalues = { $set: { "content": req.body.content,"published":req.body.published,"tags":req.body.tags }};
+    if(req.body.published==null){
+      nullpublished=true
+    }
+    if(req.body.tags==null){
+      nulltags=true
+    }
+   
+
+    if(nulltags==false && nullpublished == false){
+      var newvalues = { $set: { "content": req.body.content,"published":req.body.published,"tags":req.body.tags }};
+    }
+    if(nulltags==true && nullpublished == true){
+      var newvalues = { $set: { "content": req.body.content }};
+    }
+    if(nulltags==true && nullpublished == false){
+      var newvalues = { $set: { "content": req.body.content,"published":req.body.published }};
+    }
+    if(nulltags==false && nullpublished == true){
+      var newvalues = { $set: { "content": req.body.content,"tags":req.body.tags }};
+    }
 
     db.collection("Scheme").updateOne(myquery, newvalues, function (err, result) {
       if (err) throw err;

@@ -364,8 +364,9 @@ export class GenerateSchemeComponent implements OnInit {
   
     var scheme = {
       "_id": this.dataService.editingId,
-      "content":this.components
-    }
+      "content":this.components,
+      
+        }
 
     this.httpService.updateScheme(scheme).subscribe(data => {
 
