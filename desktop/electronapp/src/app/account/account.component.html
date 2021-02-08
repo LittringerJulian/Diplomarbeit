@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="example-toolbar">
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-        <div (click)="home()" class="innerdiv">
+        <div (click)="navigate('main')" class="innerdiv">
             <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
             <img class="navimg" src="./assets/home.svg">
             <p class="navtext">Home</p>
@@ -12,7 +12,7 @@
     <div class="navdiv">
         <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
 
-        <div (click)="myschemes()" class="innerdiv">
+        <div (click)="navigate('myschemes')" class="innerdiv">
             <img class="navimg" src="./assets/create.svg">
             <p class="navtext">My schemes</p>
         </div>
@@ -20,7 +20,7 @@
 
     <div class="navdiv" id="discoverdiv">
         <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
-        <div (click)="publicSchemes()" class="innerdiv">
+        <div (click)="navigate('publicschemes')" class="innerdiv">
             <img class="navimg" src="./assets/public.svg">
             <p class="navtext">Discover</p>
         </div>
@@ -35,43 +35,13 @@
                 <div id="accountdiv">
                     <p id="emailtext">Logged in as {{dataService.emailDataService}}</p>
                     <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
-                    <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
+                    <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
                 </div>
             </mat-menu>
         </div>
     </div>
 </mat-toolbar>
 
-
-<div id="content" *ngIf="this.qrCodeIsSet">
-    <!-- <div id="accountdiv">
-        <p id="emailtext">Logged in as {{email}}</p>
-        <button mat-raised-button color="primary" id="logoutbtn" class="accbtn">Log out</button>
-        <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
-    </div>-->
-    <div id="qrcodewrapper">
-        <a id="qrcodetext">Ready to connect!</a>
-        <qrcode [qrdata]="qrcode" [width]="width" [errorCorrectionLevel]="level" [elementType]="elementType">
-        </qrcode>
-        <div id="visibility" (click)="hideQR()">
-
-            <img id="visibilityimg" src="./assets/visibility_off.svg">
-            <p id="hideqrtxt">Hide QR Code</p>
-
-        </div>
-    </div>
-    <div id="userinfo">
-
-        <p id="welcometxt"> Welcome {{dataService.firstnameDataService}}!</p>
-        
-        <div id="Devicetxt">
-            <p>Connected Devices:</p>
-            <div id="DeviceDiv">
-                <div *ngFor="let item of dataService.deviceArray" class="conDevice">
-                    <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item.id)> {{item.name}}
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="content">
 
 </div>

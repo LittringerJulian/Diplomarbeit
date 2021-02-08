@@ -56,6 +56,7 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AccountComponent } from './account/account.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -64,10 +65,9 @@ const appRoutes: Routes = [
   { path: 'scheme', component: GenerateSchemeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'myschemes', component: MySchemesComponent },
-  /*{ path: 'editscheme', component: EditSchemeComponent },
-  { path: 'editschemeportrait', component: EditSchemePortraitComponent },*/
   { path: 'publicschemes', component: PublicSchemesComponent },
   { path: 'navigation', component: NavigationComponent },
+  { path: 'account', component: AccountComponent },
   {
     path: '**'
     , redirectTo: 'login'
@@ -95,7 +95,8 @@ const appRoutes: Routes = [
     PublicSchemesComponent,
     ButtonpreviewComponent,
     SetComponentActionComponent,
-    MainScreenComponent
+    MainScreenComponent,
+    AccountComponent
   ],
   entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent, SetComponentActionComponent],
   imports: [

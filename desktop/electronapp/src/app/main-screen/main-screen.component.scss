@@ -8,6 +8,8 @@
     width:100%;
     height:90%;
     background-color: whitesmoke;
+    top:10%;
+    position: absolute;
 }
 
 /*.example-container {
@@ -28,6 +30,8 @@
     height:10%;
     width:100%;
     padding:0;
+    position: fixed;
+    z-index:10;
   }
 
   .navdiv{

@@ -35,7 +35,7 @@
               <div id="accountdiv">
                   <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
                   <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
-                  <button mat-raised-button color="primary" id="accountbtn" class="accbtn">Account</button>
+                  <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
               </div>
           </mat-menu>
       </div>

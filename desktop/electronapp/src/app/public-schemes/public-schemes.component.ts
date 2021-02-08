@@ -220,4 +220,9 @@ export class PublicSchemesComponent implements OnInit {
     this.router.navigate(['/main']);
 
   }
+
+  navigate(path) {
+    this.router.navigate(['/' + path]);
+
+  }
 }

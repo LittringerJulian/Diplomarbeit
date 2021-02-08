@@ -6,10 +6,14 @@
             </button>
         </div>
         <a style="margin-right:1%" *ngIf="dataService.isEditing==false">change Format</a>
+        
         <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" *ngIf="dataService.isEditing==false"></mat-slide-toggle>
 
         <div id="headerdiv">
             <button mat-raised-button color="accent" id="savebutton" (click)="saveScheme()">Save</button>
+
+            <button (click)="saveScheme()">Save</button>
+
         </div>
     </mat-toolbar>
     <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
@@ -38,6 +42,10 @@
                 </div>
             </div>
         </mat-sidenav-content>
+
+
+        <img [src]="itemImageUrl">
+
 
 
 

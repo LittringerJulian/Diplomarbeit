@@ -164,6 +164,11 @@ export class MainScreenComponent implements OnInit {
   }
 
 
+  navigate(path) {
+    this.router.navigate(['/' + path]);
+
+  }
+
   ngOnDestroy() {
     this.cd.detach();
   }
