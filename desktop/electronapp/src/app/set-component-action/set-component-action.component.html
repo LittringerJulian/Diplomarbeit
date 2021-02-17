@@ -1,5 +1,7 @@
 <h1 mat-dialog-title>Define an action</h1>
-<div mat-dialog-content>
+
+<!-- BUTTON -->
+<div *ngIf="this.type == 'button'" mat-dialog-content>
     <mat-radio-group aria-label="Select an option">
         <p>
             <mat-radio-button color="primary" (change)="changeMode(true)" value="true" [checked]="shortcut[0]">Single key</mat-radio-button> &nbsp;
@@ -10,6 +12,20 @@
     <button mat-button (click)="startShortcut()">record</button>
     <input style="pointer-events: none; width: 60%" type="text" [(ngModel)]="this.shortcut[1]">
 </div>
+
+
+<!-- JOYSTICK / GAMEPAD -->
+<div *ngIf="this.type != 'button'" mat-dialog-content>
+
+    <button mat-button (click)="current = 2; startShortcut()">{{this.shortcut[2]}}</button>
+    <button mat-button (click)="current = 3; startShortcut()">{{this.shortcut[3]}}</button>
+    <button mat-button (click)="current = 4; startShortcut()">{{this.shortcut[4]}}</button>
+    <button mat-button (click)="current = 5; startShortcut()">{{this.shortcut[5]}}</button>
+    <input style="pointer-events: none; width: 60%" type="text" [(ngModel)]="this.shortcut[1]">
+</div>
+
+
+<!-- CANCEL/SAVE -->
 <div mat-dialog-actions style="display: flex; justify-content: flex-end; margin-top: 5%;">
     <button mat-button style="color: black" color="accent" [mat-dialog-close]=" false ">Cancel</button>
     <button mat-raised-button style="color: white" color="primary" [disabled]="shortcut.length==0 || shortcut.length==1 || shortcut.length==2 " [mat-dialog-close]="shortcut ">Save</button>

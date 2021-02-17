@@ -57,6 +57,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AccountComponent } from './account/account.component';
+import { GamepadComponent } from './gamepad/gamepad.component';
+import { TrackpadComponent } from './trackpad/trackpad.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -96,7 +98,9 @@ const appRoutes: Routes = [
     ButtonpreviewComponent,
     SetComponentActionComponent,
     MainScreenComponent,
-    AccountComponent
+    AccountComponent,
+    GamepadComponent,
+    TrackpadComponent
   ],
   entryComponents: [DialogBodyComponent, SchemeNameComponent, TagDialogComponent, SetComponentActionComponent],
   imports: [

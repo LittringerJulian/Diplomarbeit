@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UiElementComponent } from '../ui-element/ui-element.component';
 
 @Component({
@@ -11,9 +11,7 @@ export class ButtonComponent extends UiElementComponent {
   
   constructor() {
     super();
+    super.minSize = 5;
+    super.maxSize = 50;
   }
-
-
- 
-
 }

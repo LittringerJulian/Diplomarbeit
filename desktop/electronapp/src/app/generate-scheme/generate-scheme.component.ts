@@ -17,7 +17,7 @@ import { DataService } from '../data.service';
   styleUrls: ['./generate-scheme.component.scss']
 })
 export class GenerateSchemeComponent implements OnInit {
- 
+
   public isMenuOpen: boolean = false;
   formGroup: FormGroup;
   isChecked = true;
@@ -52,7 +52,7 @@ export class GenerateSchemeComponent implements OnInit {
 
   badgeContent = '<span class="material-icons">check</span>'
 
-  constructor(private sanitizer: DomSanitizer, private dataService: DataService, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private dataService: DataService, private httpService: HttpService, public dialog: MatDialog, formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar) {
 
   }
 
@@ -61,41 +61,41 @@ export class GenerateSchemeComponent implements OnInit {
     this.contentHeight = this.scheme.offsetHeight;
     this.contentWidth = this.scheme.offsetWidth;
 
-    if(this.dataService.isEditing==true){
-      if(this.dataService.editFormat=="Landscape"){
-      this.elementWidth = 10;
-      this.elementHeight = 10;
-      this.format = 'Landscape';
+    if (this.dataService.isEditing == true) {
+      if (this.dataService.editFormat == "Landscape") {
+        this.elementWidth = 10;
+        this.elementHeight = 10;
+        this.format = 'Landscape';
 
-      this.components=this.dataService.editScheme
-      this.scheme.style.width = '70%';
+        this.components = this.dataService.editScheme
+        this.scheme.style.width = '70%';
 
-      this.scheme.style.paddingBottom = 'calc(70%*(9/16))';
-      this.contentHeight = this.scheme.offsetHeight;
-      this.contentWidth = this.scheme.offsetWidth;
+        this.scheme.style.paddingBottom = 'calc(70%*(9/16))';
+        this.contentHeight = this.scheme.offsetHeight;
+        this.contentWidth = this.scheme.offsetWidth;
 
-     
-    }
-    if(this.dataService.editFormat=="Portrait"){
 
-      this.elementWidth = 20;
-      this.elementHeight = 20;
-      this.format = 'Portrait';
+      }
+      if (this.dataService.editFormat == "Portrait") {
 
-      this.components=this.dataService.editScheme
-      this.scheme.style.width = '25%';
+        this.elementWidth = 20;
+        this.elementHeight = 20;
+        this.format = 'Portrait';
 
-      this.scheme.style.paddingBottom = 'calc(25%*(16/9))';
+        this.components = this.dataService.editScheme
+        this.scheme.style.width = '25%';
 
-      this.contentHeight = this.scheme.offsetHeight;
-      this.contentWidth = this.scheme.offsetWidth;
+        this.scheme.style.paddingBottom = 'calc(25%*(16/9))';
 
-      
-    }
-    for(let i=0;i<this.components.length;i++){
-      this.components[i].posx=this.components[i].percentagex*this.contentWidth;
-      this.components[i].posy=this.components[i].percentagey*this.contentHeight;
-     }
+        this.contentHeight = this.scheme.offsetHeight;
+        this.contentWidth = this.scheme.offsetWidth;
+
+
+      }
+      for (let i = 0; i < this.components.length; i++) {
+        this.components[i].posx = this.components[i].percentagex * this.contentWidth;
+        this.components[i].posy = this.components[i].percentagey * this.contentHeight;
+      }
     }
     //this.contentHeight = this.scheme.offsetHeight;
     //this.contentWidth = this.scheme.offsetWidth;
@@ -163,7 +163,7 @@ export class GenerateSchemeComponent implements OnInit {
   deselectComponent(e) {
     if (e.target.id == "scheme" || e.target.id == "snavcontent")
       if (this.selectedComponent) {
-        this.checkDimensions()
+        //this.checkDimensions()
         this.selectedComponent = null
       }
   }
@@ -231,7 +231,7 @@ export class GenerateSchemeComponent implements OnInit {
         if (e.key.toLocaleLowerCase() == "arrowup") {
           newpos = this.selectedComponent.posy - fraction / multiplier
           this.selectedComponent.posy = newpos > 0 ? newpos : 0
-          
+
         }
         if (e.key.toLocaleLowerCase() == "arrowleft") {
           newpos = this.selectedComponent.posx - fraction / multiplier
@@ -245,8 +245,6 @@ export class GenerateSchemeComponent implements OnInit {
           newpos = this.selectedComponent.posy + fraction / multiplier
           this.selectedComponent.posy = newpos + this.contentWidth * this.selectedComponent.height / 100 < this.contentHeight ? newpos : this.contentHeight - this.contentWidth * this.selectedComponent.height / 100
         }
-      
-
         this.selectedComponent.percentagex = this.round(this.selectedComponent.posx / this.scheme.offsetWidth, 2)
         this.selectedComponent.percentagey = this.round(this.selectedComponent.posy / this.scheme.offsetHeight, 2)
       }
@@ -279,7 +277,7 @@ export class GenerateSchemeComponent implements OnInit {
 
     let color: Color = { hex: hex, hsl: { a: 1, h: 314.70198675496687, l: 1, s: 0 }, hsv: { a: 1, h: 314.70198675496687, s: 0, v: 1 }, oldHue: 314.70198675496687, rgb: { r: r, g: g, b: b, a: 1 }, source: "rgb" }
     let rgbaColor = "rgba(" + color.rgb.r + "," + color.rgb.g + "," + color.rgb.b + "," + color.rgb.a + ")"
-    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, [true, "W"], false)
+    let e = new Element(identifier, specification, this.contentWidth / 2, this.contentHeight / 2, (this.contentWidth / 2) / this.contentWidth, (this.contentHeight / 2) / this.contentHeight, this.elementWidth, this.elementHeight, color, rgbaColor, identifier == 'button' ? [true, "W", "W"] : [true, "W | A | S | D", "W", "A", "S", "D"], false)
     this.components.push(e)
     this.selectComponent(e)
 
@@ -306,10 +304,11 @@ export class GenerateSchemeComponent implements OnInit {
 
     let dialogRef = this.dialog.open(SetComponentActionComponent)
     dialogRef.componentInstance.shortcut = this.selectedComponent.shortcut
+    dialogRef.componentInstance.type = this.selectedComponent.identifier
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
 
-      if (res){
+      if (res) {
         this.selectedComponent.shortcut = res
       }
       this.shortcutsEnabled = true
@@ -318,67 +317,59 @@ export class GenerateSchemeComponent implements OnInit {
 
   saveScheme() {
     this.shortcutsEnabled = false
-    if(this.dataService.isEditing==false){
+    if (this.dataService.isEditing == false) {
       console.log("isNotEditing")
 
-    if (this.components.length > 0) {
-      this.newScheme.content = this.components;
+      if (this.components.length > 0) {
+        this.newScheme.content = this.components;
 
-      let dialogRef = this.dialog.open(SchemeNameComponent);
+        let dialogRef = this.dialog.open(SchemeNameComponent);
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result)
-        this.shortcutsEnabled = true
-        if (result != undefined) {
-          this.newScheme.name = result;
-          this.newScheme.format = this.format;
-          this.httpService.saveScheme(this.newScheme).subscribe(data => {
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result)
+          this.shortcutsEnabled = true
+          if (result != undefined) {
+            this.newScheme.name = result;
+            this.newScheme.format = this.format;
+            this.httpService.saveScheme(this.newScheme).subscribe(data => {
 
-            if (data == "Scheme inserted") {
-              this.dataService.isEditing=false
-              this.openSnackbar("Saved Scheme")
-            }
-
-
-            // pull schemes
-            this.httpService.getSchemeByUserId().subscribe(data => {
-
-              //console.log(data);
-              this.dataService.allSchemes = JSON.parse(data);
-
+              if (data == "Scheme inserted") {
+                this.dataService.isEditing = false
+                this.openSnackbar("Saved Scheme")
+              }
+              // pull schemes
+              this.httpService.getSchemeByUserId().subscribe(data => {
+                this.dataService.allSchemes = JSON.parse(data);
+              })
             })
-
-
-
-          })
-        }
-      })
-    }
-    else {
-      this.openSnackbar("Scheme is Empty")
-    }
-  }
-  if(this.dataService.isEditing==true){
-    console.log("isEditing")
-
-  
-    var scheme = {
-      "_id": this.dataService.editingId,
-      "content":this.components,
-      
-        }
-
-    this.httpService.updateScheme(scheme).subscribe(data => {
-
-      if(data=="updated"){
-        this.dataService.isEditing=false
-        this.router.navigate(['/myschemes']);
+          }
+        })
       }
-      
+      else {
+        this.openSnackbar("Scheme is Empty")
+      }
+    }
+    if (this.dataService.isEditing == true) {
+      console.log("isEditing")
 
-    })
-    
-  }
+
+      var scheme = {
+        "_id": this.dataService.editingId,
+        "content": this.components,
+
+      }
+
+      this.httpService.updateScheme(scheme).subscribe(data => {
+
+        if (data == "updated") {
+          this.dataService.isEditing = false
+          this.router.navigate(['/myschemes']);
+        }
+
+
+      })
+
+    }
   }
   checkChange() {
 
@@ -415,7 +406,7 @@ export class GenerateSchemeComponent implements OnInit {
   }
 
   home() {
-    this.dataService.isEditing=false
+    this.dataService.isEditing = false
     this.router.navigate(['/qrcode']);
   }
 

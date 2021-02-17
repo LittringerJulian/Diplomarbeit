@@ -21,6 +21,7 @@ export class WebsocketService {
   }
 
   connect(socketUri) {
+    console.log(socketUri);
     this.websocket = webSocket("ws://" + socketUri + ":80");
 
     console.log(this.websocket);

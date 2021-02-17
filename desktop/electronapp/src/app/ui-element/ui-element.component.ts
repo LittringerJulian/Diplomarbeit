@@ -17,39 +17,36 @@ export class UiElementComponent implements OnInit {
   contentWidth;
   contentHeight;
   scheme: HTMLElement
-
   resizing = false
-
-
   newWidth = 0
-
   resizeStartX = 0
   resizeStartY = 0
   resizeDifferenceX = 0;
   resizeDifferenceY = 0;
   resizeDifferenceX_px = 0;
   resizeDifferenceY_px = 0;
-
   resizeTranslateX = false;
   resizeTranslateY = false;
-
   fixedAspectRatio = false;
-
   oldDiffX = 0
   oldDiffY = 0
   oldPosX = 0
   oldPosY = 0
 
+  minSize
+  maxSize
+
   @Output() selectComponent = new EventEmitter<Element>()
 
-  constructor() { }
+  constructor() {
+  }
 
   @HostListener('window:mouseup', ['$event'])
   reenableDragging() {
     if (this.resizing) {
 
       let scheme = document.getElementById("scheme")
-      
+
       this.element.posx = this.getElementPosX()
       this.element.posy = this.getElementPosY()
       this.element.width = this.getElementWidth()
@@ -139,11 +136,11 @@ export class UiElementComponent implements OnInit {
   }
 
   checkDimensions() {
-    this.element.width = this.element.width > 5 ? this.element.width : 5
-    this.element.height = this.element.height > 5 ? this.element.height : 5
+    this.element.width = this.element.width > this.minSize ? this.element.width : this.minSize
+    this.element.height = this.element.height > this.minSize ? this.element.height : this.minSize
 
-    this.element.width = this.element.width > 50 ? 50 : this.element.width
-    this.element.height = this.element.height > 50 ? 50 : this.element.height
+    this.element.width = this.element.width > this.maxSize ? this.maxSize : this.element.width
+    this.element.height = this.element.height > this.maxSize ? this.maxSize : this.element.height
 
     if (this.element.posx + this.element.width / 100 * this.contentWidth > this.contentWidth) {
       this.element.width = this.round((this.contentWidth - this.element.posx) / this.contentWidth * 100, 2)
@@ -177,8 +174,8 @@ export class UiElementComponent implements OnInit {
     }
     width = this.round(width, 2)
 
-    if (width < 5) width = 5
-    if (width > 50) width = 50
+    if (width < this.minSize) width = this.minSize
+    if (width > this.maxSize) width = this.maxSize
     return width
   }
 
@@ -197,8 +194,8 @@ export class UiElementComponent implements OnInit {
     }
     height = this.round(height, 2)
 
-    if (height < 5) height = 5
-    if (height > 50) height = 50
+    if (height < this.minSize) height = this.minSize
+    if (height > this.maxSize) height = this.maxSize
 
     return height
   }
@@ -206,7 +203,7 @@ export class UiElementComponent implements OnInit {
   getElementPosX() {
     let posx
     if (this.resizeTranslateX) {
-      if (this.getElementWidth() == 50) {
+      if (this.getElementWidth() == this.maxSize) {
         posx = this.oldPosX
       }
       else {
@@ -216,7 +213,7 @@ export class UiElementComponent implements OnInit {
     else {
       posx = this.element.posx
     }
-    if (this.resizing && this.getElementWidth() == 5) {
+    if (this.resizing && this.getElementWidth() == this.minSize) {
       posx = this.oldPosX
     }
     posx = this.round(posx, 2)
@@ -227,7 +224,7 @@ export class UiElementComponent implements OnInit {
   getElementPosY() {
     let posy
     if (this.resizeTranslateY) {
-      if (this.getElementHeight() == 50) {
+      if (this.getElementHeight() == this.maxSize) {
         posy = this.oldPosY
       }
       else {
@@ -237,7 +234,7 @@ export class UiElementComponent implements OnInit {
     else {
       posy = this.element.posy
     }
-    if (this.resizing && this.getElementHeight() <= 5) {
+    if (this.resizing && this.getElementHeight() <= this.minSize) {
       posy = this.oldPosY
     }
     posy = this.round(posy, 2)
