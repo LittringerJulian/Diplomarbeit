@@ -1,0 +1,32 @@
+<div [ngStyle]="{
+    'width.%':getElementWidth(),
+    'padding-top.%':getElementHeight(), 
+    'background-color':(element.rgbaColor), 
+    'color':(getTextColor()), 
+    'border-radius':(element.circle ? '2000px' : '10px')}" class="component" cdkDrag [cdkDragFreeDragPosition]="{
+        x: getElementPosX(),
+        y: getElementPosY()
+    }" (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="resizing">
+
+    <!-- REQUIRED IN EVERY COMPONENT -->
+    <div id="resizeElementsContainer" *ngIf="isSelected">
+        <div (mousedown)="resizeStart($event, true, true)" class="resizeCorner" id="resizeTopLeft"></div>
+        <div (mousedown)="resizeStart($event, false, true)" class="resizeCorner" id="resizeTopRight"></div>
+        <div (mousedown)="resizeStart($event, true, false)" class="resizeCorner" id="resizeBottomLeft"></div>
+        <div (mousedown)="resizeStart($event, false, false)" class="resizeCorner" id="resizeBottomRight"></div>
+
+        <!--
+        <div class="resizeEdge" id="resizeTop"></div>
+        <div class="resizeEdge" id="resizeLeft"></div>
+        <div class="resizeEdge" id="resizeRight"></div>
+        <div class="resizeEdge" id="resizeBottom"></div>
+    -->
+    </div>
+
+</div>
+
+<!-- FIAS HANDY | BITTE NED LOESCHEN DANKE -->
+<!--<div [ngStyle]="{'width.%':(element.width),'padding-top.%':(element.height), 'background-color':(element.rgbaColor), 'color':(getTextColor()), 'border-radius':(element.circle ? '2000px' : 0)}" class="component" cdkDrag [cdkDragFreeDragPosition]="{x:element.posx,y:element.posy}"
+    (cdkDragEnded)="cdkDragReleased($event, element,i)" cdkDragBoundary="#scheme" [cdkDragDisabled]="disableDragging">
+
+    <p id="text"> {{ element.specification == '' ? element.shortcut[1] : element.specification}} </p>-->

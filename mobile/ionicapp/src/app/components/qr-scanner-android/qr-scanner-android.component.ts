@@ -70,6 +70,8 @@ export class QrScannerAndroidComponent implements OnDestroy {
       if (this.qrData) {
         this.canTryConnection = false
         this.qrData = this.qrData.data
+        console.log("found qr");
+        
         this.initSocket()
       }
       else {

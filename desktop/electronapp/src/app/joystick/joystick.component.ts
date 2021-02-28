@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { Component } from '@angular/core';
 import { UiElementComponent } from '../ui-element/ui-element.component';
 
 @Component({
@@ -10,14 +9,9 @@ import { UiElementComponent } from '../ui-element/ui-element.component';
 })
 export class JoystickComponent  extends UiElementComponent {
 
-  
-
   constructor() {
     super();
+    super.minSize = 20;
+    super.maxSize = 20;
   }
-  selected(){
-    super.selected()
-  }
- 
-
 }
