@@ -318,15 +318,16 @@ exports.getSchemeByUserId = (req, res) => {
 //insert into PublicScheme
 exports.insertPublicScheme = (req, res) => {
 
+  //get JWT
   const authHeader = req.headers['authorization']
+  //split the Token
   const token = authHeader && authHeader.split(' ')[1]
+  //check if token exists
   if (token == null) return res.sendStatus(401)
-
   //verify Token
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
-
-
+  if (err) return res.sendStatus(403)
+  
     //connecttoDb
     mongoUtil.connectToServer(function (err, client) {
       if (err) console.log(err);
@@ -448,12 +449,7 @@ exports.login = (req, res) => {
         //console.log(result);
         if (result.length > 0) {
 
-          var json = {
-            "id": result[0].id,
-            "firstname": result[0].firstname,
-            "email": result[0].email,
-            "found": "success",
-          }
+        
           newUser.found = "success";
           //newUser.id = result[0].id;
           newUser._id = result[0]._id;
@@ -656,6 +652,18 @@ exports.getUserInformation = (req, res) => {
       res.send(json)
     });
 
+};
+
+exports.testtoken = (req,res)=>{
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log(authHeader)
+  console.log(authHeader.split(' ')[1])
+  console.log(token)
+
+  if (token == null) return res.sendStatus(401)
+
+  res.send("succesful")
 };
 
 
