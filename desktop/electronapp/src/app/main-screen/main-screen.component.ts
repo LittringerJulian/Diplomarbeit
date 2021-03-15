@@ -127,7 +127,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   kickUser(ws) {
-    electron.ipcRenderer.send("kickWs", JSON.stringify({ws: ws}));
+    electron.ipcRenderer.send("kickWs", ws);
   }
 
   confirmDevice() {
@@ -146,14 +146,14 @@ export class MainScreenComponent implements OnInit {
 
       case true:
         this.container2.style.filter = "blur(8px)"
-        this.qrcodetext.innerHTML = "Show QR Code";
-        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility.svg';
+        this.qrcodetext.innerHTML = "&nbsp; Show QR Code";
+        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
         this.isvisible = false;
         break;
       case false:
         this.container2.style.filter = "none"
-        this.qrcodetext.innerHTML = "Hide QR Code";
-        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility_off.svg';
+        this.qrcodetext.innerHTML = "&nbsp; Hide QR Code";
+        (document.getElementById('visibilityimg') as HTMLImageElement).src = './assets/visibility.svg';
         this.isvisible = true;
         break;
     }

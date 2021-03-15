@@ -4,7 +4,7 @@
         <div (click)="home()" class="innerdiv">
             <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
             <img class="navimg" src="./assets/home.svg">
-            <p class="navtext">Home</p>
+            <p class="navtext">&nbsp; Home</p>
         </div>
     </div>
 
@@ -14,7 +14,7 @@
 
         <div (click)="myschemes()" class="innerdiv">
             <img class="navimg" src="./assets/create.svg">
-            <p class="navtext">My schemes</p>
+            <p class="navtext">&nbsp; My schemes</p>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
         <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
         <div (click)="publicSchemes()" class="innerdiv">
             <img class="navimg" src="./assets/public.svg">
-            <p class="navtext">Discover</p>
+            <p class="navtext">&nbsp; Discover</p>
         </div>
     </div>
 
@@ -55,20 +55,20 @@
         </qrcode>
         <div id="visibility" (click)="hideQR()">
 
-            <img id="visibilityimg" src="./assets/visibility_off.svg">
-            <p id="hideqrtxt">Hide QR Code</p>
+            <img id="visibilityimg" src="./assets/visibility.svg">
+            <p id="hideqrtxt">&nbsp; Hide QR Code</p>
 
         </div>
     </div>
     <div id="userinfo">
 
         <p id="welcometxt"> Welcome {{dataService.firstnameDataService}}!</p>
-        
+
         <div id="Devicetxt">
             <p>Connected Devices:</p>
             <div id="DeviceDiv">
                 <div *ngFor="let item of dataService.deviceArray" class="conDevice">
-                    <img class="kickuserimg" src='./assets/kick_user.svg' (click)=kickUser(item.id)> {{item.name}}
+                    <img class="kickuserimg" style="cursor: pointer" src='./assets/kick_user.svg' (click)=kickUser(item.id)> {{item.name}}
                 </div>
             </div>
         </div>

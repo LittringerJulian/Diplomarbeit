@@ -379,9 +379,9 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Landscape';
 
       this.components = [];
-      this.scheme.style.width = '70%';
+      this.scheme.style.width = '85%';
 
-      this.scheme.style.paddingBottom = 'calc(70%*(9/16))';
+      this.scheme.style.paddingBottom = 'calc(85%*(9/16))';
       this.contentHeight = this.scheme.offsetHeight;
       this.contentWidth = this.scheme.offsetWidth;
     }
@@ -391,9 +391,9 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Portrait';
 
       this.components = [];
-      this.scheme.style.width = '25%';
+      this.scheme.style.width = '40%';
 
-      this.scheme.style.paddingBottom = 'calc(25%*(16/9))';
+      this.scheme.style.paddingBottom = 'calc(40%*(16/9))';
 
       this.contentHeight = this.scheme.offsetHeight;
       this.contentWidth = this.scheme.offsetWidth;
