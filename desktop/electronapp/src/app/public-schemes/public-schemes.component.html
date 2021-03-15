@@ -1,68 +1,68 @@
 <mat-toolbar color="primary" class="example-toolbar">
-  <div class="navdiv">
-      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-      <div (click)="home()" class="innerdiv">
-          <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
-          <img class="navimg" src="./assets/home.svg">
-          <p class="navtext">Home</p>
-      </div>
-  </div>
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+        <div (click)="home()" class="innerdiv">
+            <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
+            <img class="navimg" src="./assets/home.svg">
+            <p class="navtext">&nbsp; Home</p>
+        </div>
+    </div>
 
 
-  <div class="navdiv">
-      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
 
-      <div (click)="myschemes()" class="innerdiv">
-          <img class="navimg" src="./assets/create.svg">
-          <p class="navtext">My schemes</p>
-      </div>
-  </div>
+        <div (click)="myschemes()" class="innerdiv">
+            <img class="navimg" src="./assets/create.svg">
+            <p class="navtext">&nbsp; My schemes</p>
+        </div>
+    </div>
 
-  <div class="navdiv" id="discoverdiv">
-      <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
-      <div (click)="publicSchemes()" class="innerdiv">
-          <img class="navimg" src="./assets/public.svg">
-          <p class="navtext">Discover</p>
-      </div>
-  </div>
+    <div class="navdiv" id="discoverdiv">
+        <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
+        <div (click)="publicSchemes()" class="innerdiv">
+            <img class="navimg" src="./assets/public.svg">
+            <p class="navtext">&nbsp; Discover</p>
+        </div>
+    </div>
 
-  <div class="navdivright">
-      <!--<button (click)="logout()" class="navbutton">logout</button>-->
-      <div class="innerdivright">
-          <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
-         
-          <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
-              <div id="accountdiv">
-                  <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
-                  <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
-                  <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
-              </div>
-          </mat-menu>
-      </div>
-  </div>
+    <div class="navdivright">
+        <!--<button (click)="logout()" class="navbutton">logout</button>-->
+        <div class="innerdivright">
+            <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
+
+            <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
+                <div id="accountdiv">
+                    <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
+                    <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
+                    <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
 </mat-toolbar>
 
-    <div id="content">
-      <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
+<div id="content">
+    <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
 
-      <div id="searchdiv">
-       
-       <!-- <div id="formatinput">-->
+    <div id="searchdiv">
+
+        <!-- <div id="formatinput">-->
         <mat-form-field id="nameform">
-          <mat-label>Schemename</mat-label>
-          <input [(ngModel)]="nameinput" matInput placeholder="Ex. Keyboard">
+            <mat-label>Schemename</mat-label>
+            <input [(ngModel)]="nameinput" matInput placeholder="Ex. Keyboard">
         </mat-form-field>
 
-          <mat-form-field id="formatform">
-            <mat-label >Format</mat-label>
+        <mat-form-field id="formatform">
+            <mat-label>Format</mat-label>
             <mat-select [(ngModel)]="searchFormat">
-              <mat-option value="Landscape">Landscape</mat-option>
-              <mat-option value="Portrait">Portrait</mat-option>    
-              <mat-option value="Both">Both</mat-option>                        
+                <mat-option value="Landscape">Landscape</mat-option>
+                <mat-option value="Portrait">Portrait</mat-option>
+                <mat-option value="Both">Both</mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
         <!--</div>-->
-          <!--<div id="tagselection">
+        <!--<div id="tagselection">
             <tag-input [ngModel]="items" [modelAsStrings]="true" (onAdd)="onAdd($event)" (onRemove)="onRemove($event)" > 
                 <tag-input-dropdown [autocompleteItems]="autocompleteItems" color="primary">
                 </tag-input-dropdown>
@@ -71,77 +71,65 @@
             <button mat-raised-button color="accent" (click)="Search()">Search </button>
         </div>-->
         <mat-form-field id="tagform">
-          <mat-label>Tags</mat-label>
-          <mat-chip-list #chipList aria-label="Tag selection">
-            <mat-chip
-              *ngFor="let tag of tags"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="remove(tag)">
-              {{tag}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input
-              placeholder="New Tag..."
-              #tagInput
-              [formControl]="tagCtrl"
-              [matAutocomplete]="auto"
-              [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="add($event)">
-          </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let tag of filteredtags | async" [value]="tag">
-              {{tag}}
-            </mat-option>
-          </mat-autocomplete>
+            <mat-label>Tags</mat-label>
+            <mat-chip-list #chipList aria-label="Tag selection">
+                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
+                    {{tag}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="New Tag..." #tagInput [formControl]="tagCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let tag of filteredtags | async" [value]="tag">
+                    {{tag}}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
-       
 
-        <button mat-raised-button color="primary"  id="searchbutton" (click)="Search()">Search</button>
 
-        
-       
-      </div>
-  <div *ngFor="let item of array;let i = index" class="card"> 
-      <mat-card class="scheme-card" >
-          <mat-card-header>
-            
-            <mat-card-title>{{item.name}}</mat-card-title>
-            <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-  
-            <div id="scheme" *ngIf="item.format=='Landscape'">
-              <div *ngFor="let item2 of array[i].content;let j = index" >
-                
-                <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
-  
-                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
-               
-               </div>
-              </div> 
-              <div id="scheme2" *ngIf="item.format=='Portrait'">
-                <div *ngFor="let item2 of array[i].content;let j = index" >
-                  
-                  <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
-    
-                  <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
-                 
-                 </div>
-                </div> 
-  
+        <button mat-raised-button color="primary" id="searchbutton" (click)="Search()">Search</button>
+
+
+
+    </div>
+    <div *ngFor="let item of array;let i = index" class="card">
+        <mat-card class="scheme-card">
+            <mat-card-header>
+
+                <mat-card-title>{{item.name}}</mat-card-title>
+                <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+
+                <div id="scheme" *ngIf="item.format=='Landscape'">
+                    <div *ngFor="let item2 of array[i].content;let j = index">
+
+                        <app-buttonpreview *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
+                        <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+
+                    </div>
+                </div>
+                <div id="scheme2" *ngIf="item.format=='Portrait'">
+                    <div *ngFor="let item2 of array[i].content;let j = index">
+
+                        <app-buttonpreview *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
+                        <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+
+                    </div>
+                </div>
+
                 <br>
                 <a>Tags: {{item.tags}}</a>
 
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-raised-button color="accent" (click)="insertScheme(item)">Download </button>
-            
-            
-          </mat-card-actions>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="accent" (click)="insertScheme(item)">Download </button>
+
+
+            </mat-card-actions>
         </mat-card>
         <br>
-      </div>
-      </div>
-  
+    </div>
+</div>

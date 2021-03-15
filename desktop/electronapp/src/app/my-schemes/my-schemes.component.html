@@ -1,113 +1,113 @@
 <mat-toolbar color="primary" class="example-toolbar">
-  <div class="navdiv">
-      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
-      <div (click)="home()" class="innerdiv">
-          <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
-          <img class="navimg" src="./assets/home.svg">
-          <p class="navtext">Home</p>
-      </div>
-  </div>
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+        <div (click)="home()" class="innerdiv">
+            <!-- <p class="icontext"><mat-icon class="navicon">home</mat-icon></p>-->
+            <img class="navimg" src="./assets/home.svg">
+            <p class="navtext">&nbsp; Home</p>
+        </div>
+    </div>
 
 
-  <div class="navdiv">
-      <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
+    <div class="navdiv">
+        <!--<button (click)="myschemes()" class="navbutton" >my schemes</button>    -->
 
-      <div (click)="myschemes()" class="innerdiv">
-          <img class="navimg" src="./assets/create.svg">
-          <p class="navtext">My schemes</p>
-      </div>
-  </div>
+        <div (click)="myschemes()" class="innerdiv">
+            <img class="navimg" src="./assets/create.svg">
+            <p class="navtext">&nbsp; My schemes</p>
+        </div>
+    </div>
 
-  <div class="navdiv" id="discoverdiv">
-      <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
-      <div (click)="publicSchemes()" class="innerdiv">
-          <img class="navimg" src="./assets/public.svg">
-          <p class="navtext">Discover</p>
-      </div>
-  </div>
+    <div class="navdiv" id="discoverdiv">
+        <!--<button (click)="publicSchemes()" class="navbutton">Public schemes</button> -->
+        <div (click)="publicSchemes()" class="innerdiv">
+            <img class="navimg" src="./assets/public.svg">
+            <p class="navtext">&nbsp; Discover</p>
+        </div>
+    </div>
 
-  <div class="navdivright">
-      <!--<button (click)="logout()" class="navbutton">logout</button>-->
-      <div class="innerdivright">
-          <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
-         
-          <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
-              <div id="accountdiv">
-                  <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
-                  <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
-                  <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
-              </div>
-          </mat-menu>
-      </div>
-  </div>
+    <div class="navdivright">
+        <!--<button (click)="logout()" class="navbutton">logout</button>-->
+        <div class="innerdivright">
+            <img id="rightimg" [matMenuTriggerFor]="beforeMenu" src="./assets/account.svg">
+
+            <mat-menu #beforeMenu="matMenu" xPosition="before" class="matmenu">
+                <div id="accountdiv">
+                    <p id="emailtext">Logged in as {{DataService.emailDataService}}</p>
+                    <button mat-raised-button color="primary" id="logoutbtn" class="accbtn" (click)="logout()">Log out</button>
+                    <button mat-raised-button color="primary" id="accountbtn" class="accbtn" (click)="navigate('account')">Account</button>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
 </mat-toolbar>
 
-    <mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
+<mat-spinner *ngIf="loaderService.isLoading | async" class="Spinner"></mat-spinner>
 
 
-  <div id="content" >
+<div id="content">
     <button mat-raised-button color="primary" id="createScheme" (click)="navigate('scheme')">Create your own Scheme</button>
     <div id="searchdiv">
-       
-      <!-- <div id="formatinput">-->
-       <mat-form-field id="nameform">
-         <mat-label>Schemename</mat-label>
-         <input [(ngModel)]="nameinput" matInput placeholder="Ex. Keyboard">
-       </mat-form-field>
 
-         <mat-form-field id="formatform">
-           <mat-label >Format</mat-label>
-           <mat-select [(ngModel)]="searchFormat">
-             <mat-option value="Landscape">Landscape</mat-option>
-             <mat-option value="Portrait">Portrait</mat-option>    
-             <mat-option value="Both">Both</mat-option>                        
-           </mat-select>
-         </mat-form-field>
-      
-       
+        <!-- <div id="formatinput">-->
+        <mat-form-field id="nameform">
+            <mat-label>Schemename</mat-label>
+            <input [(ngModel)]="nameinput" matInput placeholder="Ex. Keyboard">
+        </mat-form-field>
 
-       <button mat-raised-button color="primary"  id="searchbutton" (click)="Search()">Search</button>
+        <mat-form-field id="formatform">
+            <mat-label>Format</mat-label>
+            <mat-select [(ngModel)]="searchFormat">
+                <mat-option value="Landscape">Landscape</mat-option>
+                <mat-option value="Portrait">Portrait</mat-option>
+                <mat-option value="Both">Both</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-       
-      
-     </div>
 
-<div *ngFor="let item of array;let i = index" class="card"> 
-    <mat-card class="scheme-card" >
-        <mat-card-header>
-          
-          <mat-card-title>{{item.name}}</mat-card-title>
-          <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
 
-          <div id="scheme" *ngIf="item.format=='Landscape'">
-            <div *ngFor="let item2 of array[i].content;let j = index" >
-              
-              <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
+        <button mat-raised-button color="primary" id="searchbutton" (click)="Search()">Search</button>
 
-              <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
-             
-             </div>
-            </div> 
-            <div id="scheme2" *ngIf="item.format=='Portrait'">
-              <div *ngFor="let item2 of array[i].content;let j = index" >
-                
-                <app-buttonpreview  *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview> 
-  
-                <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
-               
-               </div>
-              </div> 
 
-        </mat-card-content>
-        <mat-card-actions>
-          <button *ngIf="item.published != true" class="button" id="publishButton" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
-          <button *ngIf="item.format == 'Landscape'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Landscape')">Bearbeiten</button>
-          <button *ngIf="item.format == 'Portrait'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Portrait')">Bearbeiten</button>
 
-        </mat-card-actions>
-      </mat-card>
-      <br>
     </div>
-  </div>
+
+    <div *ngFor="let item of array;let i = index" class="card">
+        <mat-card class="scheme-card">
+            <mat-card-header>
+
+                <mat-card-title>{{item.name}}</mat-card-title>
+                <mat-card-subtitle>{{item.format}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+
+                <div id="scheme" *ngIf="item.format=='Landscape'">
+                    <div *ngFor="let item2 of array[i].content;let j = index">
+
+                        <app-buttonpreview *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
+                        <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+
+                    </div>
+                </div>
+                <div id="scheme2" *ngIf="item.format=='Portrait'">
+                    <div *ngFor="let item2 of array[i].content;let j = index">
+
+                        <app-buttonpreview *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
+                        <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+
+                    </div>
+                </div>
+
+            </mat-card-content>
+            <mat-card-actions>
+                <button *ngIf="item.published != true" class="button" id="publishButton" mat-raised-button color="primary" (click)="openTagDialog(item)">Veröffentlichen</button>
+                <button *ngIf="item.format == 'Landscape'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Landscape')">Bearbeiten</button>
+                <button *ngIf="item.format == 'Portrait'" class="button" mat-raised-button color="accent" (click)="editScheme(item,'Portrait')">Bearbeiten</button>
+
+            </mat-card-actions>
+        </mat-card>
+        <br>
+    </div>
+</div>
