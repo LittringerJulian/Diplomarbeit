@@ -108,6 +108,9 @@
 
                         <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
 
+                        <app-buttonpreview *ngIf="item2.identifier == 'trackpad'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
+
                     </div>
                 </div>
                 <div id="scheme2" *ngIf="item.format=='Portrait'">
@@ -116,6 +119,9 @@
                         <app-buttonpreview *ngIf="item2.identifier == 'button'" [element]="item2" [format]="item.format"></app-buttonpreview>
 
                         <app-joystickpreview *ngIf="item2.identifier == 'joystick'" [element]="item2" [format]="item.format"></app-joystickpreview>
+
+                        <app-buttonpreview *ngIf="item2.identifier == 'trackpad'" [element]="item2" [format]="item.format"></app-buttonpreview>
+
 
                     </div>
                 </div>

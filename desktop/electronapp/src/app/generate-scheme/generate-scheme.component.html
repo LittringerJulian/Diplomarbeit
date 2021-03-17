@@ -5,7 +5,7 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
-        <a style="margin-right:1%" *ngIf="dataService.isEditing==false">change Format</a>
+        <a style="margin-right:1%;color:white" *ngIf="dataService.isEditing==false">change Format</a>
 
         <mat-slide-toggle [(ngModel)]="isChecked" (change)="checkChange($event)" *ngIf="dataService.isEditing==false"></mat-slide-toggle>
 

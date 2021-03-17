@@ -391,9 +391,9 @@ export class GenerateSchemeComponent implements OnInit {
       this.format = 'Portrait';
 
       this.components = [];
-      this.scheme.style.width = '40%';
+      this.scheme.style.width = '30%';
 
-      this.scheme.style.paddingBottom = 'calc(40%*(16/9))';
+      this.scheme.style.paddingBottom = 'calc(30%*(16/9))';
 
       this.contentHeight = this.scheme.offsetHeight;
       this.contentWidth = this.scheme.offsetWidth;
