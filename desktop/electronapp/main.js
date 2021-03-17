@@ -98,12 +98,12 @@ function handleSocketMessage(msg, ws) {
             robot.mouseToggle(msg.data)
             break;
         case 'scrollMouse':
-            console.log(msg.data);
+            //console.log(msg.data);
             robot.scrollMouse(msg.data.x * 10, msg.data.y * 10)
             break;
         case 'shortcut':
-            console.log("shortcut: ");
-            console.log(msg.data[1]);
+            //console.log("shortcut: ");
+            //console.log(msg.data[1]);
 
             for (let i = 2; i < msg.data.length; i++) {
                 robot.keyToggle(msg.data[i].toLowerCase(), "down")
@@ -113,13 +113,13 @@ function handleSocketMessage(msg, ws) {
             }
             break;
         case 'keydown':
-            console.log("keydown: ");
-            console.log(msg.data[1]);
+            //console.log("keydown: ");
+            //console.log(msg.data[1]);
             robot.keyToggle(msg.data[1].toLowerCase(), "down")
             break;
         case 'keyup':
-            console.log("keyup: ");
-            console.log(msg.data[1]);
+            //console.log("keyup: ");
+            //console.log(msg.data[1]);
             robot.keyToggle(msg.data[1].toLowerCase(), "up")
             break;
     }
@@ -282,6 +282,6 @@ res.send("requested access")
 */
 
 ipcMain.on("pressShortcut", (e, arg) => {
-    console.log(arg);
+    //console.log(arg);
     setTimeout(function() { handleSocketMessage(arg) }, 2000)
 })

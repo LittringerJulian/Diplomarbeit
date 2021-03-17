@@ -1,13 +1,46 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>presentation</ion-title>
-    </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <div style="height: 20%; position: absolute; bottom: 0;">
-        <ion-button id="gyroToggle">gyros</ion-button>
-        <ion-button (click)="this.sendData('left')">prev</ion-button>
-        <ion-button (click)="this.sendData('right')">next</ion-button>
-    </div>
+    <div id="gyroToggle" style="
+            display: block; 
+            box-sizing: border-box;
+            height: 30vh; 
+            width: 20vh; 
+            border-top-left-radius: 2000px; 
+            border-top-right-radius: 2000px; 
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: lightslategray;
+            z-index: 10;"></div>
+
+    <div (click)="this.sendData('left')" style="
+        position: absolute; 
+        box-sizing: border-box;
+        border-right: 2px solid lightslategray;
+        display: block;
+        z-index: 5;
+        top: 0; 
+        left: 0;
+        height: 100vh;
+        width: 50vw;
+        "></div>
+
+    <div (click)="this.sendData('right')" style="
+        position: absolute; 
+        box-sizing: border-box;
+        display: block;
+        border-left: 2px solid lightslategray;
+        z-index: 5;
+        top: 0; 
+        left: 50vw;
+        height: 100vh;
+        width: 50vw;
+    "></div>
+
+
+    <!--
+            <ion-button id="gyroToggle">gyros</ion-button>
+            <ion-button (click)="this.sendData('left')">prev</ion-button>
+            <ion-button (click)="this.sendData('right')">next</ion-button>
+        -->
 </ion-content>

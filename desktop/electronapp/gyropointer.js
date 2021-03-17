@@ -44,7 +44,7 @@ module.exports = class Gyropointer {
             sens = (90 + gyro.gamma) / 2
 
 
-            console.log(gyro.gamma)
+            //console.log(gyro.gamma)
 
             //if (newx <= -1 || 1 <= newx) newx += newx * sens
             //if (newy <= -1 || 1 <= newy) newy += newy * sens
